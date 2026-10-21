@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Contact &amp; chatbot — MaisonVide</title>
+<meta name="description" content="Écrivez à MaisonVide par formulaire, email, téléphone ou WhatsApp. Notre assistant répond sur le prix, la vente et les garanties, 24 h sur 24.">
+<link rel="canonical" href="https://maisonvide.fr/contact.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+/* ======================================================================
+   CONTACT — la lettre et l'assistant
+   Deux colonnes asymétriques : le formulaire à gauche, le carnet de
+   l'assistant à droite. Rien qui flotte, rien de vitré.
+   ====================================================================== */
+
+/* ---- L'en-tête ---- */
+.contact-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: end;
+}
+@media (max-width: 820px) { .contact-head { grid-template-columns: 1fr; } }
+.contact-head h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 5.6vw, 4.4rem);
+  line-height: .98;
+  letter-spacing: -.04em;
+}
+.contact-head h1 em { font-style: italic; color: var(--kraft-700); }
+.contact-head__data { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .8rem; }
+
+/* ---- Les deux colonnes ---- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: .95fr 1.05fr;
+  gap: clamp(1.75rem, 4vw, 3.5rem);
+  align-items: start;
+}
+.contact-grid > * { min-width: 0; }
+@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+
+.fiche {
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+.fiche__title { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: -.02em; }
+.fiche__sub { font-size: .875rem; color: var(--ink-600); margin-top: .35rem; }
+.fiche__fields { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 1.6rem; }
+.fiche__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+@media (max-width: 520px) { .fiche__row { grid-template-columns: 1fr; } }
+.fiche__consent { display: flex; gap: .6rem; align-items: flex-start; font-size: .8rem; color: var(--ink-600); }
+.fiche__consent input { margin-top: .2rem; accent-color: var(--seal-500); }
+.fiche__foot { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--paper-rule); font-size: .78rem; color: var(--ink-500); }
+
+/* ---- Le carnet de l'assistant ---- */
+.chat {
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.chat__head {
+  display: flex; align-items: center; gap: .8rem;
+  padding: .9rem 1.1rem;
+  background: var(--kraft-100);
+  border-bottom: 1px solid var(--kraft-300);
+}
+.chat__mark {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border-radius: var(--radius-xs);
+  background: var(--ink-900); color: var(--paper-ground);
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: .78rem; font-weight: 700;
+}
+.chat__who b { font-size: .9rem; display: block; }
+.chat__who small { font-size: .72rem; color: var(--ink-600); }
+.chat__log {
+  height: 430px; overflow-y: auto;
+  padding: 1.1rem;
+  display: flex; flex-direction: column; gap: .9rem;
+}
+.chat__msg { max-width: 88%; }
+.chat__msg--bot { align-self: flex-start; }
+.chat__msg--user { align-self: flex-end; }
+.chat__trace {
+  display: flex; align-items: center; gap: .35rem;
+  font-family: var(--font-mono);
+  font-size: .68rem; letter-spacing: .02em;
+  color: var(--kraft-700);
+  margin-bottom: .3rem;
+}
+.chat__trace .ic { width: .95em; height: .95em; }
+.chat__bubble {
+  background: var(--paper-ground);
+  border: 1px solid var(--paper-rule);
+  border-radius: var(--radius-sm);
+  padding: .7rem .85rem;
+  font-size: .875rem; line-height: 1.55;
+  color: var(--ink-700);
+}
+.chat__msg--user .chat__bubble { background: var(--kraft-100); border-color: var(--kraft-300); color: var(--ink-900); }
+.chat__meta { font-family: var(--font-mono); font-size: .66rem; color: var(--ink-400); margin-top: .3rem; }
+.chat__msg--user .chat__meta { text-align: right; }
+.chat__link { color: var(--stamp-600); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.chat__typing { display: flex; gap: 4px; align-items: center; }
+.chat__typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-400); animation: chat-blink 1.2s infinite; }
+.chat__typing span:nth-child(2) { animation-delay: .18s; }
+.chat__typing span:nth-child(3) { animation-delay: .36s; }
+@keyframes chat-blink { 0%, 60%, 100% { opacity: .22; } 30% { opacity: 1; } }
+.chat__quick { display: flex; flex-wrap: wrap; gap: .4rem; padding: .9rem 1.1rem; border-top: 1px solid var(--paper-rule); }
+.chat__chip {
+  padding: .4rem .7rem;
+  border: 1px solid var(--paper-rule);
+  border-radius: var(--radius-xs);
+  background: var(--paper-ground);
+  font-size: .78rem; color: var(--ink-700);
+  transition: border-color var(--t-fast), color var(--t-fast), background var(--t-fast);
+}
+.chat__chip:hover { border-color: var(--ink-900); color: var(--ink-900); background: var(--paper-sheet); }
+.chat__form { display: flex; gap: .5rem; padding: .85rem 1.1rem; border-top: 1px solid var(--paper-rule); background: var(--paper-ground); }
+.chat__input {
+  flex: 1; min-width: 0;
+  padding: .65rem .85rem;
+  background: var(--paper-sheet);
+  border: 1.5px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  font-size: .875rem;
+}
+.chat__input:focus { outline: none; border-color: var(--seal-500); box-shadow: 0 0 0 3px rgba(65, 98, 77, .14); }
+.chat__send {
+  width: 42px; height: 42px; flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background: var(--stamp-500); color: #fff;
+  display: grid; place-items: center;
+  box-shadow: var(--shadow-stamp);
+  transition: background var(--t-fast);
+}
+.chat__send:hover { background: var(--stamp-600); }
+.chat__send .ic { width: 18px; height: 18px; }
+.chat__note { font-size: .75rem; color: var(--ink-500); margin-top: .7rem; }
+
+/* ---- Les coordonnées : lignes réglées ---- */
+.lignes { border-top: 1.5px solid var(--ink-900); }
+.ligne {
+  display: grid; grid-template-columns: 2.6rem 1fr auto;
+  gap: 1.1rem; align-items: baseline;
+  padding: 1.05rem 0;
+  border-bottom: 1px solid var(--paper-rule);
+}
+.ligne h4 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+.ligne p { font-size: .875rem; color: var(--ink-600); margin-top: .2rem; }
+.ligne__ic { color: var(--kraft-700); width: 1.3em; height: 1.3em; align-self: center; }
+.ligne__meta { font-family: var(--font-mono); font-size: .78rem; color: var(--ink-500); text-align: right; }
+@media (max-width: 620px) {
+  .ligne { grid-template-columns: 2.2rem 1fr; }
+  .ligne__meta { grid-column: 2; text-align: left; }
+}
+
+/* ---- Les horaires ---- */
+.horaires { display: flex; flex-direction: column; gap: .55rem; margin-top: 1.2rem; }
+.horaires div { display: flex; justify-content: space-between; gap: 1rem; font-size: .875rem; color: var(--ink-600); border-bottom: 1px dashed var(--paper-rule); padding-bottom: .45rem; }
+.horaires b { font-family: var(--font-mono); font-weight: 600; color: var(--ink-900); }
+
+/* ---- FAQ ---- */
+.details-list summary { list-style: none; cursor: pointer; }
+.details-list summary::-webkit-details-marker { display: none; }
+.details-list summary::marker { content: ""; }
+
+/* ---- RGPD ---- */
+.rgpd { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+@media (max-width: 780px) { .rgpd { grid-template-columns: 1fr; } }
+.rgpd__links { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1rem; }
+
+/* ---- Ancrages ---- */
+section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
+
+/* ---- Mouvement réduit ---- */
+@media (prefers-reduced-motion: reduce) {
+  .chat__typing span { animation: none; opacity: .6; }
+}
+</style>
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="vendre.html">Estimer</a>
+      <a href="annonces.html">Annonces</a>
+      <a href="confiance.html">Confiance</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html" class="is-active">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= L'EN-TÊTE ================= -->
+<section class="section" style="padding-block:clamp(3rem,6vw,5rem) clamp(2rem,4vw,3rem)">
+  <div class="container">
+    <div class="contact-head">
+      <h1>
+        Parlons de<br/>
+        <em>votre maison.</em>
+      </h1>
+      <div>
+        <div class="contact-head__data">
+          <span class="etiquette">Réponse &lt; 2 min</span>
+          <span class="etiquette">8 h – 22 h, 7 j/7</span>
+          <span class="etiquette">RGPD · DPO désigné</span>
+        </div>
+        <p class="lead">
+          Un formulaire pour les choses écrites, un carnet pour les questions
+          urgentes. Choisissez. Dans les deux cas, c'est un humain qui répond
+          à côté de l'assistant.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LE FORMULAIRE ET L'ASSISTANT ================= -->
+<section class="section section--tight" style="padding-top:0">
+  <div class="container">
+    <div class="contact-grid">
+      <!-- GAUCHE : la lettre -->
+      <div class="fiche">
+        <h2 class="fiche__title">Écrivez-nous</h2>
+        <p class="fiche__sub">Réponse sous 4 heures ouvrées. Du lundi au vendredi.</p>
+
+        <form class="fiche__fields" id="contact-form" novalidate>
+          <div class="fiche__row">
+            <div class="form-group">
+              <label class="form-label" for="c-name">Votre nom</label>
+              <input class="input" type="text" id="c-name" name="name" placeholder="Camille D." required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-email">Votre e-mail</label>
+              <input class="input" type="email" id="c-email" name="email" placeholder="camille@exemple.fr" required>
+            </div>
+          </div>
+
+          <div class="fiche__row">
+            <div class="form-group">
+              <label class="form-label" for="c-subject">Le sujet</label>
+              <select class="select" id="c-subject" name="subject">
+                <option value="estimation">Estimer un objet</option>
+                <option value="vendre">Vendre beaucoup</option>
+                <option value="guide">Formule Guidé</option>
+                <option value="devis">Formule Pro — devis</option>
+                <option value="litige">Un litige</option>
+                <option value="autre">Autre chose</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-phone">Téléphone (facultatif)</label>
+              <input class="input" type="tel" id="c-phone" name="phone" placeholder="06 00 00 00 00">
+              <span class="form-help">Pour être rappelé, uniquement si vous le demandez.</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="c-message">Votre message</label>
+            <textarea class="textarea" id="c-message" name="message" placeholder="Ce que vous vendez, où vous en êtes, ce que vous attendez de nous." required></textarea>
+            <span class="form-help">Plus vous êtes précis, plus la réponse l'est aussi.</span>
+          </div>
+
+          <label class="fiche__consent" for="c-consent">
+            <input type="checkbox" id="c-consent" name="consent">
+            <span>J'accepte que MaisonVide conserve mon message pour me répondre. Conservation limitée à 12 mois, aucune revente de données. <a href="confidentialite.html" class="link-underline">Politique de confidentialité</a>.</span>
+          </label>
+
+          <button class="btn btn--primary btn--block" type="submit">
+            Envoyer le message
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </button>
+        </form>
+
+        <p class="fiche__foot">
+          Le message part chez nous, il n'est ni partagé ni revendué. Un humain
+          vous répond — pas un robot qui tourne en rond.
+        </p>
+      </div>
+
+      <!-- DROITE : le carnet de l'assistant -->
+      <div>
+        <div class="chat">
+          <div class="chat__head">
+            <div class="chat__mark">MV</div>
+            <div class="chat__who">
+              <b>Le carnet de l'assistant</b>
+              <small>Répond tout de suite, 24 h sur 24</small>
+            </div>
+            <span class="etiquette" style="margin-left:auto">Démonstration</span>
+          </div>
+
+          <div class="chat__log ledger" id="chat-log" aria-live="polite"></div>
+
+          <div class="chat__quick" id="chat-quick"></div>
+
+          <form class="chat__form" id="chat-form">
+            <input class="chat__input" type="text" id="chat-input" placeholder="Écrivez votre question…" autocomplete="off" aria-label="Votre message à l'assistant">
+            <button class="chat__send" type="submit" aria-label="Envoyer">
+              <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </button>
+          </form>
+        </div>
+
+        <p class="chat__note">
+          Démonstration conversationnelle : l'assistant lit votre question, vous
+          montre ce qu'il a compris, puis répond. Branché sur WhatsApp Business,
+          c'est le même carnet.
+        </p>
+
+        <a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="btn btn--whatsapp btn--lg btn--block mt-8">
+          <svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+          Écrire sur WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NOS COORDONNÉES ================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <h2 class="display" style="max-width:13ch">Où nous<br/>trouver.</h2>
+        <p class="mt-6" style="max-width:38ch">
+          Quatre portes d'entrée. Aucune n'est un robot, même quand c'est écrit
+          « assistant ».
+        </p>
+      </div>
+
+      <div>
+        <div class="lignes">
+          <div class="ligne">
+            <svg class="ic ligne__ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+            <div>
+              <h4>WhatsApp</h4>
+              <p>+33 6 00 00 00 00 — le plus rapide, on répond en moins de deux minutes.</p>
+            </div>
+            <div class="ligne__meta">8 h – 22 h<br>7 j/7</div>
+          </div>
+          <div class="ligne">
+            <svg class="ic ligne__ic" aria-hidden="true"><use href="#i-mail"></use></svg>
+            <div>
+              <h4>E-mail</h4>
+              <p>bonjour@maisonvide.fr — pour les dossiers, les devis et les pièces jointes.</p>
+            </div>
+            <div class="ligne__meta">4 h ouvrées</div>
+          </div>
+          <div class="ligne">
+            <svg class="ic ligne__ic" aria-hidden="true"><use href="#i-phone"></use></svg>
+            <div>
+              <h4>Téléphone</h4>
+              <p>+33 1 23 45 67 89 — pour une vente en cours ou un dossier Pro.</p>
+            </div>
+            <div class="ligne__meta">Lun – Ven<br>9 h – 19 h</div>
+          </div>
+          <div class="ligne">
+            <svg class="ic ligne__ic" aria-hidden="true"><use href="#i-pin"></use></svg>
+            <div>
+              <h4>Bureau</h4>
+              <p>12 rue des Lilas, 75011 Paris — sur rendez-vous, pas de permanence.</p>
+            </div>
+            <div class="ligne__meta">RdV<br>à prendre</div>
+          </div>
+        </div>
+
+        <div class="horaires">
+          <div><span>Assistant du carnet</span><b>24 h / 24</b></div>
+          <div><span>Conseiller humain</span><b>8 h – 22 h</b></div>
+          <div><span>Médiation des litiges</span><b>sous 24 h</b></div>
+          <div><span>Signalement d'abus</span><b>sous 1 h</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LA FAQ ================= -->
+<section class="section section--kraft" id="faq">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <h2 class="display" style="max-width:12ch">Avant de<br/>nous écrire.</h2>
+        <p class="mt-6" style="max-width:36ch">
+          Les cinq questions qu'on nous pose le plus. Si la vôtre n'y est pas,
+          l'assistant répond en haut de page, 24 h sur 24.
+        </p>
+      </div>
+
+      <div class="details-list">
+        <details class="details-list__item" open>
+          <summary class="details-list__q">
+            Quel est le délai de réponse ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Sur WhatsApp : moins de deux minutes, de 8 h à 22 h, tous les jours.
+            En dehors de ces heures, l'assistant prend le relais et un conseiller
+            reprend dès l'ouverture. Par e-mail : quatre heures ouvrées. Pour un
+            litige, la médiation statue sous vingt-quatre heures.
+          </div>
+        </details>
+        <details class="details-list__item">
+          <summary class="details-list__q">
+            Comment se passe la première estimation ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Gratuitement et sans inscription : une photo, l'état, la marque,
+            l'âge. Le modèle sort une fourchette en trente secondes. Vous
+            pouvez ensuite corriger l'état, et nous recalculons.
+          </div>
+        </details>
+        <details class="details-list__item">
+          <summary class="details-list__q">
+            Êtes-vous disponibles pour un vide-maison complet ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Oui : la formule Pro couvre l'inventaire sur place, le shooting photo,
+            l'enlèvement, le débarras et la gestion administrative. Vous
+            choisissez « Formule Pro — devis » dans le formulaire, on vous
+            répond avec un devis écrit avant toute intervention.
+          </div>
+        </details>
+        <details class="details-list__item">
+          <summary class="details-list__q">
+            Comment signaler un abus ou un vendeur suspect ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Le bouton « Signaler » sur l'annonce, ou un mot à
+            securite@maisonvide.fr. Nous répondons sous une heure et bloquons
+            le compte concerné le temps d'examiner les pièces.
+          </div>
+        </details>
+        <details class="details-list__item">
+          <summary class="details-list__q">
+            Que deviennent mes photos et mes données ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Les photos d'estimation ne sont jamais publiées et sont effacées au
+            bout de 90 jours. Vos messages sont conservés douze mois. Vous
+            pouvez demander leur suppression à tout moment, auprès du DPO.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RGPD / DPO ================= -->
+<section class="section section--tight" style="border-top:1px solid var(--paper-rule)">
+  <div class="container">
+    <div class="rgpd">
+      <div>
+        <h3 class="display" style="font-size:clamp(1.4rem,2.6vw,2rem);max-width:20ch">Vos données, en clair.</h3>
+        <div class="rgpd__links">
+          <a href="confidentialite.html" class="btn btn--ghost btn--sm">Politique de confidentialité</a>
+          <a href="mentions-legales.html" class="btn btn--ghost btn--sm">Mentions légales</a>
+          <a href="cgu.html" class="btn btn--ghost btn--sm">CGU</a>
+          <a href="cookies.html" class="btn btn--ghost btn--sm">Cookies</a>
+        </div>
+      </div>
+      <div>
+        <p>
+          MaisonVide est responsable du traitement de vos données. Son
+          <strong>délégué à la protection des données</strong> répond à
+          dpo@maisonvide.fr sous trente jours, et vous pouvez aussi introduire
+          une réclamation auprès de la CNIL.
+        </p>
+        <p class="mt-6">
+          Données collectées : nom, e-mail, téléphone si vous le donnez, photos
+          d'estimation, annonces, messages. Finalités : estimer, publier,
+          sécuriser le paiement, répondre. Base légale : exécution du contrat
+          et intérêt légitime. Durées : 90 jours pour les photos d'estimation,
+          12 mois pour les messages, 5 ans pour les pièces comptables.
+        </p>
+        <p class="mt-6" style="font-size:.85rem;color:var(--ink-500)">
+          Hébergement en France. Aucune donnée revendue, aucun transfert hors
+          Union européenne sans garanties.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Quel est le délai de réponse ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sur WhatsApp, moins de deux minutes de 8 h à 22 h, tous les jours. En dehors, l'assistant prend le relais et un conseiller reprend dès l'ouverture. Par e-mail : quatre heures ouvrées. Pour un litige, la médiation statue sous vingt-quatre heures."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment se passe la première estimation ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gratuitement et sans inscription : une photo, l'état, la marque, l'âge. Le modèle sort une fourchette de prix en trente secondes, avec son indice de confiance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Êtes-vous disponibles pour un vide-maison complet ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, la formule Pro couvre l'inventaire sur place, le shooting photo, l'enlèvement, le débarras et la gestion administrative. Un devis écrit est remis avant toute intervention."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment signaler un abus ou un vendeur suspect ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Avec le bouton Signaler sur l'annonce, ou en écrivant à securite@maisonvide.fr. Nous répondons sous une heure et bloquons le compte concerné le temps d'examiner les pièces."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Que deviennent mes photos et mes données ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Les photos d'estimation ne sont jamais publiées et sont effacées au bout de 90 jours. Les messages sont conservés douze mois. La suppression peut être demandée à tout moment auprès du DPO de MaisonVide."
+      }
+    }
+  ]
+}
+</script>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+/* ==========================================================================
+   MaisonVide — le carnet de l'assistant
+   Une démo conversationnelle : on lit la question, on montre ce qu'on a
+   compris, puis on répond. Pas de réseau, pas de clé d'API.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var log   = document.getElementById('chat-log');
+  var form  = document.getElementById('chat-form');
+  var input = document.getElementById('chat-input');
+  var quick = document.getElementById('chat-quick');
+  if (!log || !form || !input) return;
+
+  /* ------------------------------------------------------------------ */
+  /* Les intentions reconnues                                            */
+  /* ------------------------------------------------------------------ */
+  var INTENTS = [
+    {
+      key: 'estimation',
+      chip: 'Estimer un objet',
+      label: 'estimation de prix',
+      keys: ['estim', 'estime', 'estimer', 'estimation', 'estimee', 'prix', 'combien', 'vaut', 'cote', 'couter', 'coute', 'valeur', 'photo', 'photographier'],
+      answer: "L'estimation est gratuite et prend trente secondes : une photo de l'objet, son état, sa marque, son âge. Le modèle sort une fourchette, avec son indice de confiance — et il dit quand il n'est pas sûr de lui.",
+      follow: "Pas besoin de studio, ni d'inscription. Et si le prix vous convient, on écrit l'annonce tout de suite.",
+      link: { href: 'vendre.html', label: 'Estimer un objet' }
+    },
+    {
+      key: 'vendre',
+      chip: 'Vendre vite',
+      label: 'mise en vente',
+      keys: ['vendre', 'vends', 'vend', 'vendu', 'vente', 'publier', 'publie', 'publiee', 'annonce', 'inventaire', 'vider', 'videz', 'debarras'],
+      answer: "Vous photographiez, on rédige l'annonce, un acheteur vérifié se présente. Vous ne payez qu'au moment de la vente : 8 % en Solo, 5 % en Guidé. Aucun abonnement, aucun frais de mise en ligne.",
+      follow: "Le plus simple reste de commencer par l'estimation : elle ne coûte rien et elle dit si le prix tient debout.",
+      link: { href: 'vendre.html', label: 'Estimer un objet' }
+    },
+    {
+      key: 'acheter',
+      chip: 'Acheter',
+      label: 'achat',
+      keys: ['acheter', 'achete', 'achetes', 'achat', 'annonces', 'chercher', 'cherche', 'cherches', 'trouver', 'trouve', 'parcourir', 'disponible', 'disponibles'],
+      answer: "Tout est dans les annonces : le prix, l'état, la ville, la date de mise en ligne. Vous filtrez par catégorie ou par distance, vous mettez en favori, vous négociez par la messagerie.",
+      follow: "Côté sécurité : tout acheteur est authentifié avant de payer — identité, KYC en quatre niveaux, paiement en séquestre.",
+      link: { href: 'annonces.html', label: 'Parcourir les annonces' }
+    },
+    {
+      key: 'garanties',
+      chip: 'Garanties et argent',
+      label: 'garanties et paiement',
+      keys: ['garantie', 'garanties', 'sequestre', 'sequestres', 'argent', 'rembours', 'remboursement', 'assurance', 'assurances', 'arnaque', 'arnaques', 'risque', 'risques', 'confiance', 'acheteur', 'acheteurs', 'verifie', 'verifier', 'verification', 'identite', 'bloque', 'bloquer', 'paiement', 'paye', 'paie', 'payez', 'payer', 'securite'],
+      answer: "L'argent ne va jamais directement de l'acheteur à vous : il est bloqué en séquestre Mangopay et libéré seulement quand vous confirmez avoir reçu l'objet. Si l'objet ne correspond pas, l'assurance AXA couvre jusqu'à 10 000 €, et un médiateur tranche sous 24 h.",
+      follow: "C'est la question la plus importante quand on vend à un inconnu : on l'a posée pour vous dans la charte.",
+      link: { href: 'confiance.html', label: 'Voir les sept barrières' }
+    },
+    {
+      key: 'pro',
+      chip: 'Vide-maison complet',
+      label: 'formule pro',
+      keys: ['pro', 'pros', 'demenagement', 'demenagements', 'demenage', 'succession', 'successions', 'devis', 'deviser', 'enlevement', 'enlevements', 'enlever', 'volume', 'entreprise', 'entreprises', 'bail', 'shooting', 'vide maison', 'vide maison complet', 'cle en main'],
+      answer: "Pour un déménagement, une succession, une fin de bail ou un stock d'entreprise : on inventorie sur place sous 48 h, on photographie, on enlève, on débarrasse, et on règle la paperasse. Le devis est écrit avant toute intervention.",
+      follow: "Les prestations Pro sont déduites de vos commissions, et le paiement arrive sous 7 jours après réception.",
+      link: { href: 'services.html', label: 'Voir le carnet de formules' }
+    },
+    {
+      key: 'humain',
+      chip: 'Parler à un humain',
+      label: 'transfert à un humain',
+      keys: ['humain', 'humaine', 'humains', 'conseiller', 'conseillere', 'conseillers', 'appel', 'appeler', 'appelle', 'appelez', 'parler', 'parlez', 'parle', 'whatsapp', 'quelqu', 'personne', 'vrai', 'vraiment'],
+      answer: "Je vous passe un conseiller. Sophie reprend la conversation en moins de deux minutes, de 8 h à 22 h, tous les jours.",
+      follow: "Si vous préférez l'écrit, on répond par e-mail sous quatre heures ouvrées, pièces jointes comprises.",
+      link: { href: 'https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!', label: 'Ouvrir WhatsApp' }
+    }
+  ];
+
+  var FALLBACK = {
+    label: 'aucun sujet reconnu',
+    answer: "Je n'ai pas bien saisi ce que vous cherchez. Ce que je sais faire : l'estimation d'un objet, la mise en vente, l'achat, les garanties et l'argent, les formules pro — ou je vous passe un conseiller humain."
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* Les outils d'affichage                                              */
+  /* ------------------------------------------------------------------ */
+  function icon(name) {
+    return '<svg class="ic" aria-hidden="true"><use href="#i-' + name + '"></use></svg>';
+  }
+
+  function now() {
+    var d = new Date();
+    return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+
+  function scrollDown() {
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function bubble(text, who) {
+    var div = document.createElement('div');
+    div.className = 'chat__msg chat__msg--' + who;
+    div.innerHTML = '<div class="chat__bubble">' + text + '</div>' +
+                    '<div class="chat__meta">' + now() + '</div>';
+    log.appendChild(div);
+    scrollDown();
+  }
+
+  function botSay(text, trace) {
+    var div = document.createElement('div');
+    div.className = 'chat__msg chat__msg--bot';
+    div.innerHTML = (trace ? '<div class="chat__trace">' + icon('scan') + trace + '</div>' : '') +
+                    '<div class="chat__bubble">' + text + '</div>' +
+                    '<div class="chat__meta">' + now() + '</div>';
+    log.appendChild(div);
+    scrollDown();
+  }
+
+  function typing() {
+    var div = document.createElement('div');
+    div.className = 'chat__msg chat__msg--bot';
+    div.innerHTML = '<div class="chat__bubble chat__typing"><span></span><span></span><span></span></div>';
+    log.appendChild(div);
+    scrollDown();
+    return div;
+  }
+
+  function toast(message, type) {
+    if (typeof window.mvToast === 'function') window.mvToast(message, type || 'info');
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* La lecture de la question                                            */
+  /* ------------------------------------------------------------------ */
+  function norm(text) {
+    return String(text)
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+  }
+
+  function detect(text) {
+    var t = norm(text);
+    var words = t.split(' ');
+    var best = null;
+    var bestScore = 0;
+    var bestHit = '';
+    INTENTS.forEach(function (it) {
+      var score = 0;
+      var hit = '';
+      it.keys.forEach(function (raw) {
+        var k = norm(raw);
+        var found = false;
+        if (k.indexOf(' ') !== -1) {
+          found = t.indexOf(k) !== -1;          // expression en plusieurs mots
+        } else {
+          found = words.indexOf(k) !== -1;      // mot entier, pas un bout de mot
+        }
+        if (found) {
+          score += 1;
+          if (!hit) hit = raw;
+        }
+      });
+      if (score > bestScore) {
+        bestScore = score;
+        best = it;
+        bestHit = hit;
+      }
+    });
+    return { intent: bestScore ? best : null, score: bestScore, hit: bestHit };
+  }
+
+  function answer(intent, hit) {
+    var t = typing();
+    setTimeout(function () {
+      t.remove();
+      var trace = 'compris · ' + intent.label + (hit ? ' · mot-clé « ' + hit + ' »' : ' · sujet choisi');
+      botSay(intent.answer, trace);
+      if (intent.follow) {
+        setTimeout(function () { botSay(intent.follow); }, 1000);
+      }
+      if (intent.link) {
+        setTimeout(function () {
+          botSay('<a class="chat__link" href="' + intent.link.href + '">' + intent.link.label + ' &rarr;</a>');
+        }, 2000);
+      }
+    }, 650);
+  }
+
+  function respond(text, forced) {
+    if (forced) {
+      answer(forced, null);
+      return;
+    }
+    var found = detect(text);
+    if (found.intent) {
+      answer(found.intent, found.hit);
+    } else {
+      var t = typing();
+      setTimeout(function () {
+        t.remove();
+        botSay(FALLBACK.answer, 'compris · ' + FALLBACK.label);
+        setTimeout(renderChips, 900);
+      }, 650);
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Les raccourcis                                                       */
+  /* ------------------------------------------------------------------ */
+  function renderChips() {
+    if (!quick) return;
+    quick.innerHTML = '';
+    INTENTS.forEach(function (it) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chat__chip';
+      b.textContent = it.chip;
+      b.addEventListener('click', function () {
+        bubble(it.chip, 'user');
+        respond(it.chip, it);
+      });
+      quick.appendChild(b);
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var text = input.value.trim();
+    if (!text) return;
+    bubble(text, 'user');
+    input.value = '';
+    respond(text);
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* Le formulaire de gauche                                              */
+  /* ------------------------------------------------------------------ */
+  var contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('c-name');
+      var email = document.getElementById('c-email');
+      var message = document.getElementById('c-message');
+      var consent = document.getElementById('c-consent');
+
+      if (!name.value.trim() || !email.value.trim() || !message.value.trim()) {
+        toast('Renseignez le nom, l\'e-mail et le message.', 'warning');
+        return;
+      }
+      if (!consent.checked) {
+        toast('Il faut votre accord pour que nous gardions le message.', 'warning');
+        return;
+      }
+      contactForm.reset();
+      toast('Message parti. Réponse sous 4 heures ouvrées.', 'success');
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Ouverture du carnet                                                  */
+  /* ------------------------------------------------------------------ */
+  botSay("Bonjour. Je suis l'assistant de MaisonVide. Je connais l'estimation, la vente, l'achat, les garanties et les formules pro. Posez votre question, ou choisissez un sujet.",
+         'compris · au démarrage');
+  renderChips();
+  scrollDown();
+})();
+</script>
+</body>
+</html>

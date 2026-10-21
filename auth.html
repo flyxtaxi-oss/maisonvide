@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Connexion — MaisonVide</title>
+<meta name="description" content="Creez votre compte MaisonVide ou connectez-vous pour estimer un objet, publier vos annonces et suivre vos ventes en toute securite.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://maisonvide.fr/auth.html">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+.auth { min-height: calc(100vh - var(--header-height)); display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width: 900px) { .auth { grid-template-columns: 1fr; } .auth__aside { display: none; } }
+
+.auth__main { display: flex; align-items: center; justify-content: center; padding: 3rem 1.5rem; }
+.auth__card {
+  width: 100%; max-width: 440px;
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+}
+.auth__tabs { display: flex; gap: .25rem; padding: .25rem; background: var(--paper-ground); border-radius: var(--radius-sm); margin-bottom: 1.6rem; }
+.auth__tab {
+  flex: 1; padding: .6rem; border-radius: var(--radius-xs);
+  font-size: .875rem; font-weight: 600; color: var(--ink-500);
+  transition: all var(--t-fast); text-align: center;
+}
+.auth__tab.is-active { background: var(--paper-sheet); color: var(--ink-900); box-shadow: var(--shadow-xs); }
+.auth__title { font-family: var(--font-display); font-size: 1.9rem; letter-spacing: -.03em; margin-bottom: .3rem; }
+.auth__sub { font-size: .875rem; color: var(--ink-500); margin-bottom: 1.6rem; }
+.auth__field { margin-bottom: 1rem; }
+.auth__error {
+  background: #fbeceb; border: 1px solid rgba(192,57,43,.25);
+  color: var(--stamp-700); font-size: .82rem;
+  padding: .7rem .9rem; border-radius: var(--radius-sm);
+  margin-bottom: 1rem; display: none;
+}
+.auth__error.is-on { display: block; }
+.auth__ok {
+  background: var(--seal-50); border: 1px solid var(--seal-100);
+  color: var(--seal-700); font-size: .82rem;
+  padding: .7rem .9rem; border-radius: var(--radius-sm);
+  margin-bottom: 1rem; display: none;
+}
+.auth__ok.is-on { display: block; }
+.auth__legal { font-size: .75rem; color: var(--ink-500); margin-top: 1.2rem; line-height: 1.5; }
+.auth__legal a { text-decoration: underline; }
+.auth__demo {
+  margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--paper-rule);
+  font-size: .78rem; color: var(--ink-500);
+}
+.auth__demo button { text-decoration: underline; color: var(--seal-600); font-weight: 600; }
+
+.auth__aside {
+  background: var(--ink-900);
+  color: var(--ink-300);
+  padding: 3rem;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.auth__aside::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 75% 25%, rgba(179,141,92,.22), transparent 55%);
+}
+.auth__aside > * { position: relative; }
+.auth__aside h2 { font-family: var(--font-display); font-size: 2.3rem; color: var(--paper-sheet); letter-spacing: -.03em; margin-bottom: 1.4rem; }
+.auth__points { display: flex; flex-direction: column; gap: 1.1rem; }
+.auth__point { display: flex; gap: .8rem; align-items: flex-start; }
+.auth__point .ic { color: var(--kraft-300); width: 1.2em; height: 1.2em; margin-top: .15rem; }
+.auth__point b { color: var(--paper-sheet); display: block; font-size: .9rem; }
+.auth__point span { font-size: .8rem; color: var(--ink-400); }
+</style>
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav"><a href="index.html">Accueil</a><a href="vendre.html">Estimer</a><a href="annonces.html">Annonces</a><a href="confiance.html">Confiance</a></nav>
+    <div class="flex">
+      <a href="index.html" class="btn btn--ghost btn--sm">Retour au site</a>
+    </div>
+  </div>
+</header>
+
+<div class="auth">
+  <div class="auth__main">
+    <div class="auth__card">
+      <div class="auth__tabs" role="tablist">
+        <button class="auth__tab is-active" data-tab="login" role="tab">Connexion</button>
+        <button class="auth__tab" data-tab="register" role="tab">Créer un compte</button>
+      </div>
+
+      <h1 class="auth__title" id="auth-title">Ravi de vous revoir.</h1>
+      <p class="auth__sub" id="auth-sub">Reprenez là où vous en étiez.</p>
+
+      <div class="auth__error" id="auth-error"></div>
+      <div class="auth__ok" id="auth-ok"></div>
+
+      <form id="auth-form">
+        <!-- Inscription -->
+        <div id="field-register" class="hidden">
+          <div class="auth__field">
+            <label class="form-label" for="r-name">Nom complet</label>
+            <input type="text" id="r-name" class="input" placeholder="Camille Durand" required>
+          </div>
+          <div class="auth__field">
+            <label class="form-label" for="r-phone">Téléphone (WhatsApp)</label>
+            <input type="tel" id="r-phone" class="input" placeholder="06 12 34 56 78">
+          </div>
+        </div>
+
+        <div class="auth__field">
+          <label class="form-label" for="a-email">Email</label>
+          <input type="email" id="a-email" class="input" placeholder="vous@exemple.fr" required autocomplete="email">
+        </div>
+        <div class="auth__field">
+          <label class="form-label" for="a-password">Mot de passe</label>
+          <input type="password" id="a-password" class="input" placeholder="8 caractères minimum" required minlength="6" autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--block btn--lg" id="auth-submit">Se connecter</button>
+      </form>
+
+      <p class="auth__legal">
+        En créant un compte, vous acceptez nos <a href="cgu.html">CGU</a> et notre
+        <a href="confidentialite.html">politique de confidentialité</a>.
+        Vos données sont hébergées en France.
+      </p>
+
+      <div class="auth__demo">
+        <strong style="color:var(--ink-700)">Démo :</strong>
+        vous pouvez aussi <button type="button" id="demo-login">entrer avec un compte de démonstration</button>
+        (vendeur avec 12 annonces et 47 avis).
+      </div>
+    </div>
+  </div>
+
+  <aside class="auth__aside">
+    <h2>Pourquoi un compte ?</h2>
+    <div class="auth__points">
+      <div class="auth__point">
+        <svg class="ic" aria-hidden="true"><use href="#i-box"></use></svg>
+        <div><b>Publier sans ressaisie</b><span>Vos infos restent en place pour la prochaine annonce.</span></div>
+      </div>
+      <div class="auth__point">
+        <svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg>
+        <div><b>Suivre vos ventes</b><span>Vues, contacts, revenus — en un coup d'œil.</span></div>
+      </div>
+      <div class="auth__point">
+        <svg class="ic" aria-hidden="true"><use href="#i-heart"></use></svg>
+        <div><b>Garder vos favoris</b><span>Votre wishlist vous suit sur tous vos appareils.</span></div>
+      </div>
+      <div class="auth__point">
+        <svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+        <div><b>Monter en niveau</b><span>Vérifié, Pro, Premium : plus de garanties, plus de visibilité.</span></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const next = params.get('next') || 'profil.html';
+  let mode = params.get('mode') === 'register' ? 'register' : 'login';
+
+  const title = document.getElementById('auth-title');
+  const sub = document.getElementById('auth-sub');
+  const submit = document.getElementById('auth-submit');
+  const errBox = document.getElementById('auth-error');
+  const okBox = document.getElementById('auth-ok');
+  const regFields = document.getElementById('field-register');
+
+  function setMode(m) {
+    mode = m;
+    document.querySelectorAll('.auth__tab').forEach(t => t.classList.toggle('is-active', t.dataset.tab === m));
+    regFields.classList.toggle('hidden', m !== 'register');
+    if (m === 'register') {
+      title.textContent = 'Commencez votre inventaire.';
+      sub.textContent = 'Deux minutes, et vos annonces sont prêtes.';
+      submit.textContent = 'Créer mon compte';
+      document.getElementById('a-password').setAttribute('autocomplete', 'new-password');
+    } else {
+      title.textContent = 'Ravi de vous revoir.';
+      sub.textContent = 'Reprenez là où vous en étiez.';
+      submit.textContent = 'Se connecter';
+      document.getElementById('a-password').setAttribute('autocomplete', 'current-password');
+    }
+    errBox.classList.remove('is-on');
+    okBox.classList.remove('is-on');
+  }
+
+  document.querySelectorAll('.auth__tab').forEach(t => t.addEventListener('click', () => setMode(t.dataset.tab)));
+  setMode(mode);
+
+  // Si déjà connecté → direct
+  if (window.mvAuth.isLogged()) {
+    okBox.textContent = 'Vous êtes déjà connecté. Redirection…';
+    okBox.classList.add('is-on');
+    setTimeout(() => location.href = next, 600);
+  }
+
+  document.getElementById('auth-form').addEventListener('submit', e => {
+    e.preventDefault();
+    errBox.classList.remove('is-on');
+    const email = document.getElementById('a-email').value.trim();
+    const password = document.getElementById('a-password').value;
+
+    try {
+      if (mode === 'register') {
+        const name = document.getElementById('r-name').value.trim();
+        const phone = document.getElementById('r-phone').value.trim();
+        if (!name) throw new Error('Indiquez votre nom.');
+        if (password.length < 6) throw new Error('Mot de passe : 6 caractères minimum.');
+        window.mvAuth.register({ name, email, password, phone });
+        window.mvToast('Compte créé. Bienvenue.', 'success');
+      } else {
+        window.mvAuth.login(email, password);
+        window.mvToast('Connecté.', 'success');
+      }
+      setTimeout(() => location.href = next, 700);
+    } catch (err) {
+      errBox.textContent = err.message;
+      errBox.classList.add('is-on');
+    }
+  });
+
+  // Compte de démonstration pré-rempli
+  document.getElementById('demo-login').addEventListener('click', () => {
+    const demo = { id: 'u_demo', name: 'Camille R.', email: 'camille@demo.fr', phone: '0612345678', password: 'demo1234', createdAt: '2024-03-12T00:00:00Z', tier: 'verified', listings: [], wishlist: [], sales: 12, rating: 4.9, reviews: [] };
+    const users = window.mvStore.get('mv_users', []);
+    if (!users.find(u => u.email === demo.email)) {
+      users.push(demo);
+      window.mvStore.set('mv_users', users);
+    }
+    window.mvStore.set('mv_user', { ...demo, password: undefined });
+    window.mvToast('Compte de démonstration chargé', 'success');
+    setTimeout(() => location.href = next, 600);
+  });
+})();
+</script>
+</body>
+</html>

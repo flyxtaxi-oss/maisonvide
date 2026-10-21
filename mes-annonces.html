@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Mes annonces — MaisonVide</title>
+<meta name="description" content="Gerez vos annonces MaisonVide : ajustez le prix, suivez les vues et les contacts, et relancez les acheteurs intéressés en quelques clics.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://maisonvide.fr/mes-annonces.html">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+.row-ann { display:grid; grid-template-columns:88px 1.4fr 1fr 1fr auto; gap:1.2rem; align-items:center; padding:1rem 0; border-bottom:1px solid var(--paper-rule); }
+@media (max-width:820px) { .row-ann { grid-template-columns:64px 1fr auto; } .row-ann__hide { display:none; } }
+.row-ann img { width:88px; height:64px; object-fit:cover; border-radius:var(--radius-sm); }
+.row-ann__title { font-weight:600; font-size:.9rem; }
+.row-ann__meta { font-size:.75rem; color:var(--ink-500); }
+.row-ann__stat b { display:block; font-family:var(--font-mono); font-size:1.05rem; }
+.row-ann__stat span { font-size:.7rem; color:var(--ink-500); text-transform:uppercase; letter-spacing:.07em; }
+.row-ann__actions { display:flex; gap:.4rem; }
+</style>
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo"><span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span> MaisonVide</a>
+    <nav class="nav">
+      <a href="index.html">Accueil</a><a href="vendre.html">Estimer</a><a href="annonces.html">Annonces</a>
+      <a href="confiance.html">Confiance</a><a href="services.html">Services</a><a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">+ Nouvelle annonce</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Menu"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+    </div>
+  </div>
+</header>
+
+<section class="section" style="padding-block:2.5rem var(--space-16)">
+  <div class="container">
+    <p class="card__meta" style="margin-bottom:1rem"><a href="profil.html" class="link-underline">← Mon compte</a></p>
+    <div class="flex-between" style="flex-wrap:wrap;gap:1rem;align-items:flex-end">
+      <div>
+        <h1 class="display" style="max-width:14ch">Mes annonces.</h1>
+        <p class="lead mt-6">Ce que vos acheteurs voient, et ce qu'ils font.</p>
+      </div>
+      <a href="vendre.html" class="btn btn--primary"><svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg> Nouvelle annonce</a>
+    </div>
+
+    <div id="ml-locked" class="hidden" style="text-align:center;padding:4rem 1rem">
+      <h2 class="display" style="max-width:18ch;margin-inline:auto">Connectez-vous pour gérer vos annonces.</h2>
+      <a href="auth.html?next=mes-annonces.html" class="btn btn--primary btn--lg mt-8">Se connecter</a>
+    </div>
+
+    <div id="ml-content" class="hidden" style="margin-top:2.5rem">
+      <div class="kpirow" style="margin-bottom:2rem">
+        <div><b id="m-total">0</b><span>Annonces</span></div>
+        <div><b id="m-live">0</b><span>En ligne</span></div>
+        <div><b id="m-views">0</b><span>Vues cumulées</span></div>
+        <div><b id="m-contacts">0</b><span>Contacts</span></div>
+        <div><b id="m-conv">0 %</b><span>Taux de contact</span></div>
+      </div>
+
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem">
+        <button class="chip is-active" data-filter="all">Toutes</button>
+        <button class="chip" data-filter="active">En ligne</button>
+        <button class="chip" data-filter="pending">En attente</button>
+        <button class="chip" data-filter="sold">Vendues</button>
+      </div>
+
+      <div id="ml-list"></div>
+    </div>
+  </div>
+</section>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/listings.js"></script>
+<script>
+(function () {
+  const u = window.mvAuth.current();
+  if (!u) { document.getElementById('ml-locked').classList.remove('hidden'); return; }
+  document.getElementById('ml-content').classList.remove('hidden');
+
+  const PHOTOS = {
+    'canape-ikea-kivik':'listing-canape.jpg','lampe-articulo':'listing-lampe.jpg','commode-laque-p60':'listing-commode.jpg',
+    'velo-ville-peugeot':'listing-velo.jpg','livre-honestpreface':'listing-asterix.jpg','console-ps5':'listing-ps5.jpg'
+  };
+
+  const ROWS = [
+    { slug:'canape-ikea-kivik', title:'Canapé 3 places IKEA KIVIK', price:280, status:'active',  views:412, contacts:23, updated:'Il y a 2 h' },
+    { slug:'lampe-articulo',    title:'Lampe sur pied Articulée vintage', price:85, status:'active', views:156, contacts:9, updated:'Hier' },
+    { slug:'commode-laque-p60', title:'Commode années 60', price:145, status:'sold',   views:289, contacts:17, updated:'12/10' },
+    { slug:'velo-ville-peugeot',title:'Vélo de ville Peugeot', price:95, status:'pending',views:41,  contacts:2, updated:'Il y a 3 j' },
+    { slug:'livre-honestpreface',title:'Collection complète Astérix', price:110, status:'sold', views:198, contacts:12, updated:'28/09' },
+    { slug:'console-ps5',       title:'PlayStation 5 + 2 manettes', price:380, status:'active', views:524, contacts:31, updated:'Il y a 8 h' },
+  ];
+  const LABEL = { active:['En ligne','badge--seal'], pending:['En attente','badge--warn'], sold:['Vendue','badge--kraft'] };
+
+  let filter = 'all';
+  function render() {
+    const rows = filter === 'all' ? ROWS : ROWS.filter(r => r.status === filter);
+    document.getElementById('ml-list').innerHTML = rows.map(r => {
+      const [lbl, cls] = LABEL[r.status];
+      return `
+      <div class="row-ann">
+        <img src="assets/img/${PHOTOS[r.slug] || ''}" alt="" loading="lazy">
+        <div>
+          <div class="row-ann__title">${r.title}</div>
+          <div class="row-ann__meta">${r.updated}</div>
+        </div>
+        <div class="row-ann__stat row-ann__hide"><b>${r.views}</b><span>Vues</span></div>
+        <div class="row-ann__stat row-ann__hide"><b>${r.contacts}</b><span>Contacts</span></div>
+        <div class="row-ann__actions">
+          <span class="stamp-price" style="font-size:.85rem;padding:.25rem .6rem">${r.price} €</span>
+          <span class="badge ${cls}">${lbl}</span>
+          <button class="btn btn--ghost btn--sm" data-edit="${r.slug}"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-edit"></use></svg></button>
+        </div>
+      </div>`;
+    }).join('') || '<p style="color:var(--ink-500);font-size:.9rem;padding:2rem 0">Aucune annonce dans cette catégorie.</p>';
+
+    document.getElementById('m-total').textContent = ROWS.length;
+    document.getElementById('m-live').textContent = ROWS.filter(r=>r.status==='active').length;
+    document.getElementById('m-views').textContent = ROWS.reduce((a,r)=>a+r.views,0).toLocaleString('fr-FR');
+    document.getElementById('m-contacts').textContent = ROWS.reduce((a,r)=>a+r.contacts,0);
+    const tv = ROWS.reduce((a,r)=>a+r.views,0), tc = ROWS.reduce((a,r)=>a+r.contacts,0);
+    document.getElementById('m-conv').textContent = tv ? ((tc/tv)*100).toFixed(1) : '0';
+  }
+
+  document.querySelectorAll('[data-filter]').forEach(c => c.addEventListener('click', () => {
+    document.querySelectorAll('[data-filter]').forEach(x=>x.classList.remove('is-active'));
+    c.classList.add('is-active');
+    filter = c.dataset.filter;
+    render();
+  }));
+
+  document.getElementById('ml-list').addEventListener('click', e => {
+    const b = e.target.closest('[data-edit]');
+    if (!b) return;
+    window.mvToast('Éditeur d\'annonce — disponible en production', 'info');
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

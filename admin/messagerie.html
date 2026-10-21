@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Messagerie — Espace pro | MaisonVide</title>
+<meta name="description" content="Suivez les conversations WhatsApp et chatbot de MaisonVide, reprenez la main en mode conseiller et gardez le fil du relevé.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="messagerie">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Messagerie</h1>
+          <p class="admin-header__sub">Les conversations du canal, bot et conseillers dans le même fil</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <span class="badge badge--seal"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-whatsapp"></use></svg> WhatsApp connecté</span>
+        <a href="whatsapp.html" class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-bookmark"></use></svg> Modèles</a>
+        <button class="btn btn--primary btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg> Nouveau message</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <section class="metric-band metric-band--4" aria-label="Activité de la messagerie">
+        <div class="metric">
+          <span class="metric__ref">M.01</span>
+          <span class="metric__k">87</span>
+          <span class="metric__l">Conversations sur 24 h</span>
+          <span class="metric__d metric__d--up">+12</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.02</span>
+          <span class="metric__k">73 %</span>
+          <span class="metric__l">Résolues par le bot</span>
+          <span class="metric__d metric__d--up">+4 pts</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.03</span>
+          <span class="metric__k">2 min</span>
+          <span class="metric__l">Délai de première réponse</span>
+          <span class="metric__d metric__d--up">-30 s</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.04</span>
+          <span class="metric__k">4,8 / 5</span>
+          <span class="metric__l">Satisfaction déclarée</span>
+          <span class="metric__d metric__d--flat">stable</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__body--tight">
+          <div class="table-tools">
+            <input type="search" class="input" placeholder="Rechercher une conversation, un nom, un numéro…" aria-label="Rechercher une conversation">
+            <select class="select" aria-label="Filtrer par état">
+              <option>Tous les états</option>
+              <option>Bot actif</option>
+              <option>Conseiller en poste</option>
+              <option>En attente de reprise</option>
+              <option>Clos</option>
+            </select>
+            <select class="select" aria-label="Filtrer par canal">
+              <option>Tous les canaux</option>
+              <option>WhatsApp</option>
+              <option>Chat web</option>
+              <option>Email</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="chat">
+        <div class="chat__list" id="chat-list"></div>
+
+        <div class="chat__thread">
+          <div class="chat__head">
+            <span class="chat__av" id="chat-avatar">SM</span>
+            <span class="chat__head-txt">
+              <b id="chat-name">Sophie M.</b>
+              <span id="chat-meta">+33 6 12 34 56 78 · WhatsApp</span>
+            </span>
+            <span class="badge badge--kraft" id="chat-state">Bot actif</span>
+            <div class="seg" id="chat-mode" aria-label="Qui répond">
+              <button class="is-active" data-value="bot" type="button">Bot</button>
+              <button data-value="human" type="button">Conseiller</button>
+            </div>
+            <button class="btn btn--quiet btn--sm" type="button" aria-label="Appeler"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-phone"></use></svg></button>
+          </div>
+
+          <div class="chat__msgs" id="chat-messages"></div>
+
+          <form class="chat__compose" id="chat-form">
+            <button type="button" class="btn btn--quiet btn--sm" aria-label="Joindre un fichier"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-upload"></use></svg></button>
+            <input type="text" class="input" placeholder="Écrire au vendeur…" aria-label="Votre message" autocomplete="off">
+            <button type="submit" class="btn btn--primary btn--sm">Envoyer</button>
+          </form>
+        </div>
+      </section>
+
+      <div class="note-band">
+        <svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg>
+        <p style="margin:0;font-size:.82rem">Le bot répond tant que la confiance de l’estimation reste au-dessus de 65 %. En dessous, ou à la demande du vendeur, la conversation bascule sur un conseiller : le fil garde la traçabilité complète des deux mains.</p>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

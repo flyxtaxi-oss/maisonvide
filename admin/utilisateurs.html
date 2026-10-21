@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Utilisateurs — Espace pro | MaisonVide</title>
+<meta name="description" content="Le carnet des vendeurs et acheteurs MaisonVide : niveau KYC, score de confiance, signalements et actions de modération sur chaque compte.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="utilisateurs">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Utilisateurs</h1>
+          <p class="admin-header__sub">Vendeurs, acheteurs et professionnels · 4 niveaux de KYC</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <button class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-download"></use></svg> Exporter</button>
+        <button class="btn btn--primary btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-user"></use></svg> Inviter un membre</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <section class="metric-band metric-band--5" aria-label="État des comptes">
+        <div class="metric">
+          <span class="metric__ref">U.01</span>
+          <span class="metric__k">8 472</span>
+          <span class="metric__l">Comptes ouverts</span>
+          <span class="metric__d metric__d--up">+96 ce mois</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">U.02</span>
+          <span class="metric__k">2 184</span>
+          <span class="metric__l">Vendeurs actifs</span>
+          <span class="metric__d metric__d--up">+38</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">U.03</span>
+          <span class="metric__k">5 318</span>
+          <span class="metric__l">Acheteurs</span>
+          <span class="metric__d metric__d--flat">stable</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">U.04</span>
+          <span class="metric__k">68 %</span>
+          <span class="metric__l">Comptes au sceau</span>
+          <span class="metric__d metric__d--up">+2 pts</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">U.05</span>
+          <span class="metric__k metric__k--stamp">12</span>
+          <span class="metric__l">Signalements ouverts</span>
+          <span class="metric__d metric__d--down">+3</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__body--tight">
+          <div class="table-tools">
+            <input type="search" class="input" placeholder="Rechercher un nom, un e-mail, un numéro…" aria-label="Rechercher un utilisateur">
+            <select class="select" aria-label="Filtrer par type">
+              <option>Tous les types</option>
+              <option>Vendeurs</option>
+              <option>Acheteurs</option>
+              <option>Professionnels</option>
+            </select>
+            <select class="select" aria-label="Filtrer par niveau KYC">
+              <option>Tous les niveaux KYC</option>
+              <option>N1 · Identité</option>
+              <option>N2 · Pièce d’identité</option>
+              <option>N3 · IBAN vérifié</option>
+              <option>N4 · Sceau professionnel</option>
+            </select>
+            <select class="select" aria-label="Filtrer par statut">
+              <option>Tous les statuts</option>
+              <option>Actif</option>
+              <option>En vérification</option>
+              <option>Suspendu</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg> Carnet des comptes</h2>
+            <p>Le score de confiance cumule les transactions vérifiées, les avis et le comportement de paiement</p>
+          </div>
+          <span class="badge badge--kraft">8 472 fiches</span>
+        </div>
+        <div class="panel__body--flush table-wrap">
+          <table class="data-table data-table--dense">
+            <thead>
+              <tr>
+                <th>Utilisateur</th>
+                <th>Type</th>
+                <th>Niveau KYC</th>
+                <th>Score de confiance</th>
+                <th class="num">Annonces</th>
+                <th class="num">Ventes</th>
+                <th class="num">Signalements</th>
+                <th>Statut</th>
+                <th>Inscrit</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Sophie M.</strong>
+                  <span class="sub">sophie.m***@*** · Paris · 4,9 / 5</span>
+                </td>
+                <td><span class="badge badge--kraft">Vendeur</span></td>
+                <td><span class="etiquette">N4 · Sceau</span></td>
+                <td><span class="conf"><span class="conf__bar"><span class="conf__fill" style="width:94%"></span></span><span class="conf__val">94</span></span></td>
+                <td class="num">23</td>
+                <td class="num">21</td>
+                <td class="num">0</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Actif</span></td>
+                <td>Mars 2024</td>
+                <td class="cell-actions">
+                  <button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir la fiche"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Christine P.</strong>
+                  <span class="sub">christine.p***@*** · Nantes · 5,0 / 5</span>
+                </td>
+                <td><span class="badge badge--kraft">Professionnelle</span></td>
+                <td><span class="etiquette">N4 · Sceau</span></td>
+                <td><span class="conf"><span class="conf__bar"><span class="conf__fill" style="width:97%"></span></span><span class="conf__val">97</span></span></td>
+                <td class="num">47</td>
+                <td class="num">42</td>
+                <td class="num">0</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Actif</span></td>
+                <td>Janvier 2024</td>
+                <td class="cell-actions">
+                  <button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir la fiche"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Galerie S.</strong>
+                  <span class="sub">contact@gal*** · Paris · SIRET vérifié</span>
+                </td>
+                <td><span class="badge badge--kraft">Professionnelle</span></td>
+                <td><span class="etiquette">N4 · Sceau</span></td>
+                <td><span class="conf"><span class="conf__bar"><span class="conf__fill" style="width:91%"></span></span><span class="conf__val">91</span></span></td>
+                <td class="num">67</td>
+                <td class="num">61</td>
+                <td class="num">0</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Actif</span></td>
+                <td>Décembre 2023</td>
+                <td class="cell-actions">
+                  <button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir la fiche"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Antoine R.</strong>
+                  <span class="sub">antoine.r***@*** · Lyon</span>
+                </td>
+                <td><span class="badge">Vendeur</span></td>
+                <td><span class="etiquette">N3 · IBAN vérifié</span></td>
+                <td><span class="conf"><span class="conf__bar"><span class="conf__fill" style="width:82%"></span></span><span class="conf__val">82</span></span></td>
+                <td class="num">5</td>
+                <td class="num">4</td>
+                <td class="num">0</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Actif</span></td>
+                <td>Juin 2024</td>
+                <td class="cell-actions">
+                  <button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir la fiche"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Julien D.</strong>
+                  <span class="sub">julien.d***@*** · Bordeaux</span>
+                </td>
+                <td><span class="badge">Vendeur</span></td>
+                <td><span class="etiquette">N2 · Pièce d’identité</span></td>
+                <td><span class="conf"><span class="conf__bar"><span class="conf__fill" style="width:76%"></span></span><span class="conf__val">76</span></span></td>
+                <td class="num">12</td>
+                <td class="num">10</td>
+                <td class="num">0</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Actif</span></td>
+                <td>Février 2024</td>
+                <td class="cell-actions">
+                  <button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir la fiche"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Marc B.</strong>
+                  <span class="sub">marc.b***@*** · Lille · inscrit en septembre</span>
+                </td>
+                <td><span class="badge">Vendeur</span></td>
+                <td><span class="etiquette">N1 · Identité</span></td>
+                <td><span class="conf"><span class="conf__bar"><span class="conf__fill conf__fill--warn" style="width:44%"></span></span><span class="conf__val">44</span></span></td>
+                <td class="num">2</td>
+                <td class="num">0</td>
+                <td class="num">1</td>
+                <td><span class="status status--warn"><span class="status__dot"></span>En vérification</span></td>
+                <td>Septembre 2026</td>
+                <td class="cell-actions">
+                  <button class="btn btn--ghost btn--sm" type="button">Vérifier</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Compte sans identité</strong>
+                  <span class="sub">+33 6 00 00 00 00 · 3 signalements</span>
+                </td>
+                <td><span class="badge">Acheteur</span></td>
+                <td><span class="etiquette">N0 · Non vérifié</span></td>
+                <td><span class="conf"><span class="conf__bar"><span class="conf__fill conf__fill--low" style="width:12%"></span></span><span class="conf__val">12</span></span></td>
+                <td class="num">0</td>
+                <td class="num">0</td>
+                <td class="num">3</td>
+                <td><span class="status status--stamp"><span class="status__dot"></span>Signalé</span></td>
+                <td>Septembre 2026</td>
+                <td class="cell-actions">
+                  <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-lock"></use></svg> Bloquer</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel__foot" style="justify-content:space-between">
+          <span class="panel__note">Affichage de 1 à 7 sur 8 472 comptes</span>
+          <div class="pager__pages">
+            <button class="btn btn--ghost btn--sm" type="button">Précédent</button>
+            <button class="btn btn--primary btn--sm" type="button">1</button>
+            <button class="btn btn--ghost btn--sm" type="button">2</button>
+            <button class="btn btn--ghost btn--sm" type="button">Suivant</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="admin-grid admin-grid--2">
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-shield-check"></use></svg> Les 4 niveaux de KYC</h2>
+              <p>Chaque vente franchit une barrière de plus</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div class="pipe">
+              <div class="pipe__row">
+                <span class="pipe__n">N1</span>
+                <span><span class="pipe__t">Identité</span><span class="pipe__d">E-mail vérifié et numéro de téléphone confirmé</span></span>
+                <span class="pipe__v">8 472</span>
+              </div>
+              <div class="pipe__row">
+                <span class="pipe__n">N2</span>
+                <span><span class="pipe__t">Pièce d’identité</span><span class="pipe__d">Exigée à la première publication d’une annonce</span></span>
+                <span class="pipe__v">5 760</span>
+              </div>
+              <div class="pipe__row">
+                <span class="pipe__n">N3</span>
+                <span><span class="pipe__t">IBAN vérifié</span><span class="pipe__d">Titulaire du compte = titulaire de l’annonce</span></span>
+                <span class="pipe__v">3 940</span>
+              </div>
+              <div class="pipe__row">
+                <span class="pipe__n">N4</span>
+                <span><span class="pipe__t">Sceau professionnel</span><span class="pipe__d">SIRET, RC pro et assurance responsabilité civile</span></span>
+                <span class="pipe__v">312</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-alert"></use></svg> Signalements à traiter</h2>
+              <p>Trois dossiers remontés cette semaine</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div class="signals">
+              <div class="signal">
+                <span class="signal__k">Compte sans identité · 3 signalements</span>
+                <span class="signal__v">12</span>
+                <span class="status status--stamp"><span class="status__dot"></span>Bloquer</span>
+              </div>
+              <div class="signal">
+                <span class="signal__k">Annonce PlayStation 5 · 2 signalements</span>
+                <span class="signal__v">41</span>
+                <span class="status status--stamp"><span class="status__dot"></span>Contrôler</span>
+              </div>
+              <div class="signal">
+                <span class="signal__k">Retard de paiement · 1 signalement</span>
+                <span class="signal__v">63</span>
+                <span class="status status--warn"><span class="status__dot"></span>Relancer</span>
+              </div>
+            </div>
+            <div class="note-band note-band--stamp" style="margin-top:var(--space-4)">
+              <svg class="ic" aria-hidden="true"><use href="#i-alert"></use></svg>
+              <p style="margin:0;font-size:.8rem">Au-delà de 3 signalements, le compte est suspendu automatiquement et l’IBAN est re-vérifié avant tout nouveau versement.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

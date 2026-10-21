@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Mes favoris — MaisonVide</title>
+<meta name="description" content="Retrouvez les annonces MaisonVide que vous avez mises de cote. Vos favoris sont synchronises et accessibles depuis tous vos appareils.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://maisonvide.fr/favoris.html">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo"><span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span> MaisonVide</a>
+    <nav class="nav">
+      <a href="index.html">Accueil</a><a href="vendre.html">Estimer</a><a href="annonces.html">Annonces</a>
+      <a href="confiance.html">Confiance</a><a href="services.html">Services</a><a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Menu"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+    </div>
+  </div>
+</header>
+
+<section class="section" style="padding-block:2.5rem var(--space-16)">
+  <div class="container">
+    <p class="card__meta" style="margin-bottom:1rem"><a href="profil.html" class="link-underline">← Mon compte</a></p>
+    <h1 class="display" style="max-width:16ch">Mes favoris.</h1>
+    <p class="lead mt-6" id="wl-sub">Les objets que vous gardez sous la main.</p>
+
+    <div id="wl-locked" class="hidden" style="text-align:center;padding:4rem 1rem">
+      <div style="font-size:2.5rem;margin-bottom:1rem"><svg class="ic ic--xl" aria-hidden="true" style="color:var(--ink-400)"><use href="#i-heart"></use></svg></div>
+      <h2 class="display" style="max-width:18ch;margin-inline:auto">Connectez-vous pour garder vos favoris.</h2>
+      <p class="lead mt-6" style="margin-inline:auto">Votre liste vous suit sur tous vos appareils.</p>
+      <a href="auth.html?next=favoris.html" class="btn btn--primary btn--lg mt-8">Se connecter</a>
+    </div>
+
+    <div id="wl-content" class="hidden" style="margin-top:2.5rem">
+      <div class="flex-between" style="margin-bottom:1.2rem">
+        <span class="label" id="wl-count">0 objet</span>
+        <button class="btn btn--quiet btn--sm" id="wl-clear">Tout retirer</button>
+      </div>
+      <div class="listings-grid" id="wl-grid"></div>
+      <div id="wl-empty" class="hidden" style="text-align:center;padding:4rem 1rem;border:1px dashed var(--ink-300);border-radius:var(--radius-md)">
+        <p class="lead" style="margin-inline:auto">Rien de mis de côté pour l'instant.</p>
+        <a href="annonces.html" class="btn btn--ghost mt-6">Parcourir les annonces</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/listings.js"></script>
+<script>
+(function () {
+  const { DATA } = window.MaisonVideData;
+  const u = window.mvAuth.current();
+
+  if (!u) {
+    document.getElementById('wl-locked').classList.remove('hidden');
+    return;
+  }
+  document.getElementById('wl-content').classList.remove('hidden');
+
+  const PHOTOS = {
+    'canape-ikea-kivik':'listing-canape.jpg','table-chene-massif':'listing-table.jpg','lampe-articulo':'listing-lampe.jpg',
+    'macbook-pro-m1':'listing-macbook.jpg','commode-laque-p60':'listing-commode.jpg','velo-ville-peugeot':'listing-velo.jpg',
+    'livre-honestpreface':'listing-asterix.jpg','robot-cuiseur-thermomix':'listing-thermomix.jpg',
+    'manteau-cuir-le-vrai':'listing-manteau.jpg','console-ps5':'listing-ps5.jpg','vase-murano':'listing-murano.jpg',
+    'seche-cheveux-dyson':'listing-dyson.jpg'
+  };
+
+  function render() {
+    const wl = window.mvAuth.current().wishlist || [];
+    const items = DATA.listings.filter(l => wl.includes(l.slug));
+    document.getElementById('wl-count').textContent = items.length + (items.length > 1 ? ' objets' : ' objet');
+    document.getElementById('wl-empty').classList.toggle('hidden', items.length > 0);
+    document.getElementById('wl-grid').innerHTML = items.map(l => `
+      <article class="listing-card" data-slug="${l.slug}">
+        <div class="listing-card__img">
+          <span class="listing-card__price"><span class="stamp-price" style="font-size:.85rem;padding:.25rem .6rem">${l.price} €</span></span>
+          <img src="assets/img/${PHOTOS[l.slug] || ''}" alt="${l.title}" loading="lazy">
+        </div>
+        <div class="listing-card__body">
+          <div class="listing-card__title">${l.title}</div>
+          <div class="listing-card__meta">
+            <span>${DATA.categories[l.category].icon} ${DATA.categories[l.category].label}</span>
+            <span><svg class="ic ic--sm" aria-hidden="true"><use href="#i-pin"></use></svg> ${l.location}</span>
+          </div>
+          <button class="btn btn--ghost btn--sm mt-6" data-wishlist="${l.slug}">Retirer des favoris</button>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  document.getElementById('wl-clear').addEventListener('click', () => {
+    window.mvAuth.update({ wishlist: [] });
+    render();
+    window.mvToast('Favoris vidés', 'success');
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

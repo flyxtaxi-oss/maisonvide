@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Modèle IA — Espace pro | MaisonVide</title>
+<meta name="description" content="Le modèle d'estimation MaisonVide : pipeline de détection, dernières estimations, dérive des données et seuil de publication en séquestre.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="ia">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Modèle d’estimation</h1>
+          <p class="admin-header__sub">Du relevé de la photo au prix juste · 30 secondes de promesse</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <span class="badge badge--seal"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check-circle"></use></svg> v2.4.1 · Production</span>
+        <button class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-upload"></use></svg> Importer des données</button>
+        <button class="btn btn--primary btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-refresh"></use></svg> Ré-entraîner</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <section class="metric-band metric-band--4" aria-label="Performance du modèle">
+        <div class="metric">
+          <span class="metric__ref">M.01</span>
+          <span class="metric__k">87,3 %</span>
+          <span class="metric__l">Précision globale</span>
+          <span class="metric__d metric__d--up">+1,2 pt</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.02</span>
+          <span class="metric__k">8,40 €</span>
+          <span class="metric__l">Erreur absolue moyenne</span>
+          <span class="metric__d metric__d--up">-0,60 €</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.03</span>
+          <span class="metric__k">487</span>
+          <span class="metric__l">Estimations par jour</span>
+          <span class="metric__d metric__d--up">+9 %</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.04</span>
+          <span class="metric__k">1,4 s</span>
+          <span class="metric__l">Latence moyenne</span>
+          <span class="metric__d metric__d--down">+0,2 s</span>
+        </div>
+      </section>
+
+      <!-- Le pipeline d'estimation, en lignes numérotées -->
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg> Le pipeline d’estimation</h2>
+            <p>Six étapes, du relevé de la photo à la fourchette affichée au vendeur</p>
+          </div>
+          <span class="badge badge--kraft">En production depuis 6 jours</span>
+        </div>
+        <div class="panel__body">
+          <div class="pipe">
+            <div class="pipe__row">
+              <span class="pipe__n">P.01</span>
+              <span>
+                <span class="pipe__t">Photo</span>
+                <span class="pipe__d">3 à 5 angles, compression à 1024 px, fond détaché si possible</span>
+              </span>
+              <span class="pipe__v">28 ms</span>
+            </div>
+            <div class="pipe__row">
+              <span class="pipe__n">P.02</span>
+              <span>
+                <span class="pipe__t">Détection de la catégorie</span>
+                <span class="pipe__d">8 familles · 94 % de précision sur la classe · 12 patterns d’arnaque écartés</span>
+              </span>
+              <span class="pipe__v">310 ms</span>
+            </div>
+            <div class="pipe__row">
+              <span class="pipe__n">P.03</span>
+              <span>
+                <span class="pipe__t">État</span>
+                <span class="pipe__d">Très bon / Bon / Correct · pondération de la décote : 0 %, -8 %, -18 %</span>
+              </span>
+              <span class="pipe__v">120 ms</span>
+            </div>
+            <div class="pipe__row">
+              <span class="pipe__n">P.04</span>
+              <span>
+                <span class="pipe__t">Marque</span>
+                <span class="pipe__d">Reconnaissance de marque ou « sans marque » · 71 % de précision, reste du prix au référentiel</span>
+              </span>
+              <span class="pipe__v">180 ms</span>
+            </div>
+            <div class="pipe__row">
+              <span class="pipe__n">P.05</span>
+              <span>
+                <span class="pipe__t">Fourchette</span>
+                <span class="pipe__d">Médiane des ventes comparables sur 12 mois, décote de sécurité de 3 %</span>
+              </span>
+              <span class="pipe__v">210 ms</span>
+            </div>
+            <div class="pipe__row">
+              <span class="pipe__n">P.06</span>
+              <span>
+                <span class="pipe__t">Confiance</span>
+                <span class="pipe__d">Score composite 0-100 · sous 65 %, la fiche part en modération humaine</span>
+              </span>
+              <span class="pipe__v">seuil 65</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Les dernières estimations -->
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-list"></use></svg> Les dernières estimations</h2>
+            <p>Relevé des huit dernières fiches passées par le modèle</p>
+          </div>
+          <a href="annonces.html" class="btn btn--ghost btn--sm">Voir les annonces</a>
+        </div>
+        <div class="panel__body--flush table-wrap">
+          <table class="data-table data-table--dense">
+            <thead>
+              <tr>
+                <th>Photo</th>
+                <th>Catégorie détectée</th>
+                <th>État</th>
+                <th>Marque</th>
+                <th class="num">Fourchette</th>
+                <th class="num">Prix final</th>
+                <th>Confiance</th>
+                <th class="num">Latence</th>
+                <th>Modèle</th>
+              </tr>
+            </thead>
+            <tbody id="ia-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="admin-grid admin-grid--2">
+        <!-- Dérive -->
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg> Signaux de dérive</h2>
+              <p>Écarts entre le modèle et le marché, surveillés chaque nuit</p>
+            </div>
+            <span class="badge badge--warn">2 alertes</span>
+          </div>
+          <div class="panel__body">
+            <div class="drift">
+              <div class="drift__row">
+                <span>
+                  <span class="drift__k">Prix médian du mobilier</span>
+                  <span class="drift__h">Écart avec le référentiel 12 mois</span>
+                </span>
+                <span class="conf"><span class="conf__bar"><span class="conf__fill conf__fill--warn" style="width:62%"></span></span></span>
+                <span class="drift__v">-7,4 %</span>
+              </div>
+              <div class="drift__row">
+                <span>
+                  <span class="drift__k">Répartition des catégories</span>
+                  <span class="drift__h">Distance de Jensen-Shannon sur 8 familles</span>
+                </span>
+                <span class="conf"><span class="conf__bar"><span class="conf__fill" style="width:22%"></span></span></span>
+                <span class="drift__v">0,04</span>
+              </div>
+              <div class="drift__row">
+                <span>
+                  <span class="drift__k">Calibration de la confiance</span>
+                  <span class="drift__h">Écart entre confiance annoncée et erreur réelle</span>
+                </span>
+                <span class="conf"><span class="conf__bar"><span class="conf__fill conf__fill--low" style="width:44%"></span></span></span>
+                <span class="drift__v">-11 pts</span>
+              </div>
+              <div class="drift__row">
+                <span>
+                  <span class="drift__k">Dérive saisonnière</span>
+                  <span class="drift__h">Volume deEstimations par semaine</span>
+                </span>
+                <span class="conf"><span class="conf__bar"><span class="conf__fill" style="width:18%"></span></span></span>
+                <span class="drift__v">+3,1 %</span>
+              </div>
+              <div class="drift__row">
+                <span>
+                  <span class="drift__k">Longueur des photos envoyées</span>
+                  <span class="drift__h">Photos hors gabarit, refusées par le modèle</span>
+                </span>
+                <span class="conf"><span class="conf__bar"><span class="conf__fill conf__fill--warn" style="width:58%"></span></span></span>
+                <span class="drift__v">14 / 487</span>
+              </div>
+              <div class="drift__row">
+                <span>
+                  <span class="drift__k">Fraîcheur des données</span>
+                  <span class="drift__h">Dernier enrichissement du référentiel</span>
+                </span>
+                <span class="conf"><span class="conf__bar"><span class="conf__fill" style="width:16%"></span></span></span>
+                <span class="drift__v">6 j</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Seuil de publication -->
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-lock"></use></svg> Publication en séquestre</h2>
+              <p>À partir de quand l’argent est bloqué plutôt que versé</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Seuil de montant</span>
+                <span class="form-row__h">Au-dessus, le paiement passe en séquestre obligatoire</span>
+              </span>
+              <span class="form-row__ctl">
+                <span class="field-inline">
+                  <input type="number" class="input" value="300" aria-label="Seuil de montant en euros">
+                  <span class="field-inline__unit">€</span>
+                </span>
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Confiance minimale</span>
+                <span class="form-row__h">En dessous, la fiche attend un regard humain</span>
+              </span>
+              <span class="form-row__ctl">
+                <span class="field-inline">
+                  <input type="number" class="input" value="65" aria-label="Confiance minimale en pourcentage">
+                  <span class="field-inline__unit">%</span>
+                </span>
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Ré-expertise obligatoire</span>
+                <span class="form-row__h">Au-dessus de ce prix, un conseiller valide toujours la fiche</span>
+              </span>
+              <span class="form-row__ctl">
+                <span class="field-inline">
+                  <input type="number" class="input" value="500" aria-label="Ré-expertise obligatoire en euros">
+                  <span class="field-inline__unit">€</span>
+                </span>
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Durée du séquestre</span>
+                <span class="form-row__h">Délai maximal avant versement au vendeur</span>
+              </span>
+              <span class="form-row__ctl">
+                <select class="select" aria-label="Durée du séquestre">
+                  <option>7 jours après enlèvement</option>
+                  <option selected>14 jours après enlèvement</option>
+                  <option>24 heures après confirmation</option>
+                </select>
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Décote de sécurité</span>
+                <span class="form-row__h">Marge appliquée par défaut sur la fourchette</span>
+              </span>
+              <span class="form-row__ctl">
+                <span class="field-inline">
+                  <input type="number" class="input" value="-3" aria-label="Décote de sécurité en pourcentage">
+                  <span class="field-inline__unit">%</span>
+                </span>
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Publication automatique</span>
+                <span class="form-row__h">Sans ce réglage, chaque fiche attend une validation</span>
+              </span>
+              <span class="form-row__ctl">
+                <span class="switch-row">
+                  <span class="switch-row__k">Publier sans relecture au-dessus de 90 %</span>
+                  <span class="toggle is-on"></span>
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="panel__foot">
+            <button class="btn btn--ghost btn--sm" type="button">Réinitialiser</button>
+            <button class="btn btn--primary btn--sm" type="button" data-action="save" data-label="Seuils enregistrés">Enregistrer</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="admin-grid admin-grid--2">
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-scale"></use></svg> Précision par catégorie</h2>
+              <p>Le relevé par famille d’objets</p>
+            </div>
+          </div>
+          <div class="panel__body--flush table-wrap">
+            <table class="data-table data-table--dense">
+              <thead>
+                <tr><th>Catégorie</th><th>Précision</th><th class="num">Erreur moyenne</th><th class="num">Volume</th><th>État</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Électroménager</td><td>91,1 %</td><td class="num">9,80 €</td><td class="num">1 180</td><td><span class="status status--seal"><span class="status__dot"></span>Excellent</span></td></tr>
+                <tr><td>Mobilier</td><td>89,2 %</td><td class="num">12,40 €</td><td class="num">2 340</td><td><span class="status status--seal"><span class="status__dot"></span>Excellent</span></td></tr>
+                <tr><td>Décoration</td><td>88,9 %</td><td class="num">7,30 €</td><td class="num">620</td><td><span class="status status--seal"><span class="status__dot"></span>Excellent</span></td></tr>
+                <tr><td>Électronique</td><td>85,7 %</td><td class="num">14,20 €</td><td class="num">980</td><td><span class="status status--kraft"><span class="status__dot"></span>Très bon</span></td></tr>
+                <tr><td>Vêtements</td><td>82,4 %</td><td class="num">5,60 €</td><td class="num">740</td><td><span class="status status--warn"><span class="status__dot"></span>À/entraîner</span></td></tr>
+                <tr><td>Art &amp; antiquités</td><td>76,2 %</td><td class="num">28,40 €</td><td class="num">180</td><td><span class="status status--stamp"><span class="status__dot"></span>À améliorer</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-bookmark"></use></svg> Données d’entraînement</h2>
+              <p>Le socle du relevé</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <dl class="kv">
+              <dt>Annonces historiques</dt><dd>2,40 M</dd>
+              <dt>Ventes confirmées</dt><dd>487 000</dd>
+              <dt>Images étiquetées</dt><dd>128 000</dd>
+              <dt>Retours vendeurs</dt><dd>42 000</dd>
+              <dt>Références de marché</dt><dd>310 000</dd>
+            </dl>
+            <hr class="divider">
+            <div class="signals">
+              <div class="signal">
+                <span class="signal__k">Annonces mobilier</span>
+                <span class="signal__v">+1 240 · 24/09</span>
+                <span class="status status--seal"><span class="status__dot"></span>Intégré</span>
+              </div>
+              <div class="signal">
+                <span class="signal__k">Transactions confirmées</span>
+                <span class="signal__v">+580 · 22/09</span>
+                <span class="status status--seal"><span class="status__dot"></span>Intégré</span>
+              </div>
+              <div class="signal">
+                <span class="signal__k">Photos bijoux</span>
+                <span class="signal__v">+320 · 20/09</span>
+                <span class="status status--kraft"><span class="status__dot"></span>À étiqueter</span>
+              </div>
+              <div class="signal">
+                <span class="signal__k">Recalibration des seuils art</span>
+                <span class="signal__v">18/09</span>
+                <span class="status status--seal"><span class="status__dot"></span>Appliqué</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg> Tester le modèle</h2>
+            <p>Comparaison entre vos réglages et le relevé du modèle</p>
+          </div>
+        </div>
+        <div class="panel__body">
+          <div class="admin-grid admin-grid--2">
+            <div>
+              <div class="form-group" style="margin-bottom:var(--space-3)">
+                <label class="form-label" for="test-cat">Catégorie</label>
+                <select class="select" id="test-cat">
+                  <option>Mobilier</option>
+                  <option>Électronique</option>
+                  <option>Électroménager</option>
+                  <option>Décoration</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:var(--space-3)">
+                <label class="form-label" for="test-state">État</label>
+                <select class="select" id="test-state">
+                  <option>Très bon</option>
+                  <option>Bon</option>
+                  <option>Correct</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:var(--space-3)">
+                <label class="form-label" for="test-brand">Marque</label>
+                <select class="select" id="test-brand">
+                  <option>Sans marque</option>
+                  <option>Milieu de gamme</option>
+                  <option>Premium</option>
+                  <option>Luxe</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:var(--space-3)">
+                <label class="form-label" for="test-age">Âge de l’objet</label>
+                <input type="number" class="input" id="test-age" value="3">
+              </div>
+              <button class="btn btn--primary btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-ai"></use></svg> Lancer l’estimation</button>
+            </div>
+            <div>
+              <div class="note-band note-band--seal">
+                <svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg>
+                <p style="margin:0;font-size:.8rem">Relevé du modèle pour un canapé en teck, état bon, sans marque, trois ans.</p>
+              </div>
+              <dl class="kv" style="margin-top:var(--space-4)">
+                <dt>Fourchette estimée</dt><dd>260 — 320 €</dd>
+                <dt>Prix retenu</dt><dd>280 €</dd>
+                <dt>Confiance</dt><dd>92 %</dd>
+                <dt>Erreur absolue</dt><dd>± 35 €</dd>
+                <dt>Latence</dt><dd>1,2 s</dd>
+                <dt>Seuil atteint</dt><dd>oui · 92 % &gt; 65 %</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

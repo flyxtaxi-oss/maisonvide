@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#e8e5db">
+  <title>Politique de confidentialité — MaisonVide</title>
+  <meta name="description" content="Comment MaisonVide traite vos données personnelles : finalités, bases légales, durées de conservation, destinataires et exercice de vos droits RGPD.">
+  <link rel="canonical" href="https://maisonvide.fr/confidentialite.html">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/blocks.css">
+  <link rel="stylesheet" href="assets/css/trust.css">
+  <link rel="stylesheet" href="assets/css/legal.css">
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="vendre.html">Estimer</a>
+      <a href="annonces.html">Annonces</a>
+      <a href="confiance.html">Confiance</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container legal">
+    <div class="legal__head">
+      <div class="label">Légal</div>
+      <h1>Politique de confidentialité</h1>
+      <p class="lead mt-6">
+        Ce que nous collectons, pourquoi, combien de temps, et comment reprendre la main.
+        Version en vigueur : 21 octobre 2026.
+      </p>
+    </div>
+
+    <nav class="legal__toc" aria-label="Sommaire">
+      <a href="#responsable"><b>01</b>Responsable du traitement</a>
+      <a href="#principes"><b>02</b>Principes</a>
+      <a href="#donnees"><b>03</b>Données collectées</a>
+      <a href="#destinataires"><b>04</b>Destinataires</a>
+      <a href="#transferts"><b>05</b>Transferts hors UE</a>
+      <a href="#securite"><b>06</b>Sécurité</a>
+      <a href="#droits"><b>07</b>Vos droits</a>
+      <a href="#cookies"><b>08</b>Cookies</a>
+      <a href="#dpo"><b>09</b>DPO et réclamation</a>
+    </nav>
+
+    <h2 id="responsable">1. Responsable du traitement</h2>
+    <p>
+      <strong>MaisonVide SAS</strong>, 12 rue des Lilas, 75011 Paris, est responsable
+      des traitements décrits ci-dessous. Contact :
+      <a href="mailto:donnees@maisonvide.fr">donnees@maisonvide.fr</a>.
+    </p>
+
+    <h2 id="principes">2. Principes</h2>
+    <p>
+      Nous ne collectons que ce qui est nécessaire, nous ne conservons pas plus
+      longtemps que nécessaire, et nous ne vendons jamais vos données à des tiers.
+      Aucun transfert hors Union européenne n'est effectué. Vous pouvez à tout
+      moment exporter ou supprimer vos données depuis votre compte, sans passer
+      par un formulaire.
+    </p>
+
+    <h2 id="donnees">3. Données collectées</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Catégorie</th>
+          <th>Données</th>
+          <th>Finalité</th>
+          <th>Base légale</th>
+          <th>Conservation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Compte</td>
+          <td>Nom, e-mail, téléphone, mot de passe chiffré</td>
+          <td>Créer et sécuriser votre accès, vous contacter</td>
+          <td>Exécution du contrat</td>
+          <td>3 ans après la dernière activité</td>
+        </tr>
+        <tr>
+          <td>Identité</td>
+          <td>Pièce d'identité, selfie vidéo, SIRET</td>
+          <td>Vérification KYC obligatoire avant la première vente</td>
+          <td>Exécution du contrat</td>
+          <td>5 ans après la clôture du compte</td>
+        </tr>
+        <tr>
+          <td>Annonces</td>
+          <td>Photos, description, prix, catégorie, état</td>
+          <td>Publier, modérer et vendre l'objet</td>
+          <td>Exécution du contrat</td>
+          <td>90 jours après la vente, puis archivage 1 an</td>
+        </tr>
+        <tr>
+          <td>Estimation IA</td>
+          <td>Photo transmise, catégorie et état détectés, fourchette, confiance</td>
+          <td>Établir le prix affiché et améliorer le modèle</td>
+          <td>Exécution du contrat</td>
+          <td>90 jours pour la photo, 24 mois pour les métriques agrégées</td>
+        </tr>
+        <tr>
+          <td>Transactions</td>
+          <td>Montant, commission, statut de séquestre, horodatage</td>
+          <td>Exécuter et sécuriser le paiement</td>
+          <td>Exécution du contrat</td>
+          <td>10 ans (obligation comptable)</td>
+        </tr>
+        <tr>
+          <td>Messagerie</td>
+          <td>Messages échangés, historique de conversation</td>
+          <td>Assurer la relation entre acheteur et vendeur</td>
+          <td>Exécution du contrat</td>
+          <td>3 ans après la clôture de la conversation</td>
+        </tr>
+        <tr>
+          <td>Signalements</td>
+          <td>Motif, description, pièces jointes</td>
+          <td>Enquêter sur les signalements et protéger la communauté</td>
+          <td>Intérêt légitime</td>
+          <td>3 ans après la clôture du dossier</td>
+        </tr>
+        <tr>
+          <td>Mesure d'audience</td>
+          <td>Pages vues, provenance, anonymisation IP</td>
+          <td>Comprendre l'usage et améliorer le service</td>
+          <td>Consentement</td>
+          <td>13 mois</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="legal__note">
+      <p>
+        <strong>Cookies et traceurs.</strong> Nous ne déposons aucun traceur publicitaire
+        et aucun traceur tiers. Le refus est aussi simple que l'acceptation : la page
+        reste entièrement fonctionnelle. Détail dans notre
+        <a href="cookies.html">politique cookies</a>.
+      </p>
+    </div>
+
+    <h2 id="destinataires">4. Destinataires</h2>
+    <p>Vos données sont accessibles aux catégories de destinataires suivantes, chacun limité à ce dont il a besoin :</p>
+    <ul>
+      <li>Les prestataires techniques qui font tourner le service : hébergement (Scaleway, UE), base de données (Neon, UE), transaction sécurisée et séquestre (prestataire agréé ACPR).</li>
+      <li>La messagerie et le service client, pour traiter vos demandes et litiges.</li>
+      <li>Les autorités administratives et judiciaires, lorsque la loi l'impose.</li>
+      <li>Nos sous-traitants de paiement, uniquement pour exécuter la transaction que vous avez demandée.</li>
+    </ul>
+    <p>
+      Aucun de ces destinataires ne revend votre identité. Vos données ne sont jamais
+      vendues, louées ou échangées à des tiers à des fins publicitaires.
+    </p>
+
+    <h2 id="transferts">5. Transferts hors Union européenne</h2>
+    <p>
+      Aucun transfert de données personnelles hors UE n'est réalisé. L'hébergement
+      (Scaleway), la base de données (Neon, région UE) et les prestataires de paiement
+      utilisés sont choisis pour rester dans l'Union européenne.
+    </p>
+
+    <h2 id="securite">6. Sécurité</h2>
+    <p>
+      Mots de passe chiffrés (bcrypt), connexions chiffrées (TLS), cloisonnement
+      des espaces seller et buyer, journalisation des actions d'administration,
+      sauvegardes chiffrées quotidiennes, et revue trimestrielle des accès internes.
+      En cas de violation de données affectant vos droits, nous vous en informons
+      sous 72 heures, comme la loi l'impose.
+    </p>
+
+    <h2 id="droits">7. Vos droits</h2>
+    <p>
+      Vous disposez des droits d'accès, de rectification, d'effacement, de
+      limitation, d'opposition et de portabilité sur vos données.
+    </p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Votre droit</th><th>Comment l'exercer</th><th>Délai</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Accès et portabilité</td><td>Bouton « Exporter mes données » dans votre compte, ou par e-mail</td><td>72 h</td></tr>
+        <tr><td>Rectification</td><td>Directement depuis votre profil</td><td>Immédiat</td></tr>
+        <tr><td>Effacement</td><td>Suppression du compte depuis les paramètres</td><td>30 jours</td></tr>
+        <tr><td>Opposition</td><td>Par e-mail à notre DPO</td><td>1 mois</td></tr>
+        <tr><td>Limitation</td><td>Par e-mail à notre DPO</td><td>1 mois</td></tr>
+        <tr><td>Retrait du consentement</td><td>Bouton « Refuser » sur le bandeau cookies, à tout moment</td><td>Immédiat</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Vos données d'estimation (photos, détection, fourchette) peuvent aussi être
+      supprimées séparément : le modèle s'améliore avec des métriques agrégées,
+      jamais avec vos images.
+    </p>
+
+    <h2 id="cookies">8. Cookies</h2>
+    <p>
+      Le site dépose des cookies strictement nécessaires au fonctionnement, ainsi
+      qu'un cookie de mesure d'audience anonymisée qui n'est déposé qu'après votre
+      consentement. Le détail figure dans la
+      <a href="cookies.html">politique cookies</a>.
+    </p>
+
+    <h2 id="dpo">9. DPO et droit de réclamation</h2>
+    <p>
+      Notre Délégué à la Protection des Données répond aux demandes relatives au
+      RGPD : <a href="mailto:dpo@maisonvide.fr">dpo@maisonvide.fr</a>.
+    </p>
+    <p>
+      Si vous estimez, après nous avoir contactés, que vos droits ne sont pas
+      respectés, vous pouvez introduire une réclamation auprès de la CNIL :
+      <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener">www.cnil.fr/fr/plaintes</a>,
+      ou par courrier au 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07.
+    </p>
+
+    <div class="legal__stamp">
+      <span class="etiquette">RGPD conforme</span>
+      <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-shield-check"></use></svg> Hébergé en UE</span>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

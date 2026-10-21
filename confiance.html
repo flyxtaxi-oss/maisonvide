@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Confiance &amp; sécurité — MaisonVide</title>
+<meta name="description" content="Les 7 barrières de sécurité MaisonVide : identité vérifiée, IA anti-fraude, séquestre, assurance AXA, médiation humaine. Tout est écrit noir sur blanc.">
+<link rel="canonical" href="https://maisonvide.fr/confiance.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+/* ---- Tête de page : la page est une page de carnet ---- */
+.page-head { padding-block: clamp(2.6rem, 6vw, 5rem) clamp(2rem, 4vw, 3.4rem); border-bottom: 1px solid var(--paper-rule); }
+.page-head__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem, 5vw, 4rem); align-items: end; }
+.page-head__title {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(2.3rem, 5.4vw, 4.3rem); line-height: 1.02; letter-spacing: -.04em;
+  margin: .7rem 0 1.1rem;
+}
+.page-head__title em { font-style: italic; color: var(--kraft-700); }
+.page-head__lede { font-size: 1.05rem; color: var(--ink-700); max-width: 48ch; }
+.page-head__actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.8rem; }
+
+/* Le sommaire : des lignes réglées, pas un menu */
+.sommaire { border-top: 1.5px solid var(--ink-900); }
+.sommaire a {
+  display: flex; align-items: baseline; gap: 1rem;
+  padding: .72rem 0; border-bottom: 1px solid var(--paper-rule);
+  font-size: .9rem; color: var(--ink-700); transition: color var(--t-fast);
+}
+.sommaire a:hover { color: var(--ink-900); }
+.sommaire b { font-family: var(--font-mono); font-weight: 500; color: var(--ink-400); font-size: .78rem; }
+@media (max-width: 900px) { .page-head__grid { grid-template-columns: 1fr; align-items: start; } }
+
+/* ---- Le registre : les chiffres, en lignes réglées ---- */
+.registre { margin-top: clamp(2.4rem, 5vw, 4rem); }
+.registre__head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.registre__head h2 { font-size: 1.15rem; font-family: var(--font-body); font-weight: 600; }
+.live-counter {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .32rem .75rem; background: var(--paper-sheet);
+  border: 1px solid var(--paper-rule); border-radius: var(--radius-xs);
+  font-size: .76rem; color: var(--ink-700);
+}
+.live-counter__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--seal-500); flex-shrink: 0; }
+.live-stats__grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(146px, 1fr));
+  gap: 1px; background: var(--paper-rule);
+  border: 1px solid var(--paper-rule); border-top: 1.5px solid var(--ink-900);
+}
+.trust-stat { background: var(--paper-ground); padding: 1rem .95rem 1.05rem; }
+.trust-stat__num {
+  font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700;
+  letter-spacing: -.03em; color: var(--ink-900); line-height: 1.1;
+}
+.trust-stat__label { font-size: .76rem; color: var(--ink-500); margin-top: .3rem; line-height: 1.35; }
+
+/* ---- La charte : sept règles, pas sept cartes ---- */
+.charte { border-top: 1.5px solid var(--ink-900); }
+.charte__row {
+  display: grid; grid-template-columns: 4rem 2rem 1fr 1.25fr;
+  gap: 1.2rem; align-items: start;
+  padding: 1.35rem 0; border-bottom: 1px solid var(--paper-rule);
+  transition: background var(--t-fast);
+}
+.charte__row:hover { background: rgba(255,255,255,.35); }
+.charte__num { font-family: var(--font-mono); font-size: .78rem; color: var(--ink-400); letter-spacing: .08em; }
+.charte__ic { color: var(--seal-500); width: 1.4em; height: 1.4em; }
+.charte__row h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
+.charte__row p { font-size: .875rem; color: var(--ink-600); max-width: 46ch; }
+.charte__proof { font-size: .76rem; color: var(--seal-600); font-weight: 600; margin-top: .35rem; }
+.charte__row .charte__ic { grid-column: 2; }
+@media (max-width: 860px) {
+  .charte__row { grid-template-columns: 3.2rem 1.6rem 1fr; }
+  .charte__row > div:last-child { grid-column: 3; }
+}
+@media (max-width: 560px) {
+  .charte__row { grid-template-columns: 2.8rem 1.4rem 1fr; gap: .8rem; }
+}
+
+/* ---- L'audit : hors charte ---- */
+.hors-charte {
+  margin-top: 1.6rem; padding: 1rem 1.2rem;
+  background: var(--kraft-50); border: 1px solid var(--kraft-300); border-radius: var(--radius-sm);
+  display: flex; gap: .9rem; align-items: flex-start;
+}
+.hors-charte .ic { color: var(--kraft-700); width: 1.2em; height: 1.2em; margin-top: .2rem; }
+.hors-charte p { font-size: .85rem; margin: 0; max-width: 70ch; }
+.hors-charte strong { color: var(--ink-900); }
+
+/* ---- Les paliers KYC : une ascension, pas des cartes ---- */
+.paliers { border-top: 1.5px solid var(--ink-900); margin-top: .5rem; }
+.verify-tier {
+  display: grid; grid-template-columns: 3.4rem 2.4rem 1fr;
+  gap: 1.1rem; align-items: start;
+  padding: 1.25rem 0 1.25rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.verify-tier__step { font-family: var(--font-mono); font-size: .78rem; color: var(--ink-400); }
+.verify-tier__badge {
+  width: 2.2rem; height: 2.2rem; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: .78rem; font-weight: 700;
+  border: 1.5px solid var(--ink-300); color: var(--ink-500);
+  background: var(--paper-ground);
+}
+.verify-tier__badge--verified { border-color: var(--seal-500); color: var(--seal-600); background: var(--seal-50); }
+.verify-tier__badge--pro { border-color: var(--kraft-700); color: var(--kraft-700); background: var(--kraft-50); }
+.verify-tier__badge--premium { border-color: var(--stamp-500); color: var(--stamp-600); background: #fbeceb; }
+.verify-tier h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
+.verify-tier p { font-size: .875rem; color: var(--ink-600); max-width: 62ch; margin-top: .25rem; }
+.verify-tier__unlocks { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .55rem; }
+.verify-tier__unlocks span {
+  font-family: var(--font-mono); font-size: .7rem; color: var(--ink-600);
+  border: 1px solid var(--paper-rule); border-radius: var(--radius-xs); padding: .1rem .45rem;
+  background: var(--paper-sheet);
+}
+/* Le décalage des paliers : on monte d'un cran à chaque niveau */
+@media (min-width: 781px) {
+  .verify-tier:nth-child(1) { padding-left: 0; }
+  .verify-tier:nth-child(2) { padding-left: 1.6rem; }
+  .verify-tier:nth-child(3) { padding-left: 3.2rem; }
+  .verify-tier:nth-child(4) { padding-left: 4.8rem; }
+}
+
+/* ---- La ligne de sceaux ---- */
+.sceaux { display: flex; flex-wrap: wrap; gap: .55rem; margin-bottom: 2rem; }
+.sceaux .sceau { font-size: .74rem; }
+
+/* ---- Le tableau des partenaires ---- */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll .data-table { min-width: 660px; }
+.table-scroll .data-table td { vertical-align: top; }
+.table-scroll .data-table td:first-child { font-weight: 600; color: var(--ink-900); white-space: nowrap; }
+.table-hint { display: none; font-size: .72rem; color: var(--ink-500); margin-bottom: .5rem; }
+@media (max-width: 780px) { .table-hint { display: block; } }
+
+/* ---- La FAQ ---- */
+.details-list { border-top: 1.5px solid var(--ink-900); }
+.details-list__item { border-bottom: 1px solid var(--paper-rule); }
+.details-list__q { list-style: none; cursor: pointer; }
+.details-list__q::-webkit-details-marker { display: none; }
+.details-list__a { max-width: 74ch; }
+.details-list__a strong { color: var(--ink-900); }
+
+/* ---- Sections ---- */
+.section--reglure { border-top: 1px solid var(--paper-rule); }
+.reglure { border-top: 1.5px solid var(--ink-900); }
+.reglure__row {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.1rem;
+  padding: 1.15rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.reglure__row h4 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+.reglure__row p { font-size: .875rem; color: var(--ink-600); max-width: 72ch; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Que se passe-t-il si je paie mais que je ne reçois jamais l'objet ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Remboursement intégral sous 5 jours ouvrés. L'argent reste dans le séquestre tant que vous n'avez pas confirmé la réception. Aucun incident de ce type sur les 12 847 transactions sécurisées." }
+    },
+    {
+      "@type": "Question",
+      "name": "Que se passe-t-il si l'objet ne correspond pas à l'annonce ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Vous avez 48 h après réception pour signaler un défaut. Notre équipe examine la photo originale et votre signalement, puis tranche en 24 h. Remboursement intégral ou retour gratuit : c'est vous qui choisissez." }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment savoir si un vendeur est vraiment fiable ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Trois indicateurs : son score de confiance visible sur chaque profil, son niveau de vérification (basique, vérifié, pro, premium) et son historique de ventes complet et public. Pour un achat de plus de 300 euros, exigez au minimum le niveau vérifié." }
+    },
+    {
+      "@type": "Question",
+      "name": "Mes coordonnées bancaires sont-elles partagées ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Jamais. Les transactions passent par Mangopay, prestataire de services de paiement enregistré auprès de l'ACPR. Votre IBAN n'est visible que par vous et votre banque. Même nos administrateurs n'y ont pas accès." }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment MaisonVide se distingue-t-il des sites de petites annonces ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Un site de petites annonces publie des messages, il ne sécurise pas les transactions : ni séquestre, ni vérification d'identité obligatoire, ni médiation. MaisonVide accompagne la vente du début à la fin. C'est pourquoi la commission de 8 % est facturée à la vente, et pas avant." }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment signaler une arnaque ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Le bouton Signaler est présent sur chaque annonce et chaque profil. Vous pouvez aussi écrire à securite@maisonvide.fr : l'équipe sécurité agit sous 1 h. Les cas graves sont transmis à la plateforme PHAROS." }
+    }
+  ]
+}
+</script>
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="vendre.html">Estimer</a>
+      <a href="annonces.html">Annonces</a>
+      <a href="confiance.html" class="is-active">Confiance</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TÊTE DE PAGE ================= -->
+<section class="page-head">
+  <div class="container page-head__grid">
+    <div>
+      <span class="label">7 barrières · 4 niveaux KYC</span>
+      <h1 class="page-head__title">Sept barrières.<br/><em>Aucune zone d'ombre.</em></h1>
+      <p class="page-head__lede">
+        Les gens se font arnaquer. Alors nous avons construit des murs, un par un,
+        et nous les affichons tous. Vous n'avez pas à nous croire sur parole :
+        voici ce qui bloque, et ce que ça vous coûte.
+      </p>
+      <div class="page-head__actions">
+        <a href="#barrieres" class="btn btn--primary">
+          <svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+          Lire les 7 barrières
+        </a>
+        <a href="anti-arnaque.html" class="btn btn--ghost">Guide anti-arnaque</a>
+      </div>
+    </div>
+
+    <nav class="sommaire" aria-label="Sommaire de la page">
+      <a href="#barrieres"><b>01</b> Les 7 barrières de sécurité</a>
+      <a href="#niveaux"><b>02</b> Les 4 paliers de vérification</a>
+      <a href="#partenaires"><b>03</b> Partenaires et conformité</a>
+      <a href="#faq"><b>04</b> Vos questions, sans filtre</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ================= LE REGISTRE ================= -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="registre">
+      <div class="registre__head">
+        <h2>Le registre</h2>
+        <span class="live-counter">
+          <span class="live-counter__dot" aria-hidden="true"></span>
+          487 blocages ce mois
+        </span>
+      </div>
+      <div class="live-stats__grid">
+        <div class="trust-stat">
+          <div class="trust-stat__num count" data-count="8" data-suffix=" %">8 %</div>
+          <div class="trust-stat__label">de commission, à la vente seulement</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-stat__num count" data-count="30" data-suffix=" s">30 s</div>
+          <div class="trust-stat__label">pour une estimation</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-stat__num">2 M+</div>
+          <div class="trust-stat__label">transactions dans le modèle de prix</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-stat__num count" data-count="10000" data-suffix=" €">10 000 €</div>
+          <div class="trust-stat__label">de couverture AXA au maximum</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-stat__num count" data-count="7">7</div>
+          <div class="trust-stat__label">barrières actives sur chaque vente</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-stat__num count" data-count="12">12</div>
+          <div class="trust-stat__label">patterns d'arnaque détectés</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-stat__num count" data-count="4">4</div>
+          <div class="trust-stat__label">niveaux de vérification</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-stat__num count" data-count="8">8</div>
+          <div class="trust-stat__label">médiateurs humains</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-stat__num">&lt; 2 min</div>
+          <div class="trust-stat__label">pour une première réponse</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-stat__num count" data-count="487">487</div>
+          <div class="trust-stat__label">arnaques bloquées ce mois</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LES 7 BARRIÈRES ================= -->
+<section class="section section--reglure" id="barrieres">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <span class="label">La charte de sécurité</span>
+        <h2 class="display" style="max-width:12ch;margin:.6rem 0 1.2rem">Les sept barrières.</h2>
+        <p style="max-width:40ch">
+          Les plateformes classiques s'arrêtent à deux ou trois couches. Nous, on va jusqu'au bout.
+          Parce qu'une seule faille suffit à briser la confiance.
+        </p>
+        <a href="garanties.html" class="btn btn--ghost mt-8">Le détail des garanties</a>
+      </div>
+
+      <div class="charte">
+        <div class="charte__row" data-rise>
+          <div class="charte__num">L.01</div>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-id"></use></svg>
+          <h4>Identité vérifiée</h4>
+          <div>
+            <p>Pièce d'identité et selfie vidéo avant la première annonce. Aucune vente sans KYC validé.</p>
+            <div class="charte__proof">Obligatoire · 4 minutes</div>
+          </div>
+        </div>
+
+        <div class="charte__row" data-rise>
+          <div class="charte__num">L.02</div>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-ai"></use></svg>
+          <h4>IA anti-fraude</h4>
+          <div>
+            <p>Photos volées, deepfakes, usurpation : 14 patterns détectés en continu, avec recherche inversée sur 4 bases de données.</p>
+            <div class="charte__proof">487 blocages ce mois</div>
+          </div>
+        </div>
+
+        <div class="charte__row" data-rise>
+          <div class="charte__num">L.03</div>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-lock"></use></svg>
+          <h4>Séquestre bancaire</h4>
+          <div>
+            <p>Votre argent dort sur un compte tiers. Il ne se libère qu'après confirmation de la réception.</p>
+            <div class="charte__proof">Mangopay · agréé ACPR</div>
+          </div>
+        </div>
+
+        <div class="charte__row" data-rise>
+          <div class="charte__num">L.04</div>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-card"></use></svg>
+          <h4>Paiement authentifié</h4>
+          <div>
+            <p>Authentification bancaire obligatoire pour chaque paiement. Aucun paiement sans validation de votre banque.</p>
+            <div class="charte__proof">3D Secure · DSP2</div>
+          </div>
+        </div>
+
+        <div class="charte__row" data-rise>
+          <div class="charte__num">L.05</div>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-shield-check"></use></svg>
+          <h4>Assurance transaction</h4>
+          <div>
+            <p>Non livré, non conforme, vice caché : vous êtes remboursé. La couverture de base est incluse.</p>
+            <div class="charte__proof">AXA · jusqu'à 10 000 €</div>
+          </div>
+        </div>
+
+        <div class="charte__row" data-rise>
+          <div class="charte__num">L.06</div>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-bot"></use></svg>
+          <h4>Médiation humaine</h4>
+          <div>
+            <p>Un vrai humain tranche le litige. Décision écrite et argumentée, appel possible une fois.</p>
+            <div class="charte__proof">8 médiateurs · réponse &lt; 2 min</div>
+          </div>
+        </div>
+
+        <div class="charte__row" data-rise>
+          <div class="charte__num">L.07</div>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-flag"></use></svg>
+          <h4>Partenariat forces de l'ordre</h4>
+          <div>
+            <p>Base de données partagée avec la Gendarmerie nationale et la Police pour identifier les objets volés.</p>
+            <div class="charte__proof">Convention officielle depuis 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hors-charte">
+      <svg class="ic" aria-hidden="true"><use href="#i-calendar"></use></svg>
+      <p>
+        <strong>Hors charte, mais prévu :</strong> un audit de sécurité semestriel est mené par un cabinet
+        indépendant (TRUSTEQ) et le rapport est public. Certification RGPD avec DPO déclaré, ISO 27001
+        pour la sécurité de l'information.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LES PALIERS KYC ================= -->
+<section class="section section--kraft" id="niveaux">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.2fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <span class="label">Niveaux de confiance</span>
+        <h2 class="display" style="max-width:14ch;margin:.6rem 0 1.2rem">Quatre paliers.</h2>
+        <p style="max-width:42ch">
+          Plus le vendeur est haut placé, plus la transaction est encadrée.
+          On monte d'un cran en documents, en garanties et en visibilité.
+        </p>
+        <p class="hand mt-8">→ le niveau s'affiche sur chaque profil</p>
+      </div>
+
+      <div class="paliers">
+        <article class="verify-tier" data-rise>
+          <div class="verify-tier__step">N.1</div>
+          <div class="verify-tier__badge">1</div>
+          <div>
+            <h4>Basique — email confirmé</h4>
+            <p>Adresse email vérifiée. Le compte peut parcourir les annonces et commenter.</p>
+            <div class="verify-tier__unlocks"><span>Ne peut pas vendre</span></div>
+          </div>
+        </article>
+
+        <article class="verify-tier" data-rise>
+          <div class="verify-tier__step">N.2</div>
+          <div class="verify-tier__badge verify-tier__badge--verified">2</div>
+          <div>
+            <h4>Vérifié — peut vendre</h4>
+            <p>Pièce d'identité, selfie vidéo et IBAN au nom du titulaire. Requis pour publier une annonce.</p>
+            <div class="verify-tier__unlocks"><span>Identité</span><span>Selfie vidéo</span><span>IBAN</span><span>Garantie 2 500 €</span></div>
+          </div>
+        </article>
+
+        <article class="verify-tier" data-rise>
+          <div class="verify-tier__step">N.3</div>
+          <div class="verify-tier__badge verify-tier__badge--pro">3</div>
+          <div>
+            <h4>Pro — vendeur professionnel</h4>
+            <p>SIRET vérifié, assurances professionnelles en cours de validité, historique de ventes public.</p>
+            <div class="verify-tier__unlocks"><span>SIRET</span><span>Assurance RC Pro</span><span>Garantie 5 000 €</span></div>
+          </div>
+        </article>
+
+        <article class="verify-tier" data-rise>
+          <div class="verify-tier__step">N.4</div>
+          <div class="verify-tier__badge verify-tier__badge--premium">4</div>
+          <div>
+            <h4>Premium — le sceau de qualité</h4>
+            <p>Plus de 50 ventes sans incident, note d'au moins 4,9/5, dossier approuvé par notre comité.</p>
+            <div class="verify-tier__unlocks"><span>+ 50 ventes</span><span>Note ≥ 4,9/5</span><span>Audit</span><span>Garantie 10 000 €</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PARTENAIRES ================= -->
+<section class="section" id="partenaires">
+  <div class="container">
+    <span class="label">Partenaires et conformité</span>
+    <h2 class="display" style="max-width:16ch;margin:.6rem 0 1.2rem">Qui se tient derrière.</h2>
+
+    <div class="sceaux">
+      <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-shield-check"></use></svg> AXA France</span>
+      <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-banknote"></use></svg> Mangopay · ACPR</span>
+      <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-lock"></use></svg> CNIL · RGPD</span>
+      <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> ISO 27001</span>
+      <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-list"></use></svg> NF 525</span>
+      <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-card"></use></svg> DSP2 · 3D Secure</span>
+      <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-globe"></use></svg> Hébergement France</span>
+      <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-flag"></use></svg> Gendarmerie · Police</span>
+    </div>
+
+    <p class="table-hint">Tableau à faire glisser horizontalement.</p>
+    <div class="table-scroll">
+      <table class="data-table">
+        <caption class="sr-only">Partenaires, garanties apportées et fréquence des contrôles</caption>
+        <thead>
+          <tr>
+            <th scope="col">Partenaire</th>
+            <th scope="col">Ce qu'il garantit</th>
+            <th scope="col">Contrôle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AXA France</td>
+            <td>Assurance transaction : non-livraison, non-conformité, vice caché, casse pendant transport. Franchise 0 €.</td>
+            <td>Contrat AXA-FRA-2026-487263</td>
+          </tr>
+          <tr>
+            <td>Mangopay</td>
+            <td>Séquestre bancaire enregistré auprès de l'ACPR. L'argent n'est versé qu'après confirmation de réception.</td>
+            <td>Statut agrégé vérifié chaque année</td>
+          </tr>
+          <tr>
+            <td>CNIL</td>
+            <td>Conformité RGPD, DPO déclaré, cookie de mesure anonymisé sans publicité.</td>
+            <td>Registre des traitements tenu à jour</td>
+          </tr>
+          <tr>
+            <td>ISO 27001</td>
+            <td>Sécurité de l'information : chiffrement, journalisation, gestion des accès.</td>
+            <td>Audit annuel par organisme accrédité</td>
+          </tr>
+          <tr>
+            <td>NF 525</td>
+            <td>Compatibilité de la solution de gestion des paiements.</td>
+            <td>Attestation en cours de validité</td>
+          </tr>
+          <tr>
+            <td>DSP2 / 3D Secure</td>
+            <td>Authentification bancaire obligatoire sur chaque paiement.</td>
+            <td>Contrôle sur 100 % des transactions</td>
+          </tr>
+          <tr>
+            <td>Hébergement France</td>
+            <td>Données et pièces d'identité stockées en France, chez Scaleway.</td>
+            <td>Réversibilité contractuelle</td>
+          </tr>
+          <tr>
+            <td>Gendarmerie &amp; Police</td>
+            <td>Identification des objets volés et transmission des signalements graves.</td>
+            <td>Convention officielle depuis 2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section section--kraft" id="faq">
+  <div class="container container--narrow">
+    <span class="label">On répond cash</span>
+    <h2 class="display" style="max-width:16ch;margin:.6rem 0 2rem">Vos questions, sans filtre.</h2>
+
+    <div class="details-list">
+      <details class="details-list__item" open>
+        <summary class="details-list__q">
+          Que se passe-t-il si je paie mais que je ne reçois jamais l'objet ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          <strong>Remboursement intégral sous 5 jours ouvrés.</strong> L'argent reste dans le séquestre
+          tant que vous n'avez pas confirmé la réception. Sur les 12 847 transactions sécurisées, aucun
+          incident de ce type n'a été constaté.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Que se passe-t-il si l'objet ne correspond pas à l'annonce ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Vous avez <strong>48 h après réception</strong> pour signaler un défaut. Notre équipe examine la
+          photo originale et votre signalement, puis tranche en 24 h. Remboursement intégral ou retour
+          gratuit : c'est vous qui choisissez.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Comment savoir si un vendeur est vraiment fiable ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Trois indicateurs : son <strong>score de confiance</strong>, visible sur chaque profil ; son
+          <strong>niveau de vérification</strong> (basique, vérifié, pro, premium) ; son <strong>historique
+          de ventes</strong>, complet et public. Pour un achat de plus de 300 €, exigez au minimum le
+          niveau vérifié.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Mes coordonnées bancaires sont-elles partagées ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Jamais. Les transactions passent par Mangopay, prestataire de services de paiement enregistré
+          auprès de l'ACPR. Votre IBAN n'est visible que par vous et votre banque. Même nos
+          administrateurs n'y ont pas accès.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Comment MaisonVide se distingue-t-il d'un site de petites annonces ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Un site de petites annonces publie des messages : ni séquestre, ni vérification d'identité
+          obligatoire, ni médiation. MaisonVide accompagne la vente du début à la fin. C'est pourquoi la
+          commission est facturée <strong>à la vente</strong>, et pas avant.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Comment signaler une arnaque ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Le bouton <strong>Signaler</strong> est présent sur chaque annonce et chaque profil. Vous pouvez
+          aussi écrire à <strong>securite@maisonvide.fr</strong> : l'équipe sécurité agit sous 1 h. Les cas
+          graves sont transmis à la plateforme PHAROS.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section section--ink">
+  <div class="container container--narrow text-center">
+    <h2 class="display" style="max-width:16ch;margin-inline:auto">Une question ?<br/>Un doute ?</h2>
+    <p class="lead mt-8" style="max-width:46ch;margin-inline:auto;color:var(--ink-300)">
+      L'équipe sécurité répond en moins de deux minutes sur WhatsApp, 7 jours sur 7.
+    </p>
+    <div class="flex mt-12" style="justify-content:center;flex-wrap:wrap;gap:.75rem">
+      <a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!%20J'ai%20une%20question%20s%C3%A9curit%C3%A9." class="btn btn--kraft btn--lg">
+        <svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+        Parler à un conseiller sécurité
+      </a>
+      <a href="anti-arnaque.html" class="btn btn--ghost btn--lg" style="color:var(--paper-sheet);border-color:var(--ink-400)">Lire le guide anti-arnaque</a>
+    </div>
+    <p style="margin-top:2rem;font-size:.8rem;color:var(--ink-400)">
+      Aucun frais de dossier · 8 % uniquement à la vente · Séquestre obligatoire
+    </p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

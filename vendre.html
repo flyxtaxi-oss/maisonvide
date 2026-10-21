@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Estimer un objet en 30 s — MaisonVide</title>
+<meta name="description" content="Photographiez votre meuble, l'IA lit l'objet et sort sa fourchette de prix en 30 secondes. Gratuit, sans inscription, 8 % seulement à la vente.">
+<link rel="canonical" href="https://maisonvide.fr/vendre.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+/* ======================================================================
+   VENDRE — la page du relevé
+   Le hero porte la séquence signature : la photo se soulève, le prix
+   s'estampe. Les trois lignes du relevé pilotent l'estimation.
+   ====================================================================== */
+
+/* ---- Hero : la fiche relevée ---- */
+.releve-hero { position: relative; padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem); }
+.releve-hero__grid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+.releve-hero__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.6rem, 6.2vw, 5.2rem);
+  line-height: .97;
+  letter-spacing: -.04em;
+  margin-bottom: 1.6rem;
+}
+.releve-hero__title em { font-style: italic; color: var(--kraft-700); }
+.releve-hero__lede { font-size: 1.075rem; color: var(--ink-700); max-width: 48ch; margin-bottom: 2rem; }
+.releve-hero__actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+.releve-hero__note {
+  margin-top: 2.2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--paper-rule);
+  display: flex; gap: 2rem; flex-wrap: wrap;
+}
+.releve-hero__note div { display: flex; flex-direction: column; gap: .15rem; }
+.releve-hero__note b { font-family: var(--font-mono); font-size: 1.45rem; font-weight: 700; letter-spacing: -.03em; }
+.releve-hero__note span { font-size: .75rem; color: var(--ink-500); }
+
+.releve-card {
+  position: relative;
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  padding: .8rem;
+  box-shadow: var(--shadow-xl);
+  transform: rotate(-1.1deg);
+}
+.releve-card__media {
+  position: relative;
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--paper-edge);
+}
+.releve-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.releve-card__foot {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem; padding: .8rem .3rem .2rem;
+}
+.releve-card__title { font-size: .9rem; font-weight: 600; }
+.releve-card__meta { font-size: .75rem; color: var(--ink-500); }
+.releve-card__tag { position: absolute; top: 1.6rem; right: 1.6rem; z-index: 3; }
+.releve-card__form {
+  position: absolute;
+  left: 1.4rem; right: 1.4rem; bottom: -1.4rem;
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: .9rem 1rem;
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: .7rem;
+}
+.releve-card__form .ic { color: var(--stamp-500); width: 1.4em; height: 1.4em; }
+.releve-card__form b { font-size: .82rem; }
+.releve-card__form span { font-size: .72rem; color: var(--ink-500); display: block; }
+
+@media (max-width: 900px) {
+  .releve-hero__grid { grid-template-columns: 1fr; }
+  .releve-card { max-width: 460px; margin-inline: auto; }
+  .releve-card__form { position: static; margin-top: .8rem; }
+}
+
+/* Le prix s'estampe : la base doit être invisible, le remplissage « both »
+   évite le clignotement pendant le délai de l'animation. */
+.is-stamped .stamp-in { animation: stamp-down 460ms cubic-bezier(.16, 1, .3, 1) 620ms both; }
+
+/* Sans JS, rien ne reste caché. */
+html:not(.js) .lift-in > span { transform: translateY(0); opacity: 1; }
+html:not(.js) .stamp-in { opacity: 1; transform: rotate(-1.6deg); }
+html:not(.js) .releve__media::after { transform: scaleX(0); }
+
+/* ---- L'inventaire : lignes réglées ---- */
+.inventaire { border-top: 1.5px solid var(--ink-900); }
+.inventaire__row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--paper-rule);
+  transition: background var(--t-fast);
+}
+.inventaire__row:hover { background: rgba(255,255,255,.35); }
+.inventaire__num {
+  font-family: var(--font-mono); font-size: .8rem; color: var(--ink-400);
+  letter-spacing: .1em; text-align: right;
+}
+.inventaire__step { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.inventaire__step h3 { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: -.02em; }
+.inventaire__step p { font-size: .9rem; color: var(--ink-600); max-width: 52ch; }
+.inventaire__ic { color: var(--kraft-700); width: 1.5em; height: 1.5em; }
+@media (max-width: 640px) {
+  .inventaire__row { grid-template-columns: 40px 1fr; }
+  .inventaire__row .etiquette { grid-column: 2; justify-self: start; }
+}
+
+/* ---- L'atelier du relevé : les lignes + la feuille ---- */
+.est {
+  display: grid;
+  grid-template-columns: 1fr 1.08fr;
+  gap: clamp(1.75rem, 4vw, 3.5rem);
+  align-items: start;
+}
+.est > * { min-width: 0; }
+@media (max-width: 920px) { .est { grid-template-columns: 1fr; } }
+
+.est-lines { position: sticky; top: calc(var(--header-height) + 1.2rem); }
+@media (max-width: 920px) { .est-lines { position: static; } }
+
+/* Les lignes sont cliquables : ce sont des boutons, pas des cartes. */
+.est-line {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  align-items: start;
+}
+.est-line .est-line__title {
+  font-family: var(--font-display); font-size: 1.35rem; letter-spacing: -.02em;
+  display: block; line-height: 1.15;
+}
+.est-line .est-line__desc { font-size: .875rem; color: var(--ink-600); display: block; margin-top: .2rem; max-width: 42ch; }
+.est-line.is-active { background: rgba(255,255,255,.55); }
+.est-line.is-active .inventaire__num { color: var(--stamp-500); }
+.est-line.is-done .inventaire__num { color: var(--seal-500); }
+.est-line.is-done .est-line__title { color: var(--ink-700); }
+.est-line:focus-visible { outline: 2px solid var(--seal-500); outline-offset: 2px; }
+
+.est-foot {
+  margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--paper-rule);
+  display: flex; flex-direction: column; gap: .7rem; align-items: flex-start;
+}
+
+/* ---- La feuille de travail ---- */
+.est-panel {
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+.est-step { display: flex; flex-direction: column; }
+.est-fiche { display: flex; flex-direction: column; }
+.est-step__head { padding-bottom: 1.1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--paper-rule); }
+.est-step__title { font-family: var(--font-display); font-size: clamp(1.4rem, 2.6vw, 1.9rem); letter-spacing: -.02em; margin-top: .35rem; }
+.est-step__txt { font-size: .9rem; color: var(--ink-600); margin-top: .45rem; max-width: 52ch; }
+
+.est-cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: .5rem; margin-top: .9rem; }
+.est-cat {
+  display: flex; align-items: center; gap: .55rem;
+  padding: .6rem .75rem;
+  background: var(--paper-ground);
+  border: 1px solid var(--paper-rule);
+  border-radius: var(--radius-sm);
+  font-size: .85rem;
+  color: var(--ink-700);
+  text-align: left;
+  transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+}
+.est-cat:hover { border-color: var(--ink-300); color: var(--ink-900); }
+.est-cat.is-active { background: var(--ink-900); color: var(--paper-sheet); border-color: var(--ink-900); }
+.est-cat .ic { color: var(--kraft-700); width: 1.05em; height: 1.05em; }
+.est-cat.is-active .ic { color: var(--kraft-300); }
+
+.est-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1.1rem; margin-top: 1.6rem; }
+.est-actions {
+  display: flex; gap: .6rem; flex-wrap: wrap; justify-content: space-between;
+  margin-top: 1.9rem; padding-top: 1.4rem; border-top: 1px solid var(--paper-rule);
+}
+
+/* ---- La fiche du relevé (résultat) ---- */
+.est-fiche__head {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+  padding-bottom: 1.1rem; border-bottom: 1px solid var(--paper-rule);
+}
+.est-fiche__title { font-family: var(--font-display); font-size: 1.55rem; letter-spacing: -.02em; margin-top: .3rem; }
+.est-fiche__price { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0 .4rem; }
+.est-fiche__price-note { font-size: .8rem; color: var(--ink-500); max-width: 24ch; }
+.est-read {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: .8rem; margin-top: 1.3rem; padding-top: 1.1rem;
+  border-top: 1px solid var(--paper-rule);
+}
+.est-read b { display: block; font-size: .9rem; font-weight: 600; margin-top: .2rem; }
+.est-hand { margin-top: 1.2rem; }
+.est-notes { display: flex; flex-direction: column; gap: .6rem; margin-top: 1.5rem; }
+.est-note { display: flex; gap: .6rem; align-items: flex-start; font-size: .875rem; color: var(--ink-600); }
+.est-note .ic { color: var(--kraft-700); width: 1.1em; height: 1.1em; margin-top: .18rem; }
+.est-none {
+  border: 1px dashed var(--ink-300); border-radius: var(--radius-md);
+  padding: 2rem 1.25rem; text-align: center;
+}
+.est-none p { margin-inline: auto; font-size: .9rem; max-width: 42ch; }
+
+/* ---- La lecture du modèle (tableau de relevé) ---- */
+.est-table { min-width: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.est-table .data-table { min-width: 480px; }
+
+/* ---- Ancrages ---- */
+section[id], div[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
+
+/* ---- Mouvement réduit : tout se fige, rien ne disparaît ---- */
+@media (prefers-reduced-motion: reduce) {
+  .releve__media::after { display: none; }
+  .lift-in > span { transform: none; opacity: 1; }
+  .stamp-in { opacity: 1; transform: rotate(-1.6deg); }
+  .is-stamped .stamp-in,
+  .is-stamped .lift-in > span { animation: none; }
+}
+</style>
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="vendre.html" class="is-active">Estimer</a>
+      <a href="annonces.html">Annonces</a>
+      <a href="confiance.html">Confiance</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO : LE RELEVÉ ================= -->
+<section class="releve-hero releve">
+  <div class="container releve-hero__grid">
+    <div>
+      <h1 class="releve-hero__title">
+        <span class="lift-in"><span>Photographiez.</span></span>
+        <span class="lift-in"><span>Le prix <em>tombe.</em></span></span>
+        <span class="lift-in"><span>Vous viderez.</span></span>
+      </h1>
+
+      <p class="releve-hero__lede">
+        Une photo, un état, une fourchette. Le modèle lit votre meuble comme un
+        brocanteur de métier : la catégorie, l'état, la marque, l'année.
+        Et il vous dit quand il n'est pas sûr de lui.
+      </p>
+
+      <div class="releve-hero__actions">
+        <a href="#est" class="btn btn--primary btn--lg">
+          <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+          Faire mon relevé
+        </a>
+        <a href="#est-lecture" class="btn btn--ghost btn--lg">Ce que l'IA lit</a>
+      </div>
+
+      <div class="releve-hero__note">
+        <div><b>30 s</b><span>pour un prix</span></div>
+        <div><b>2 M+</b><span>ventes lues</span></div>
+        <div><b>0 €</b><span>si rien ne se vend</span></div>
+      </div>
+    </div>
+
+    <!-- La fiche relevée -->
+    <div class="releve-card">
+      <div class="releve-card__media releve__media">
+        <img src="assets/img/sell-action.jpg" alt="Une femme photographie un fauteuil crapaud dans un appartement lumineux" fetchpriority="high">
+        <span class="releve-card__tag stamp-price stamp-in">280 – 480 €</span>
+      </div>
+      <div class="releve-card__foot">
+        <div>
+          <div class="releve-card__title">Fauteuil crapaud · état très bon</div>
+          <div class="releve-card__meta">Relevé automatique · confiance 92 %</div>
+        </div>
+        <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> Vérifié</span>
+      </div>
+      <div class="releve-card__form">
+        <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+        <div>
+          <b>Déposez une photo</b>
+          <span>Le prix arrive dans la seconde</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LE RELEVÉ EN TROIS LIGNES ================= -->
+<section class="section" id="est">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.25fr;gap:clamp(1.5rem,4vw,3rem);align-items:end;margin-bottom:2.5rem">
+      <h2 class="display" style="max-width:14ch">Le relevé,<br/>en trois lignes.</h2>
+      <p class="lead">
+        Vous seez où on en est. Une photo, un état, un prix. On garde la main
+        sur la fiche, vous gardez la main sur votre soirée.
+      </p>
+    </div>
+
+    <div class="est">
+      <!-- Les lignes : la progression -->
+      <div class="est-lines">
+        <div class="inventaire">
+          <button type="button" class="inventaire__row est-line is-active" data-est-line="1">
+            <span class="inventaire__num">L.01</span>
+            <span class="inventaire__step">
+              <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+              <span>
+                <span class="est-line__title">La photo</span>
+                <span class="est-line__desc">Jusqu'à huit vues, à la lumière du jour. Pas besoin d'un studio.</span>
+              </span>
+            </span>
+            <span class="etiquette" data-est-state>En cours</span>
+          </button>
+
+          <button type="button" class="inventaire__row est-line" data-est-line="2">
+            <span class="inventaire__num">L.02</span>
+            <span class="inventaire__step">
+              <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-list"></use></svg>
+              <span>
+                <span class="est-line__title">L'état</span>
+                <span class="est-line__desc">Catégorie, état, marque, année. Quatre cases, et le prix se cale.</span>
+              </span>
+            </span>
+            <span class="etiquette" data-est-state>À faire</span>
+          </button>
+
+          <button type="button" class="inventaire__row est-line" data-est-line="3">
+            <span class="inventaire__num">L.03</span>
+            <span class="inventaire__step">
+              <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-tag"></use></svg>
+              <span>
+                <span class="est-line__title">Le prix</span>
+                <span class="est-line__desc">La fourchette sort, avec son indice de confiance et son délai de vente.</span>
+              </span>
+            </span>
+            <span class="etiquette" data-est-state>À faire</span>
+          </button>
+        </div>
+
+        <div class="est-foot">
+          <span class="etiquette">30 s</span>
+          <span class="etiquette">2 M+ transactions</span>
+          <span class="etiquette">8 % à la vente, pas avant</span>
+          <p style="font-size:.8rem;color:var(--ink-500);margin-top:.4rem">
+            Vos photos ne sont ni publiées ni revendues. Elles sont effacées au bout de 90 jours.
+          </p>
+        </div>
+      </div>
+
+      <!-- La feuille : le travail en cours -->
+      <div class="est-panel">
+        <!-- L.01 — la photo -->
+        <div class="est-step" id="est-step-1">
+          <div class="est-step__head">
+            <span class="label">L.01 · La photo</span>
+            <h3 class="est-step__title">Déposez vos photos</h3>
+            <p class="est-step__txt">
+              Une face, un détail, une étiquette. Le modèle n'a pas besoin de plus :
+              trois photos suffisent pour un premier prix.
+            </p>
+          </div>
+
+          <label class="dropzone" id="est-dropzone">
+            <input type="file" accept="image/*" multiple id="est-input" aria-label="Ajouter des photos">
+            <div class="dropzone__icon"><svg class="ic" aria-hidden="true"><use href="#i-upload"></use></svg></div>
+            <div class="dropzone__title">Glissez vos photos ici</div>
+            <div class="dropzone__sub">ou cliquez pour parcourir — JPG, PNG, WebP — 10 Mo max</div>
+          </label>
+
+          <div class="preview-grid hidden" id="est-previews" aria-live="polite"></div>
+
+          <div class="est-actions">
+            <span style="font-size:.8rem;color:var(--ink-500)">Huit photos au maximum.</span>
+            <button class="btn btn--primary" id="est-next" disabled>
+              Passer à l'état
+              <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- L.02 — l'état -->
+        <div class="est-step hidden" id="est-step-2">
+          <div class="est-step__head">
+            <span class="label">L.02 · L'état</span>
+            <h3 class="est-step__title">Quatre cases, et le prix se cale</h3>
+            <p class="est-step__txt">
+              Le modèle propose, vous corrigez. Un état déclaré faux fait perdre
+              20 % de justesse : on préfère que vous répondiez.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <span class="form-label">Catégorie</span>
+            <p class="form-help">Choisissez la plus proche. L'IA affine après la photo.</p>
+          </div>
+          <div class="est-cats" id="est-cats" role="group" aria-label="Catégorie de l'objet"></div>
+
+          <div class="est-fields">
+            <div class="form-group">
+              <label class="form-label" for="est-condition">État de l'objet</label>
+              <select class="select" id="est-condition">
+                <option value="neuf">Neuf / sous emballage</option>
+                <option value="tres-bon">Très bon état — quasi neuf, traces invisibles</option>
+                <option value="bon" selected>Bon état — quelques traces d'usage</option>
+                <option value="correct">État correct — usure visible mais fonctionnel</option>
+                <option value="a-renover">À rénover — défauts importants</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="est-brand">Marque / niveau</label>
+              <select class="select" id="est-brand">
+                <option value="luxe">Luxe / premium (Apple, Roche Bobois…)</option>
+                <option value="premium">Grande marque (Samsung, IKEA…)</option>
+                <option value="milieu" selected>Marque milieu de gamme (Zara, Bosch…)</option>
+                <option value="bas">Entrée de gamme (Primark, marque blanche…)</option>
+                <option value="inconnue">Sans marque / je ne sais pas</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="est-age">Âge approximatif</label>
+              <input type="number" class="input" id="est-age" min="0" max="80" value="3">
+              <span class="form-help">Années depuis l'achat (0 = neuf)</span>
+            </div>
+          </div>
+
+          <div class="est-actions">
+            <button class="btn btn--ghost" id="est-back">
+              <svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg>
+              Retour aux photos
+            </button>
+            <button class="btn btn--primary" id="est-run">
+              Lancer le relevé
+              <svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- L.03 — le prix -->
+        <div class="est-step hidden" id="est-step-3">
+          <div class="est-step__head">
+            <span class="label">L.03 · Le prix</span>
+            <h3 class="est-step__title">Votre relevé</h3>
+          </div>
+
+          <div class="est-none" id="est-empty">
+            <p>
+              Pas encore de relevé. Reprenez à la ligne L.01 avec une photo,
+              ou à la ligne L.02 avec un état.
+            </p>
+            <button class="btn btn--ghost btn--sm mt-6" data-est-restart>Repartir de zéro</button>
+          </div>
+
+          <div class="est-fiche hidden" id="est-fiche">
+            <div class="est-fiche__head">
+              <div>
+                <span class="label">Fourchette de vente</span>
+                <h4 class="est-fiche__title">Ce que l'on peut demander</h4>
+              </div>
+              <span class="sceau">
+                <svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg>
+                <span id="est-confidence">— %</span>
+              </span>
+            </div>
+
+            <div class="est-fiche__price">
+              <span class="stamp-price stamp-in" id="est-stamp">— €</span>
+              <span class="est-fiche__price-note">Fourchette observée sur des objets comparables.</span>
+            </div>
+
+            <div class="estimate" style="margin-top:1.2rem">
+              <span class="estimate__label">Prix médian observé</span>
+              <div class="estimate__range" id="est-range">— €</div>
+              <p id="est-summary" style="color:var(--ink-300);font-size:.9rem;max-width:52ch">—</p>
+              <div class="estimate__meta">
+                <div>
+                  <span>Indice de confiance</span>
+                  <strong id="est-conf-meta">— %</strong>
+                </div>
+                <div>
+                  <span>Le juste prix au marché</span>
+                  <strong id="est-market">— €</strong>
+                </div>
+                <div>
+                  <span>Délai de vente moyen</span>
+                  <strong id="est-delay">—</strong>
+                </div>
+                <div>
+                  <span>Catégorie lue</span>
+                  <strong id="est-cat-read">—</strong>
+                </div>
+              </div>
+            </div>
+
+            <p class="hand est-hand" id="est-hand">→ à — €, on est dans le marché</p>
+
+            <div class="est-read">
+              <div>
+                <span class="label">État lu</span>
+                <b id="est-cond-read">—</b>
+              </div>
+              <div>
+                <span class="label">Marque lue</span>
+                <b id="est-brand-read">—</b>
+              </div>
+              <div>
+                <span class="label">Âge lu</span>
+                <b id="est-age-read">—</b>
+              </div>
+            </div>
+
+            <ul class="est-notes" id="est-suggestions"></ul>
+
+            <div class="est-actions">
+              <button class="btn btn--ghost" data-est-restart>Estimer un autre objet</button>
+              <a href="contact.html" class="btn btn--primary">
+                Publier l'annonce
+                <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CE QUE L'IA LIT ================= -->
+<section class="section section--kraft" id="est-lecture">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <h2 class="display" style="max-width:15ch">Ce que l'IA lit<br/>dans votre photo.</h2>
+        <p class="mt-6" style="max-width:42ch">
+          Quatre lectures, pas une boule de cristal. Le modèle regarde l'objet,
+          puis il vous dit sur quoi il s'est trompé.
+        </p>
+        <p class="mt-6" style="max-width:42ch">
+          Sur une photo de fauteuil, il distingue la catégorie à 96 %, l'état à 92 %,
+          la marque à 71 % seulement — et l'année, à 64 %. C'est cette dernière
+          ligne qu'il faut regarder avant de fixer un prix.
+        </p>
+      </div>
+
+      <div class="est-table">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ce qu'on cherche</th>
+              <th>Ce que le modèle lit</th>
+              <th class="num">Fiabilité</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>La catégorie</td>
+              <td>Mobilier — fauteuil crapaud</td>
+              <td class="num">96 %</td>
+            </tr>
+            <tr>
+              <td>L'état</td>
+              <td>Très bon — usure à l'accoudoir droit</td>
+              <td class="num">92 %</td>
+            </tr>
+            <tr>
+              <td>La marque</td>
+              <td>Aucune étiquette visible</td>
+              <td class="num">71 %</td>
+            </tr>
+            <tr>
+              <td>L'année</td>
+              <td>Estimée 2021, d'après l'usure du tissu</td>
+              <td class="num">64 %</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid" style="grid-template-columns:1.3fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:start;margin-top:clamp(2.5rem,6vw,4.5rem)">
+      <p class="hand" style="font-size:1.5rem">→ et quand il n'est pas sûr, il le dit</p>
+      <p style="font-size:.9rem;color:var(--ink-600)">
+        Un indice de confiance sous 70 %, on vous le montre en clair. Vous photographiez
+        un meuble rare, vous pouvez nous appeler : un expert valide l'estimation
+        gratuitement au-dessus de 500 €.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= APRÈS L'ESTIMATION ================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <h2 class="display" style="max-width:13ch">Après<br/>l'estimation.</h2>
+        <p class="mt-6" style="max-width:38ch">
+          Le prix est posé. Il reste trois choses à faire, et elles ne vous
+          prennent pas votre soirée.
+        </p>
+        <a href="confiance.html" class="btn btn--ghost mt-8">Voir la charte de sécurité</a>
+      </div>
+
+      <div class="inventaire">
+        <div class="inventaire__row" data-rise>
+          <div class="inventaire__num">L.04</div>
+          <div class="inventaire__step">
+            <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-edit"></use></svg>
+            <div>
+              <h3>On écrit l'annonce</h3>
+              <p>Vous validez la fiche. MaisonVide rédige le titre, la description et propose trois photos de couverture. Vous corrigez ce qui vous déplaît.</p>
+            </div>
+          </div>
+          <span class="etiquette">≤ 5 min</span>
+        </div>
+
+        <div class="inventaire__row" data-rise>
+          <div class="inventaire__num">L.05</div>
+          <div class="inventaire__step">
+            <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-id"></use></svg>
+            <div>
+              <h3>On vérifie l'acheteur</h3>
+              <p>Pièce d'identité, selfie vidéo, historique. L'acheteur est authentifié avant que le paiement ne bouge d'un centime.</p>
+            </div>
+          </div>
+          <span class="etiquette">4 niveaux KYC</span>
+        </div>
+
+        <div class="inventaire__row" data-rise>
+          <div class="inventaire__num">L.06</div>
+          <div class="inventaire__step">
+            <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-lock"></use></svg>
+            <div>
+              <h3>Le paiement est bloqué</h3>
+              <p>Séquestre Mangopay. L'argent dort sur un compte tiers et n'est libéré que quand vous confirmez avoir reçu l'objet.</p>
+            </div>
+          </div>
+          <span class="etiquette">AXA · 10 000 €</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CE QUE L'ESTIMATION NE FAIT PAS ================= -->
+<section class="section section--tight" style="border-top:1px solid var(--paper-rule)">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3rem);align-items:start">
+      <h3 class="display" style="font-size:clamp(1.4rem,2.6vw,2rem);max-width:20ch">Ce que l'estimation ne fait pas.</h3>
+      <div>
+        <p>
+          Elle ne remplace pas un commissaire-priseur pour une pièce rare, elle ne
+          garantit pas la vente, et elle n'engage pas MaisonVide sur le prix. Elle
+          donne une fourchette honnête, avec son degré de certitude.
+        </p>
+        <p class="mt-6">
+          L'estimation est gratuite et sans inscription. MaisonVide ne prend
+          <strong>8 %</strong> que lorsqu'un objet est vendu et payé.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section section--ink">
+  <div class="container container--narrow text-center">
+    <h2 class="display" style="max-width:16ch;margin-inline:auto">Commencez par<br/>une photo.</h2>
+    <p class="lead mt-8" style="max-width:46ch;margin-inline:auto;color:var(--ink-300)">
+      Trente secondes de prise de vue, trente secondes de calcul. C'est le prix que ça demande.
+    </p>
+    <div class="flex mt-12" style="justify-content:center;flex-wrap:wrap;gap:.75rem">
+      <a href="#est" class="btn btn--primary btn--lg">
+        <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+        Faire mon relevé
+      </a>
+      <a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!%20Je%20viens%20d%27estimer%20un%20objet%20et%20j%27aimerais%20%C3%AAtre%20accompagn%C3%A9(e)%20pour%20la%20vente." class="btn btn--kraft btn--lg">
+        <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+        Écrire sur WhatsApp
+      </a>
+    </div>
+    <p style="margin-top:2rem;font-size:.8rem;color:var(--ink-400)">
+      Estimation gratuite · Sans inscription pour essayer · 8 % uniquement à la vente
+    </p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/estimator.js"></script>
+</body>
+</html>

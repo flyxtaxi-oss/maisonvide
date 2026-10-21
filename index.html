@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>MaisonVide — Videz votre maison, au juste prix</title>
+<meta name="description" content="Photographiez un meuble, recevez son juste prix. MaisonVide fait l'inventaire de votre maison et securise le paiement, sans se deplacer et sans se faire avoir.">
+<link rel="canonical" href="https://maisonvide.fr/">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#e8e5db">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/blocks.css">
+  <link rel="stylesheet" href="assets/css/trust.css">
+
+<style>
+/* ---- Hero : la page de carnet ---- */
+.releve-hero { position: relative; padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem); }
+.releve-hero__grid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+.releve-hero__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.7rem, 6.4vw, 5.4rem);
+  line-height: .97;
+  letter-spacing: -.04em;
+  margin-bottom: 1.6rem;
+}
+.releve-hero__title em { font-style: italic; color: var(--kraft-700); }
+.releve-hero__lede { font-size: 1.075rem; color: var(--ink-700); max-width: 48ch; margin-bottom: 2rem; }
+.releve-hero__actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+.releve-hero__note {
+  margin-top: 2.2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--paper-rule);
+  display: flex; gap: 2rem; flex-wrap: wrap;
+}
+.releve-hero__note div { display: flex; flex-direction: column; gap: .15rem; }
+.releve-hero__note b { font-family: var(--font-mono); font-size: 1.45rem; font-weight: 700; letter-spacing: -.03em; }
+.releve-hero__note span { font-size: .75rem; color: var(--ink-500); }
+
+/* La fiche relevée : la photo + l'étiquette de prix posée dessus */
+.releve-card {
+  position: relative;
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  padding: .8rem;
+  box-shadow: var(--shadow-xl);
+  transform: rotate(-1.1deg);
+}
+.releve-card__media {
+  position: relative;
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--paper-edge);
+}
+.releve-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.releve-card__foot {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem; padding: .8rem .3rem .2rem;
+}
+.releve-card__title { font-size: .9rem; font-weight: 600; }
+.releve-card__meta { font-size: .75rem; color: var(--ink-500); }
+.releve-card__tag {
+  position: absolute; top: 1.6rem; right: 1.6rem; z-index: 3;
+}
+
+/* Le formulaire d'inventaire posé sur la fiche */
+.releve-card__form {
+  position: absolute;
+  left: 1.4rem; right: 1.4rem; bottom: -1.4rem;
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-sm);
+  padding: .9rem 1rem;
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: .7rem;
+}
+.releve-card__form .ic { color: var(--stamp-500); width: 1.4em; height: 1.4em; }
+.releve-card__form b { font-size: .82rem; }
+.releve-card__form span { font-size: .72rem; color: var(--ink-500); display: block; }
+
+@media (max-width: 900px) {
+  .releve-hero__grid { grid-template-columns: 1fr; }
+  .releve-card { max-width: 460px; margin-inline: auto; }
+  .releve-card__form { position: static; margin-top: .8rem; }
+}
+
+/* ---- Le constat : pas de grille de cartes ---- */
+.constat { max-width: 30ch; font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -.03em; }
+.constat b { color: var(--stamp-600); font-weight: 600; }
+
+/* ---- Inventaire : une vraie feuille réglée ---- */
+.inventaire { border-top: 1.5px solid var(--ink-900); }
+.inventaire__row {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--paper-rule);
+  transition: background var(--t-fast);
+}
+.inventaire__row:hover { background: rgba(255,255,255,.35); }
+.inventaire__num {
+  font-family: var(--font-mono); font-size: .8rem; color: var(--ink-400);
+  letter-spacing: .1em; text-align: right;
+}
+.inventaire__step { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.inventaire__step h3 { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: -.02em; }
+.inventaire__step p { font-size: .9rem; color: var(--ink-600); max-width: 52ch; }
+.inventaire__ic { color: var(--kraft-700); width: 1.5em; height: 1.5em; }
+@media (max-width: 640px) {
+  .inventaire__row { grid-template-columns: 40px 1fr; }
+  .inventaire__row .etiquette { grid-column: 2; justify-self: start; }
+}
+
+/* ---- Charte sécurité : une liste à règles, pas des cartes ---- */
+.charte { border-top: 1.5px solid var(--ink-900); }
+.charte__row {
+  display: grid; grid-template-columns: 3rem 1fr 1fr;
+  gap: 1.5rem; align-items: start;
+  padding: 1.3rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.charte__row h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
+.charte__row p { font-size: .875rem; color: var(--ink-600); max-width: 46ch; }
+.charte__proof { font-size: .78rem; color: var(--seal-600); font-weight: 600; }
+.charte__ic { color: var(--seal-500); width: 1.4em; height: 1.4em; }
+@media (max-width: 780px) {
+  .charte__row { grid-template-columns: 2rem 1fr; }
+  .charte__row p { grid-column: 2; }
+  .charte__proof { grid-column: 2; }
+}
+
+/* ---- Témoignages : des fiches de client ---- */
+.carnet { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; border-top: 1.5px solid var(--ink-900); }
+.carnet__fiche { padding: 1.6rem 1.6rem 1.6rem 0; border-bottom: 1px solid var(--paper-rule); border-right: 1px solid var(--paper-rule); }
+.carnet__fiche:last-child { border-right: 0; }
+.carnet__stars { color: var(--kraft-700); font-size: .85rem; letter-spacing: .1em; }
+.carnet__quote { font-family: var(--font-display); font-size: 1.1rem; line-height: 1.42; color: var(--ink-900); margin: .8rem 0 1.2rem; }
+.carnet__who { display: flex; align-items: center; gap: .7rem; }
+.carnet__who b { font-size: .85rem; display: block; }
+.carnet__who small { font-size: .75rem; color: var(--ink-500); }
+@media (max-width: 760px) { .carnet__fiche { border-right: 0; padding-right: 0; } }
+
+/* ---- Bandeau kraft : un champ commité ---- */
+.bandeau {
+  background: var(--kraft-100);
+  border-top: 1px solid var(--kraft-300);
+  border-bottom: 1px solid var(--kraft-300);
+  padding-block: clamp(3rem, 7vw, 5rem);
+}
+.bandeau__grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: center; }
+@media (max-width: 860px) { .bandeau__grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html" class="is-active">Accueil</a>
+      <a href="vendre.html">Estimer</a>
+      <a href="annonces.html">Annonces</a>
+      <a href="confiance.html">Confiance</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO : LE RELEVÉ ================= -->
+<section class="releve-hero releve">
+  <div class="container releve-hero__grid">
+    <div>
+      <h1 class="releve-hero__title">
+        <span class="lift-in"><span>Videz votre maison.</span></span>
+        <span class="lift-in"><span>Sans <em>y passer</em> vos</span></span>
+        <span class="lift-in"><span>soirées.</span></span>
+      </h1>
+
+      <p class="releve-hero__lede">
+        Vous avez quarante ans de meubles à écouler et trois semaines pour le faire.
+        MaisonVide fait l'inventaire, écrit les annonces, et sécurise le paiement.
+      </p>
+
+      <div class="releve-hero__actions">
+        <a href="vendre.html" class="btn btn--primary btn--lg">
+          <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+          Estimer un objet
+        </a>
+        <a href="annonces.html" class="btn btn--ghost btn--lg">Voir les annonces</a>
+      </div>
+
+      <div class="releve-hero__note">
+        <div><b>30 s</b><span>pour un prix</span></div>
+        <div><b>8 %</b><span>à la vente, pas avant</span></div>
+        <div><b>0 €</b><span>si rien ne se vend</span></div>
+      </div>
+    </div>
+
+    <!-- La fiche relevée -->
+    <div class="releve-card">
+      <div class="releve-card__media">
+        <img src="assets/img/hero.jpg" alt="Canapé et objets à vendre dans un appartement" fetchpriority="high">
+        <span class="releve-card__tag stamp-price stamp-in">280 – 480 €</span>
+      </div>
+      <div class="releve-card__foot">
+        <div>
+          <div class="releve-card__title">Canapé 3 places · état très bon</div>
+          <div class="releve-card__meta">Relevé automatique · confiance 92 %</div>
+        </div>
+        <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> Vérifié</span>
+      </div>
+      <div class="releve-card__form">
+        <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+        <div>
+          <b>Déposez une photo</b>
+          <span>Le prix arrive dans la seconde</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LE CONSTAT ================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <p class="constat">
+        Le vide-grenier suppose une <b>grille, un étau, un Saturday</b>.
+        On n'y va plus. On y reste pas.
+      </p>
+      <div>
+        <p>
+          Une brocante, c'est 6 h du matin sous la pluie, 40 inconnus à négocier avec,
+          et un_checksum de 12 % du prix — si tout se passe bien et que personne
+          ne s'est trompé de carton.
+        </p>
+        <p class="mt-6">
+          Ici, vous photographiez. Notre modèle lit l'objet, l'état, la marque, et
+          l'année. Il sort une fourchette. Vous acceptez, on publie, et un acheteur
+          vérifié vient. Le paiement ne bouge qu'après que vous avez reçu l'objet.
+        </p>
+        <p class="mt-6" style="font-family:var(--font-display);font-size:1.15rem;color:var(--ink-900)">
+          Vous récupérez vos soirées. C'est le service.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INVENTAIRE : 3 ÉTAPES ================= -->
+<section class="section section--kraft">
+  <div class="container">
+    <h2 class="display" style="max-width:18ch;margin-bottom:2.5rem">L'inventaire,<br/>en trois lignes.</h2>
+
+    <div class="inventaire">
+      <div class="inventaire__row" data-rise>
+        <div class="inventaire__num">L.01</div>
+        <div class="inventaire__step">
+          <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+          <div>
+            <h3>Vous photographiez</h3>
+            <p>Trois photos suffisent. Sous un coin de table, à la lumière du jour. Pas besoin d'un studio.</p>
+          </div>
+        </div>
+        <span class="etiquette">30 s</span>
+      </div>
+
+      <div class="inventaire__row" data-rise>
+        <div class="inventaire__num">L.02</div>
+        <div class="inventaire__step">
+          <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-ai"></use></svg>
+          <div>
+            <h3>Le prix tombe</h3>
+            <p>Le modèle lit l'objet et son état, puis sort une fourchette et son indice de confiance. Vous corrigez si besoin.</p>
+          </div>
+        </div>
+        <span class="etiquette">2 M+ transactions</span>
+      </div>
+
+      <div class="inventaire__row" data-rise>
+        <div class="inventaire__num">L.03</div>
+        <div class="inventaire__step">
+          <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+          <div>
+            <h3>L'argent est bloqué</h3>
+            <p>Le paiement part en séquestre. Il est libéré quand vous confirmez la réception. Personne ne peut filer avec l'argent.</p>
+          </div>
+        </div>
+        <span class="etiquette">AXA · 10 000 €</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BANDEAU KRAFT : LA PREUVE ================= -->
+<section class="bandeau">
+  <div class="container bandeau__grid">
+    <div>
+      <h2 class="display" style="max-width:16ch">Le juste prix,<br/>sans l'intuition.</h2>
+      <p class="mt-6" style="max-width:46ch">
+        Un particulier qui devine le prix de son canapé se trompe de 40 %.
+        Notre modèle, lui, s'appuie sur deux millions de ventes réelles.
+        Il vous dit aussi quand il n'est pas sûr de lui.
+      </p>
+      <a href="vendre.html" class="btn btn--kraft mt-8">
+        <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+        Essayer l'estimation
+      </a>
+    </div>
+
+    <div style="background:var(--paper-sheet);border:1px solid var(--kraft-300);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-lg);transform:rotate(.6deg)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;padding-bottom:1rem;border-bottom:1px solid var(--paper-rule)">
+        <div>
+          <div class="label">Estimation</div>
+          <div style="font-family:var(--font-display);font-size:1.35rem;font-weight:600;margin-top:.2rem">Canapé 3 places</div>
+          <div style="font-size:.8rem;color:var(--ink-500)">IKEA KIVIK · 5 ans · gris clair</div>
+        </div>
+        <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> 92 %</span>
+      </div>
+      <div class="stamp-price" style="margin-top:1.2rem;font-size:1.7rem">280 – 480 €</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid var(--paper-rule)">
+        <div><span class="label">État</span><div style="font-size:.9rem;font-weight:600">Très bon</div></div>
+        <div><span class="label">Marque</span><div style="font-size:.9rem;font-weight:600">Milieu de gamme</div></div>
+        <div><span class="label">Le juste prix au marché</span><div style="font-size:.9rem;font-weight:600">320 – 400 €</div></div>
+        <div><span class="label">Délai de vente moyen</span><div style="font-size:.9rem;font-weight:600">2 à 5 jours</div></div>
+      </div>
+      <p class="hand" style="margin-top:1.4rem">→ à 390 €, on est dans le marché</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHARTE SÉCURITÉ ================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <h2 class="display" style="max-width:14ch">Sept<br/>barrières.</h2>
+        <p class="mt-6" style="max-width:40ch">
+          Les gens se font arnaquer. Alors on a construit des murs, un par un,
+          et on les affiche tous. Vous n'avez pas à nous croire sur parole.
+        </p>
+        <a href="confiance.html" class="btn btn--ghost mt-8">Voir la charte complète</a>
+        <a href="anti-arnaque.html" class="btn btn--quiet mt-2">Guide anti-arnaque</a>
+      </div>
+
+      <div class="charte">
+        <div class="charte__row" data-rise>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-id"></use></svg>
+          <h4>Identité vérifiée</h4>
+          <div>
+            <p>Pièce d'identité et selfie vidéo avant la première annonce.</p>
+            <div class="charte__proof">Obligatoire · 4 min</div>
+          </div>
+        </div>
+        <div class="charte__row" data-rise>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-ai"></use></svg>
+          <h4>IA anti-fraude</h4>
+          <div>
+            <p>Deepfakes, photos volées, usurpation : 14 patterns détectés en continu.</p>
+            <div class="charte__proof">487 blocages ce mois</div>
+          </div>
+        </div>
+        <div class="charte__row" data-rise>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-lock"></use></svg>
+          <h4>Séquestre bancaire</h4>
+          <div>
+            <p>Votre argent dort sur un compte tiers. Il ne se libère qu'après réception.</p>
+            <div class="charte__proof">Mangopay · agréé ACPR</div>
+          </div>
+        </div>
+        <div class="charte__row" data-rise>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+          <h4>Assurance AXA</h4>
+          <div>
+            <p>Non livré, non conforme, vice caché : vous êtes remboursé.</p>
+            <div class="charte__proof">Jusqu'à 10 000 €</div>
+          </div>
+        </div>
+        <div class="charte__row" data-rise>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-bot"></use></svg>
+          <h4>Médiation humaine</h4>
+          <div>
+            <p>Un vrai humain tranche le litige en 24 h, pas un formulaire.</p>
+            <div class="charte__proof">8 médiateurs · réponse &lt; 2 min</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CATÉGORIES (marquee) ================= -->
+<section style="padding-block:2.5rem;border-block:1px solid var(--paper-rule);background:var(--paper-sheet)">
+  <div class="marquee marquee--reverse">
+    <div class="marquee__track">
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-box"></use></svg> Mobilier</span>
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-scale"></use></svg> Décoration</span>
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg> Électronique</span>
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg> Électroménager</span>
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-gem"></use></svg> Bijoux</span>
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-flag"></use></svg> Art & antiquités</span>
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-leaf"></use></svg> Jardin</span>
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-list"></use></svg> Livres</span>
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-user"></use></svg> Vêtements</span>
+      <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-grid"></use></svg> Jouets</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÉMOIGNAGES : LE CARNET ================= -->
+<section class="section">
+  <div class="container">
+    <h2 class="display" style="max-width:20ch;margin-bottom:2.5rem">Ce qu'ils ont<br/>dégagé.</h2>
+
+    <div class="carnet">
+      <article class="carnet__fiche" data-rise>
+        <div class="carnet__stars" aria-label="Note : 5 sur 5"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg></div>
+        <p class="carnet__quote">« Un déménagement en 3 jours, quarante ans de meubles. L'inventaire a tout sorti. Les acheteurs sont venus en une matinée. »</p>
+        <div class="carnet__who">
+          <div class="avatar">SM</div>
+          <div><b>Sophie M.</b><small>Lyon · 23 objets · 1 840 €</small></div>
+        </div>
+      </article>
+      <article class="carnet__fiche" data-rise>
+        <div class="carnet__stars" aria-label="Note : 5 sur 5"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg></div>
+        <p class="carnet__quote">« Bien mieux que le vide-grenier du dimanche. Trois fois le prix, et je n'ai pas passé ma journée à négocier dehors. »</p>
+        <div class="carnet__who">
+          <div class="avatar">JD</div>
+          <div><b>Julien D.</b><small>Bordeaux · 12 objets · 960 €</small></div>
+        </div>
+      </article>
+      <article class="carnet__fiche" data-rise>
+        <div class="carnet__stars" aria-label="Note : 5 sur 5"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg></div>
+        <p class="carnet__quote">« Le WhatsApp m'a tenue par la main. Quand on vide la maison de ses parents, c'est apaisant d'avoir quelqu'un derrière. »</p>
+        <div class="carnet__who">
+          <div class="avatar">CP</div>
+          <div><b>Christine P.</b><small>Nantes · 47 objets · 4 120 €</small></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section section--ink">
+  <div class="container container--narrow text-center">
+    <h2 class="display" style="max-width:16ch;margin-inline:auto">Commencez par<br/>une photo.</h2>
+    <p class="lead mt-8" style="max-width:46ch;margin-inline:auto;color:var(--ink-300)">
+      Trente secondes de prise de vue, trente secondes de calcul. C'est le prix que ça demande.
+    </p>
+    <div class="flex mt-12" style="justify-content:center;flex-wrap:wrap;gap:.75rem">
+      <a href="vendre.html" class="btn btn--primary btn--lg">
+        <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+        Estimer mon premier objet
+      </a>
+      <a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="btn btn--kraft btn--lg">
+        <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+        Écrire sur WhatsApp
+      </a>
+    </div>
+    <p style="margin-top:2rem;font-size:.8rem;color:var(--ink-400)">
+      Estimation gratuite · Sans inscription pour essayer · 8 % uniquement à la vente
+    </p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

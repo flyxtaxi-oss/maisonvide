@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Tableau de bord — Espace pro | MaisonVide</title>
+<meta name="description" content="Relevez la plateforme MaisonVide en un coup d'œil : annonces en attente, séquestres, chiffre d'affaires, détection de fraude et santé du service.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="dashboard">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Tableau de bord</h1>
+          <p class="admin-header__sub">Relevé du mercredi 21 octobre 2026 · 09:42 · 11 conseillers en poste</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <span class="badge badge--seal"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check-circle"></use></svg> Service opérationnel</span>
+        <a href="annonces.html" class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-download"></use></svg> Exporter</a>
+        <a href="annonces.html" class="btn btn--primary btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-shield-check"></use></svg> Modérer les annonces</a>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <!-- Le relevé : chiffres denses, pas de gros KPI -->
+      <section class="metric-band" aria-label="Chiffres du jour">
+        <div class="metric">
+          <span class="metric__ref">M.01</span>
+          <span class="metric__k">24</span>
+          <span class="metric__l">Annonces en attente de validation</span>
+          <span class="metric__d metric__d--up">+3 depuis hier</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.02</span>
+          <span class="metric__k">2 340 €</span>
+          <span class="metric__l">En séquestre · 11 commandes</span>
+          <span class="metric__d metric__d--up">+420 €</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.03</span>
+          <span class="metric__k">12 480 €</span>
+          <span class="metric__l">Chiffre d’affaires 30 jours</span>
+          <span class="metric__d metric__d--up">+18 %</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.04</span>
+          <span class="metric__k metric__k--stamp">2,3 %</span>
+          <span class="metric__l">Taux de détection de la fraude</span>
+          <span class="metric__d metric__d--down">-0,4 pt</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.05</span>
+          <span class="metric__k">214 €</span>
+          <span class="metric__l">Panier moyen</span>
+          <span class="metric__d metric__d--up">+12 €</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">M.06</span>
+          <span class="metric__k">2 min</span>
+          <span class="metric__l">Délai de première réponse</span>
+          <span class="metric__d metric__d--up">-30 s</span>
+        </div>
+      </section>
+
+      <!-- Le Dépôt : la pièce maîtresse du projet -->
+      <section class="depot">
+        <div>
+          <p class="label">Le Dépôt · vue spatiale</p>
+          <h2 class="depot__title">Le stock, en volumes et en valeur</h2>
+          <p class="depot__lede">Chaque bloc est un objet : sa hauteur suit le prix, sa couleur la catégorie, sa transparence le statut. Douze mois de stock défilent sous la main.</p>
+          <div class="depot__stats">
+            <div><b>1 284</b><span>objets en stock</span></div>
+            <div><b>412 800 €</b><span>valeur du dépôt</span></div>
+            <div><b>8 catégories</b><span>réparties</span></div>
+          </div>
+          <div class="depot__actions">
+            <a href="3d.html" class="btn btn--kraft btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-cube"></use></svg> Ouvrir le Dépôt 3D</a>
+            <a href="commandes.html" class="btn btn--on-ink btn--sm">Voir le stock figé</a>
+          </div>
+        </div>
+        <div class="depot__art">
+          <svg viewBox="0 0 220 130" role="img" aria-label="Aperçu du stock sous forme de blocs empilés">
+            <line x1="6" y1="112" x2="214" y2="112" stroke="var(--ink-700)" stroke-width="1"/>
+            <rect x="14" y="76" width="12" height="36" fill="var(--kraft-500)"/>
+            <rect x="31" y="58" width="12" height="54" fill="var(--kraft-700)"/>
+            <rect x="48" y="88" width="12" height="24" fill="var(--ink-500)"/>
+            <rect x="65" y="44" width="12" height="68" fill="var(--kraft-500)"/>
+            <rect x="82" y="68" width="12" height="44" fill="var(--seal-500)"/>
+            <rect x="99" y="30" width="12" height="82" fill="var(--kraft-700)"/>
+            <rect x="116" y="82" width="12" height="30" fill="var(--ink-500)"/>
+            <rect x="133" y="52" width="12" height="60" fill="var(--kraft-500)"/>
+            <rect x="150" y="72" width="12" height="40" fill="var(--stamp-500)"/>
+            <rect x="167" y="38" width="12" height="74" fill="var(--seal-500)"/>
+            <rect x="184" y="64" width="12" height="48" fill="var(--kraft-500)"/>
+            <rect x="201" y="90" width="12" height="22" fill="var(--ink-500)"/>
+          </svg>
+        </div>
+      </section>
+
+      <div class="admin-grid admin-grid--2">
+        <div class="stack">
+
+          <section class="panel">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg> File de modération</h2>
+                <p>Quatre fiches attendent un regard humain avant publication</p>
+              </div>
+              <a href="annonces.html" class="btn btn--ghost btn--sm">Tout ouvrir <svg class="ic ic--sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+            </div>
+            <div class="panel__body--flush table-wrap">
+              <table class="data-table data-table--dense">
+                <thead>
+                  <tr><th>Fiche</th><th class="num">Prix</th><th>Confiance</th><th>Motif</th><th></th></tr>
+                </thead>
+                <tbody id="moderation-tbody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-list"></use></svg> Commandes récentes</h2>
+                <p>Les cinq derniers mouvements de la caisse</p>
+              </div>
+              <a href="commandes.html" class="btn btn--ghost btn--sm">Voir les séquestres</a>
+            </div>
+            <div class="panel__body--flush table-wrap">
+              <table class="data-table data-table--dense">
+                <thead>
+                  <tr><th>N°</th><th>Objet</th><th class="num">Montant</th><th>État du séquestre</th><th class="num">Date</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>MV-4872</strong></td><td>Canapé teck des années 60</td><td class="num">280 €</td><td><span class="status status--seal"><span class="status__dot"></span>Versé</span></td><td class="num">14/10</td></tr>
+                  <tr><td><strong>MV-4871</strong></td><td>MacBook Pro M1 2020</td><td class="num">720 €</td><td><span class="status status--kraft"><span class="status__dot"></span>En séquestre</span></td><td class="num">14/10</td></tr>
+                  <tr><td><strong>MV-4870</strong></td><td>Thermomix TM6</td><td class="num">680 €</td><td><span class="status status--seal"><span class="status__dot"></span>Versé</span></td><td class="num">14/10</td></tr>
+                  <tr><td><strong>MV-4869</strong></td><td>Table chêne massif</td><td class="num">340 €</td><td><span class="status status--warn"><span class="status__dot"></span>En livraison</span></td><td class="num">13/10</td></tr>
+                  <tr><td><strong>MV-4868</strong></td><td>PlayStation 5 + 2 manettes</td><td class="num">380 €</td><td><span class="status status--kraft"><span class="status__dot"></span>En séquestre</span></td><td class="num">13/10</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </div>
+
+        <div class="stack">
+
+          <section class="panel">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg> Activité récente</h2>
+                <p>Ce qui vient de se passer</p>
+              </div>
+              <span class="badge badge--kraft">En direct</span>
+            </div>
+            <div class="panel__body">
+              <div class="timeline" id="activity-feed"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg> Signaux de santé</h2>
+                <p>Les sept bars surveillés par l’équipe</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="signals">
+                <div class="signal">
+                  <span class="signal__k">Latence moyenne de l’estimation</span>
+                  <span class="signal__v">1,4 s</span>
+                  <span class="status status--seal"><span class="status__dot"></span>Nominal</span>
+                </div>
+                <div class="signal">
+                  <span class="signal__k">Taux de résolution du bot</span>
+                  <span class="signal__v">73 %</span>
+                  <span class="status status--kraft"><span class="status__dot"></span>Stable</span>
+                </div>
+                <div class="signal">
+                  <span class="signal__k">Commandes versées sous 7 jours</span>
+                  <span class="signal__v">96 %</span>
+                  <span class="status status--seal"><span class="status__dot"></span>Nominal</span>
+                </div>
+                <div class="signal">
+                  <span class="signal__k">Photos non conformes</span>
+                  <span class="signal__v">14 (2,1 %)</span>
+                  <span class="status status--warn"><span class="status__dot"></span>À surveiller</span>
+                </div>
+                <div class="signal">
+                  <span class="signal__k">Litiges ouverts</span>
+                  <span class="signal__v">3</span>
+                  <span class="status status--stamp"><span class="status__dot"></span>À traiter</span>
+                </div>
+                <div class="signal">
+                  <span class="signal__k">Garantie AXA engagée</span>
+                  <span class="signal__v">1 240 €</span>
+                  <span class="status status--seal"><span class="status__dot"></span>Couvert</span>
+                </div>
+                <div class="signal">
+                  <span class="signal__k">Fraîcheur du modèle</span>
+                  <span class="signal__v">v2.4.1 · 6 j</span>
+                  <span class="status status--kraft"><span class="status__dot"></span>À ré-entraîner</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

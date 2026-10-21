@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Analytics — Espace pro | MaisonVide</title>
+<meta name="description" content="Les chiffres de MaisonVide : revenus, entonnoir de conversion, villes, sources de trafic et appareils. Des graphiques lisibles, sans outil externe.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="analytics">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Analytics</h1>
+          <p class="admin-header__sub">Du comptage à la vente, la lecture chiffrée de l’activité</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <select class="select" style="width:auto" aria-label="Période">
+          <option>30 derniers jours</option>
+          <option>7 derniers jours</option>
+          <option>3 derniers mois</option>
+          <option>12 derniers mois</option>
+        </select>
+        <button class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-download"></use></svg> Exporter</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <section class="metric-band metric-band--4" aria-label="Chiffres clés">
+        <div class="metric">
+          <span class="metric__ref">S.01</span>
+          <span class="metric__k">12 480 €</span>
+          <span class="metric__l">Revenus nets 30 jours</span>
+          <span class="metric__d metric__d--up">+18 %</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">S.02</span>
+          <span class="metric__k">187</span>
+          <span class="metric__l">Annonces déposées</span>
+          <span class="metric__d metric__d--up">+24</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">S.03</span>
+          <span class="metric__k">3 412</span>
+          <span class="metric__l">Conversations</span>
+          <span class="metric__d metric__d--up">+12 %</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">S.04</span>
+          <span class="metric__k">8,4 %</span>
+          <span class="metric__l">Taux de conversion de la visite à la vente</span>
+          <span class="metric__d metric__d--down">-0,3 pt</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg> Évolution des revenus</h2>
+            <p>Chiffre d’affaires encaissé, 22 septembre au 21 octobre</p>
+          </div>
+          <div class="table-tools">
+            <span class="badge badge--seal">+18 % vs période précédente</span>
+          </div>
+        </div>
+        <div class="panel__body">
+          <div id="chart-revenue"></div>
+        </div>
+      </section>
+
+      <div class="admin-grid admin-grid--2">
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg> Revenus par catégorie</h2>
+              <p>Ce que rapportent les familles d’objets</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div id="chart-bar"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-gem"></use></svg> Part de chaque catégorie</h2>
+              <p>Répartition du chiffre d’affaires</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div class="chart-split">
+              <div id="chart-donut"></div>
+              <div class="chart-split__legend">
+                <div><i style="background:var(--kraft-500)"></i><span>Mobilier</span><b>4 200 €</b></div>
+                <div><i style="background:var(--stamp-500)"></i><span>Électronique</span><b>2 800 €</b></div>
+                <div><i style="background:var(--seal-500)"></i><span>Électroménager</span><b>1 900 €</b></div>
+                <div><i style="background:var(--kraft-700)"></i><span>Décoration</span><b>1 500 €</b></div>
+                <div><i style="background:var(--info-500)"></i><span>Vêtements</span><b>1 100 €</b></div>
+                <div><i style="background:var(--ink-400)"></i><span>Autres</span><b>980 €</b></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-filter"></use></svg> Entonnoir de conversion</h2>
+            <p>De la visite à la vente conclue</p>
+          </div>
+          <span class="badge badge--kraft">8,4 % de conversion</span>
+        </div>
+        <div class="panel__body">
+          <div class="funnel" id="funnel"></div>
+        </div>
+      </section>
+
+      <div class="admin-grid admin-grid--3">
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg> Top villes</h2>
+              <p>Revenus par ville</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div id="chart-cities"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-globe"></use></svg> Sources de trafic</h2>
+              <p>D’où viennent les visites</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div id="chart-sources"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-cube"></use></svg> Appareils</h2>
+              <p>Répartition des sessions</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div class="chart-split">
+              <div id="chart-devices"></div>
+              <div class="chart-split__legend">
+                <div><i style="background:var(--stamp-500)"></i><span>Mobile</span><b>68 %</b></div>
+                <div><i style="background:var(--seal-500)"></i><span>Poste fixe</span><b>27 %</b></div>
+                <div><i style="background:var(--kraft-500)"></i><span>Tablette</span><b>5 %</b></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg> Performance du site</h2>
+            <p>Mesures relevées sur les 30 derniers jours</p>
+          </div>
+        </div>
+        <div class="panel__body">
+          <div class="signals">
+            <div class="signal">
+              <span class="signal__k">Largest Contentful Paint</span>
+              <span class="signal__v">1,2 s</span>
+              <span class="status status--seal"><span class="status__dot"></span>Excellent</span>
+            </div>
+            <div class="signal">
+              <span class="signal__k">Cumulative Layout Shift</span>
+              <span class="signal__v">0,02</span>
+              <span class="status status--seal"><span class="status__dot"></span>Excellent</span>
+            </div>
+            <div class="signal">
+              <span class="signal__k">Time to First Byte</span>
+              <span class="signal__v">180 ms</span>
+              <span class="status status--seal"><span class="status__dot"></span>Excellent</span>
+            </div>
+            <div class="signal">
+              <span class="signal__k">Requêtes API en échec</span>
+              <span class="signal__v">0,2 %</span>
+              <span class="status status--kraft"><span class="status__dot"></span>Sous surveillance</span>
+            </div>
+            <div class="signal">
+              <span class="signal__k">Hébergement</span>
+              <span class="signal__v">Scaleway · Paris</span>
+              <span class="status status--seal"><span class="status__dot"></span>Données en France</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

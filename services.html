@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Nos 3 formules pour vendre — MaisonVide</title>
+<meta name="description" content="Trois formules pour vider une maison : Solo, Guidé ou Pro. Vous payez à la vente, 8 % au plus. Inventaire sur place, enlèvement, paiement bloqué.">
+<link rel="canonical" href="https://maisonvide.fr/services.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+/* ======================================================================
+   SERVICES — le carnet de formules
+   Trois formules ne sont pas trois cartes : ce sont trois lignes réglées,
+   décalées, avec leur prix estampé et leur durée en données.
+   ====================================================================== */
+
+/* ---- L'en-tête du carnet ---- */
+.carnet-head {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: end;
+}
+@media (max-width: 820px) { .carnet-head { grid-template-columns: 1fr; } }
+.carnet-head h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+  line-height: .98;
+  letter-spacing: -.04em;
+}
+.carnet-head h1 em { font-style: italic; color: var(--kraft-700); }
+.carnet-head__data { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .8rem; }
+
+/* ---- Les formules : trois lignes, trois treatments ---- */
+.formules { border-top: 1.5px solid var(--ink-900); }
+.formule {
+  display: grid;
+  grid-template-columns: 84px 1fr auto;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  align-items: start;
+  padding: 1.9rem 0;
+  border-bottom: 1px solid var(--paper-rule);
+}
+.formule__num {
+  font-family: var(--font-mono); font-size: .85rem; color: var(--ink-400);
+  letter-spacing: .1em; text-align: right; padding-top: .45rem;
+}
+.formule__title { font-family: var(--font-display); font-size: 1.65rem; letter-spacing: -.02em; }
+.formule__desc { font-size: .9rem; color: var(--ink-600); margin-top: .35rem; max-width: 52ch; }
+.formule__list {
+  margin-top: 1.1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: .45rem 1.2rem;
+}
+.formule__list li { display: flex; gap: .5rem; align-items: flex-start; font-size: .875rem; color: var(--ink-700); }
+.formule__list .ic { color: var(--seal-500); width: 1em; height: 1em; margin-top: .32rem; }
+.formule__right { display: flex; flex-direction: column; align-items: flex-end; gap: .7rem; text-align: right; }
+
+/* La Guidée : un liseré kraft, pas une carte surélevée. */
+.formule--guide {
+  border: 1.5px solid var(--kraft-500);
+  border-radius: var(--radius-sm);
+  background: var(--paper-sheet);
+  padding: 1.9rem 1.5rem;
+  margin-inline: clamp(0px, 3vw, 2.4rem);
+  box-shadow: var(--shadow-sm);
+}
+.formule--guide .formule__num { color: var(--stamp-500); }
+.formule--guide .formule__title { font-size: 1.95rem; }
+
+/* La Pro : un champ kraft, comme une bande de carnet à remplir. */
+.formule--pro {
+  background: var(--kraft-100);
+  border-bottom-color: var(--kraft-300);
+  padding: 1.9rem clamp(1rem, 2vw, 1.6rem);
+  margin-inline: clamp(0px, 2vw, 1.2rem);
+}
+.formule--pro .formule__num { color: var(--kraft-700); }
+
+@media (max-width: 860px) {
+  .formule { grid-template-columns: 56px 1fr; }
+  .formule__right { grid-column: 2; align-items: flex-start; text-align: left; }
+  .formule--guide, .formule--pro { margin-inline: 0; }
+}
+
+/* ---- Les prestations : lignes à prix ---- */
+.presta { border-top: 1.5px solid var(--ink-900); }
+.presta__row {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr auto;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--paper-rule);
+}
+.presta__row h4 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+.presta__row p { font-size: .875rem; color: var(--ink-600); max-width: 52ch; }
+.presta__price { font-family: var(--font-mono); font-size: .9rem; font-weight: 700; white-space: nowrap; }
+.presta__price small { display: block; font-family: var(--font-body); font-size: .7rem; font-weight: 400; color: var(--ink-500); }
+@media (max-width: 760px) {
+  .presta__row { grid-template-columns: 1fr; gap: .35rem; }
+  .presta__price { order: -1; }
+}
+
+/* ---- Les preuves : la charte ---- */
+.charte { border-top: 1.5px solid var(--ink-900); }
+.charte__row {
+  display: grid; grid-template-columns: 3rem 1fr 1fr;
+  gap: 1.5rem; align-items: start;
+  padding: 1.3rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.charte__row h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
+.charte__row p { font-size: .875rem; color: var(--ink-600); max-width: 46ch; }
+.charte__proof { font-size: .78rem; color: var(--seal-600); font-weight: 600; }
+.charte__ic { color: var(--seal-500); width: 1.4em; height: 1.4em; }
+@media (max-width: 780px) {
+  .charte__row { grid-template-columns: 2rem 1fr; }
+  .charte__row p { grid-column: 2; }
+  .charte__proof { grid-column: 2; }
+}
+
+/* ---- Les tableaux : défilement horizontal sur mobile ---- */
+.tab-scroll { min-width: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tab-scroll .data-table { min-width: 560px; }
+.tab-scroll .data-table td:first-child { font-weight: 600; }
+
+/* ---- Utilitaire local : .mt-2 n'existe pas dans main.css ---- */
+.mt-2 { margin-top: var(--space-2); }
+
+/* ---- Comparatif : les colonnes sont des formules ---- */
+.comp .data-table th:not(:first-child),
+.comp .data-table td:not(:first-child) { text-align: center; }
+.comp .data-table td:not(:first-child) { font-family: var(--font-mono); font-size: .85rem; }
+.comp .data-table th:nth-child(3) { color: var(--kraft-700); }
+
+/* ---- FAQ : on retire la puce native du <summary> ---- */
+.details-list summary { list-style: none; cursor: pointer; }
+.details-list summary::-webkit-details-marker { display: none; }
+.details-list summary::marker { content: ""; }
+
+/* ---- Ancrages ---- */
+section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
+
+/* ---- Mouvement réduit ---- */
+@media (prefers-reduced-motion: reduce) {
+  .stamp-in { opacity: 1 !important; transform: rotate(-1.6deg) !important; animation: none !important; }
+}
+</style>
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="vendre.html">Estimer</a>
+      <a href="annonces.html">Annonces</a>
+      <a href="confiance.html">Confiance</a>
+      <a href="services.html" class="is-active">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= LE CARNET ================= -->
+<section class="section" style="padding-block:clamp(3rem,6vw,5rem) clamp(2.5rem,5vw,4rem)">
+  <div class="container">
+    <div class="carnet-head">
+      <div>
+        <h1>
+          Vider une maison,<br/>
+          <em>sans y passer</em><br/>
+          ses soirées.
+        </h1>
+      </div>
+      <div>
+        <div class="carnet-head__data">
+          <span class="etiquette">3 formules</span>
+          <span class="etiquette">8 % à la vente, pas avant</span>
+          <span class="etiquette">Sans abonnement</span>
+        </div>
+        <p class="lead">
+          Un carnet, trois formules. Vous choisissez le niveau d'aide, nous
+          écrivons les annonces et nous sécurisons l'argent. Vous payez quand
+          un objet est vendu, jamais pour le rester.
+        </p>
+        <div class="flex mt-8" style="flex-wrap:wrap;gap:.75rem">
+          <a href="#formules" class="btn btn--primary btn--lg">
+            Ouvrir le carnet
+            <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </a>
+          <a href="vendre.html" class="btn btn--ghost btn--lg">Estimer un objet</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LES FORMULES ================= -->
+<section class="section section--tight" id="formules">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(1.5rem,4vw,3rem);align-items:end;margin-bottom:2.2rem">
+      <h2 class="display" style="max-width:14ch">Le carnet<br/>de formules.</h2>
+      <p class="lead">
+        Une page, trois lignes, une ligne par formule. Le prix est en haut,
+        le reste est en dessous, et rien ne se cache derrière un « sur demande ».
+      </p>
+    </div>
+
+    <div class="formules">
+      <!-- F.01 -->
+      <article class="formule">
+        <div class="formule__num">F.01</div>
+        <div>
+          <h3 class="formule__title">Solo</h3>
+          <p class="formule__desc">
+            Vous publiez vous-même. Pour une à dix pièces, ou pour un objet
+            dont vous connaissez déjà le prix.
+          </p>
+          <ul class="formule__list">
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Estimation IA illimitée</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Publication d'annonces illimitée</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Messagerie avec l'acheteur</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Paiement bloqué en séquestre</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> 8 % à la vente, et rien d'autre</li>
+          </ul>
+        </div>
+        <div class="formule__right">
+          <span class="stamp-price stamp-price--kraft">0 €</span>
+          <span class="etiquette">Immédiat</span>
+          <a href="vendre.html" class="btn btn--ghost btn--sm">Estimer un objet</a>
+        </div>
+      </article>
+
+      <!-- F.02 -->
+      <article class="formule formule--guide">
+        <div class="formule__num">F.02</div>
+        <div>
+          <div class="flex" style="gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:.4rem">
+            <h3 class="formule__title">Guidé</h3>
+            <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> Le plus choisi</span>
+          </div>
+          <p class="formule__desc">
+            Un conseiller relit vos annonces, répond aux acheteurs, et vous
+            rappelle quand une vente se présente. Vous ne traitez plus personne.
+          </p>
+          <ul class="formule__list">
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Tout ce que contient Solo</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Conseiller dédié, 7 j sur 7</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Coaching photo et description</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Prix revu à chaque vente</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Relance automatique des acheteurs</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Commission réduite à 5 %</li>
+          </ul>
+        </div>
+        <div class="formule__right">
+          <span class="stamp-price">29 €</span>
+          <span class="etiquette">2 à 5 jours</span>
+          <span style="font-size:.75rem;color:var(--ink-500)">par dossier</span>
+          <a href="contact.html?subject=guide" class="btn btn--primary btn--sm">Choisir la Guidé</a>
+        </div>
+      </article>
+
+      <!-- F.03 -->
+      <article class="formule formule--pro">
+        <div class="formule__num">F.03</div>
+        <div>
+          <h3 class="formule__title">Pro</h3>
+          <p class="formule__desc">
+            Pour les vidages de maison, les successions et les fins de bail.
+            Nous inventorions, photographions, vidons, payons. Vous n'êtes plus
+            dans le dossier, vous êtes chez vous.
+          </p>
+          <ul class="formule__list">
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Tout ce que contient Guidé</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Inventaire sur place sous 48 h</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Shooting photo professionnel</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Enlèvement et débarras</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Dons et certificat de recyclage</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Paiement sous 7 jours après réception</li>
+          </ul>
+        </div>
+        <div class="formule__right">
+          <span class="stamp-price stamp-price--seal">Sur devis</span>
+          <span class="etiquette">7 à 21 jours</span>
+          <span style="font-size:.75rem;color:var(--ink-700)">Commission 4 %</span>
+          <a href="contact.html?subject=devis" class="btn btn--kraft btn--sm">Demander un devis</a>
+        </div>
+      </article>
+    </div>
+
+    <p class="hand mt-8">→ et dans les trois cas, l'argent dort en séquestre</p>
+  </div>
+</section>
+
+<!-- ================= LE COMPARATIF ================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(1.5rem,4vw,3rem);align-items:end;margin-bottom:2.2rem">
+      <h2 class="display" style="max-width:12ch">Le comparatif,<br/>ligne à ligne.</h2>
+      <p class="lead">
+        Trois colonnes, les mêmes critères. Si une ligne vous importe, lisez-la
+        avant de choisir — c'est elle qui décide du prix de votre soirée.
+      </p>
+    </div>
+
+    <div class="tab-scroll comp">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th>Solo</th>
+            <th>Guidé</th>
+            <th>Pro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Qui publie les annonces</td>
+            <td>Vous</td>
+            <td>Un conseiller</td>
+            <td>Notre équipe</td>
+          </tr>
+          <tr>
+            <td>Commission à la vente</td>
+            <td>8 %</td>
+            <td>5 %</td>
+            <td>4 %</td>
+          </tr>
+          <tr>
+            <td>Frais de dossier</td>
+            <td>0 €</td>
+            <td>29 €</td>
+            <td>Sur devis</td>
+          </tr>
+          <tr>
+            <td>Photos professionnelles</td>
+            <td>—</td>
+            <td>5 par objet</td>
+            <td>Illimitées</td>
+          </tr>
+          <tr>
+            <td>Inventaire sur place</td>
+            <td>—</td>
+            <td>—</td>
+            <td>Inclus, sous 48 h</td>
+          </tr>
+          <tr>
+            <td>Enlèvement et débarras</td>
+            <td>—</td>
+            <td>En option</td>
+            <td>Inclus</td>
+          </tr>
+          <tr>
+            <td>Délai avant le premier prix</td>
+            <td>Immédiat</td>
+            <td>2 à 5 jours</td>
+            <td>7 à 21 jours</td>
+          </tr>
+          <tr>
+            <td>Paiement à l'acheteur</td>
+            <td>Séquestre</td>
+            <td>Séquestre</td>
+            <td>Séquestre</td>
+          </tr>
+          <tr>
+            <td>Volume prévu</td>
+            <td>1 à 10 objets</td>
+            <td>10 à 40 objets</td>
+            <td>40 objets et plus</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LES PRESTATIONS ================= -->
+<section class="section section--kraft">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <h2 class="display" style="max-width:16ch">Les prestations,<br/>au détail.</h2>
+        <p class="mt-6" style="max-width:40ch">
+          Ce que nos partenaires viennent faire chez vous, ligne par ligne,
+          avec le prix en regard. Les prestations Pro sont déduites de vos
+          commissions.
+        </p>
+        <a href="contact.html?subject=devis" class="btn btn--kraft mt-8">Demander un devis</a>
+      </div>
+
+      <div class="presta">
+        <div class="presta__row">
+          <h4>Estimation à domicile</h4>
+          <p>Un expert se déplace, inventorie pièce par pièce et chiffre l'ensemble. Rapport PDF sous 48 h.</p>
+          <div class="presta__price">99 €<small>déduit des commissions</small></div>
+        </div>
+        <div class="presta__row">
+          <h4>Shooting photo</h4>
+          <p>Photographe, lumière naturelle, mise en valeur. C'est le premier levier sur le prix de vente.</p>
+          <div class="presta__price">149 €<small>20 photos</small></div>
+        </div>
+        <div class="presta__row">
+          <h4>Enlèvement</h4>
+          <p>Transporteurs partenaires, créneau choisi, embargo ou cave : on vient chercher ce qui reste.</p>
+          <div class="presta__price">Sur devis<small>au volume</small></div>
+        </div>
+        <div class="presta__row">
+          <h4>Débarras et tri</h4>
+          <p>Don aux associations, revente des invendables, certificat de destruction. La cave vide reste une cave vide.</p>
+          <div class="presta__price">Sur devis<small>au volume</small></div>
+        </div>
+        <div class="presta__row">
+          <h4>Gestion administrative</h4>
+          <p>Factures, reçus, déclaration de revenus, justificatifs de donation. La paperasse part avec nous.</p>
+          <div class="presta__price">Inclus<small>formule Pro</small></div>
+        </div>
+        <div class="presta__row">
+          <h4>Succession et entreprises</h4>
+          <p>Vide-maison après décès, fin de bail, liquidation de stock : on intervient en discrétion, et on facture comme une entreprise.</p>
+          <div class="presta__price">Sur devis<small>partenariat notaire</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LES PREUVES ================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <h2 class="display" style="max-width:12ch">Les preuves.</h2>
+        <p class="mt-6" style="max-width:38ch">
+          Trois murs, vérifiables, pas des mots de brochure. Vous n'avez pas à
+          nous croire sur parole.
+        </p>
+        <a href="confiance.html" class="btn btn--ghost mt-8">Voir la charte complète</a>
+        <a href="garanties.html" class="btn btn--quiet mt-2">Lire les garanties</a>
+      </div>
+
+      <div class="charte">
+        <div class="charte__row" data-rise>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-lock"></use></svg>
+          <h4>Séquestre bancaire</h4>
+          <div>
+            <p>Votre argent dort sur un compte tiers. Il n'est libéré qu'après que vous avez confirmé la réception de l'objet.</p>
+            <div class="charte__proof">Mangopay · agréé ACPR</div>
+          </div>
+        </div>
+        <div class="charte__row" data-rise>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+          <h4>Assurance AXA</h4>
+          <div>
+            <p>Non livré, non conforme, vice caché : vous êtes remboursé, sans aller discuter avec un particulier.</p>
+            <div class="charte__proof">Jusqu'à 10 000 €</div>
+          </div>
+        </div>
+        <div class="charte__row" data-rise>
+          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-id"></use></svg>
+          <h4>Identité vérifiée</h4>
+          <div>
+            <p>Pièce d'identité et selfie vidéo avant la première annonce, côté vendeur comme côté acheteur.</p>
+            <div class="charte__proof">4 niveaux KYC · 4 min</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LA FAQ ================= -->
+<section class="section section--kraft">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <h2 class="display" style="max-width:12ch">Les questions<br/>qui reviennent.</h2>
+        <p class="mt-6" style="max-width:36ch">
+          Si la vôtre n'y est pas, on répond sur WhatsApp en moins de deux
+          minutes, de 8 h à 22 h.
+        </p>
+        <a href="contact.html" class="btn btn--kraft mt-8">Écrire à un conseiller</a>
+      </div>
+
+      <div class="details-list">
+        <details class="details-list__item" open>
+          <summary class="details-list__q">
+            Est-ce que je paie quelque chose si je ne vends rien ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            La formule Solo ne coûte rien tant que rien n'est vendu. La formule
+            Guidé coûte 29 € par dossier, quel que soit le résultat. La formule
+            Pro fait l'objet d'un devis écrit avant toute intervention.
+          </div>
+        </details>
+        <details class="details-list__item">
+          <summary class="details-list__q">
+            Comment la commission est-elle calculée ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Sur le prix de vente encaissé, et uniquement lui : 8 % en Solo, 5 %
+            en Guidé, 4 % en Pro. Pas de frais de mise en ligne, pas de frais de
+            dossier caché, pas d'abonnement, pas de pénalité si une vente met
+            du temps.
+          </div>
+        </details>
+        <details class="details-list__item">
+          <summary class="details-list__q">
+            Le paiement de l'acheteur est-il bloqué ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Oui. L'argent est versé sur un compte séquestre Mangopay et n'est
+            libéré qu'une fois la réception confirmée de votre côté. Si
+            l'acheteur ne donne pas signe de vie, le séquestre reste bloqué.
+          </div>
+        </details>
+        <details class="details-list__item">
+          <summary class="details-list__q">
+            Puis-je changer de formule en cours de route ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Oui, à la vente suivante, sans frais ni justification. Le conseiller
+            vous bascule d'un carnet à l'autre, et votre commission change avec.
+          </div>
+        </details>
+        <details class="details-list__item">
+          <summary class="details-list__q">
+            Que se passe-t-il en cas de litige ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Un médiateur humain tranche sous 24 h. Il n'y a pas de formulaire
+            automatique : une personne relit les photos, les messages et les
+            annonces, puis rend une décision écrite.
+          </div>
+        </details>
+        <details class="details-list__item">
+          <summary class="details-list__q">
+            Est-ce que mes photos restent sur le site ?
+            <svg class="ic" aria-hidden="true"><use href="#i-plus"></use></svg>
+          </summary>
+          <div class="details-list__a">
+            Les photos d'estimation ne sont jamais publiées et sont effacées au
+            bout de 90 jours. Les photos d'annonce restent en ligne tant que
+            l'annonce est active, et disparaissent avec elle quand elle est
+            vendue ou retirée.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section section--ink">
+  <div class="container container--narrow text-center">
+    <h2 class="display" style="max-width:18ch;margin-inline:auto">On commence par<br/>une photo.</h2>
+    <p class="lead mt-8" style="max-width:46ch;margin-inline:auto;color:var(--ink-300)">
+      L'estimation est gratuite et sans inscription. La formule, on la choisit
+      quand on sait ce qu'on a à vendre.
+    </p>
+    <div class="flex mt-12" style="justify-content:center;flex-wrap:wrap;gap:.75rem">
+      <a href="vendre.html" class="btn btn--primary btn--lg">
+        <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+        Estimer un objet
+      </a>
+      <a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!%20Je%20souhaite%20un%20devis%20pour%20un%20vide-maison." class="btn btn--kraft btn--lg">
+        <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+        Demander un devis
+      </a>
+    </div>
+    <p style="margin-top:2rem;font-size:.8rem;color:var(--ink-400)">
+      Solo gratuit · Guidé 29 € par dossier · Pro sur devis
+    </p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "MaisonVide — vente d'objets d'occasion et vide-maison",
+  "serviceType": "Estimation, publication et sécurisation de la vente d'objets d'occasion",
+  "description": "MaisonVide fait l'inventaire d'une maison, écrit les annonces, vérifie les acheteurs et bloque le paiement en séquestre. Trois formules : Solo, Guidé et Pro.",
+  "url": "https://maisonvide.fr/services.html",
+  "provider": {
+    "@type": "Organization",
+    "name": "MaisonVide",
+    "url": "https://maisonvide.fr/",
+    "logo": "https://maisonvide.fr/assets/img/favicon.svg",
+    "telephone": "+33123456789",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "12 rue des Lilas",
+      "addressLocality": "Paris",
+      "postalCode": "75011",
+      "addressCountry": "FR"
+    }
+  },
+  "areaServed": { "@type": "Country", "name": "France" },
+  "availableChannel": {
+    "@type": "ServiceChannel",
+    "serviceUrl": "https://maisonvide.fr/contact.html",
+    "servicePhone": { "@type": "ContactPoint", "telephone": "+33123456789", "contactType": "customer service" }
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Carnet de formules MaisonVide",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Solo",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "description": "Estimation IA illimitée, publication d'annonces et paiement en séquestre. 8 % de commission uniquement à la vente."
+      },
+      {
+        "@type": "Offer",
+        "name": "Guidé",
+        "price": "29",
+        "priceCurrency": "EUR",
+        "description": "Un conseiller relit les annonces, répond aux acheteurs et relance. 29 € par dossier, commission de 5 % à la vente."
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "description": "Sur devis : inventaire sur place, shooting photo professionnel, enlèvement, débarras et gestion administrative. Commission de 4 % à la vente."
+      }
+    ]
+  }
+}
+</script>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

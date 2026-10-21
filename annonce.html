@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Fiche annonce : état, prix et sceau — MaisonVide</title>
+<meta name="description" content="Photos, état, marque, dimensions et prix au juste marché : la fiche complète d'un objet d'occasion, avec le sceau du vendeur et le paiement en séquestre.">
+<link rel="canonical" href="https://maisonvide.fr/annonce.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+/* ---- La fiche ---- */
+.fiche { padding-block: clamp(2rem, 5vw, 3.2rem) 0; }
+.fiche__back { display: inline-flex; align-items: center; gap: .4rem; font-size: var(--fs-sm); color: var(--ink-500); margin-bottom: 1.4rem; }
+.fiche__back:hover { color: var(--ink-900); }
+.fiche__grid { display: grid; grid-template-columns: 1fr; gap: 2.2rem; }
+@media (min-width: 900px) {
+  .fiche__grid { grid-template-columns: 1.25fr .75fr; gap: clamp(2rem, 4vw, 3.5rem); align-items: start; }
+  .fiche__aside { position: sticky; top: calc(var(--header-height) + 1.4rem); }
+}
+
+/* ---- La photo et la galerie ---- */
+.fiche__media {
+  position: relative; aspect-ratio: 4/3;
+  background: var(--paper-edge);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md); overflow: hidden;
+}
+.fiche__media img { width: 100%; height: 100%; object-fit: cover; }
+.fiche__stamp { position: absolute; left: 1rem; bottom: 1rem; z-index: 2; }
+.fiche__stamp .stamp-price { font-size: 1.3rem; padding: .45rem 1rem; }
+.fiche__gal { display: flex; gap: .5rem; margin-top: .6rem; overflow-x: auto; padding-bottom: .2rem; }
+.fiche__gal button {
+  flex: 0 0 auto; width: 86px; height: 64px; padding: 0;
+  border: 1px solid var(--paper-edge); border-radius: var(--radius-xs);
+  overflow: hidden; background: var(--paper-edge);
+  transition: border-color var(--t-fast);
+}
+.fiche__gal button img { width: 100%; height: 100%; object-fit: cover; }
+.fiche__gal button.is-on { border-color: var(--stamp-500); }
+.fiche__gal button:hover { border-color: var(--ink-300); }
+
+/* ---- Le titre et les étiquettes ---- */
+.fiche__title { font-size: clamp(1.9rem, 4vw, 2.9rem); margin-top: .7rem; }
+.fiche__etiq { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.1rem; }
+.fiche__tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .65rem; }
+.fiche__section { margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1.5px solid var(--ink-900); }
+.fiche__section h2 { font-size: 1.35rem; }
+.fiche__section p { margin-top: .7rem; }
+
+/* ---- La colonne achat ---- */
+.buybox {
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  padding: 1.4rem;
+  box-shadow: var(--shadow-md);
+}
+.buybox__price { display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; }
+.buybox__price .stamp-price { font-size: 1.75rem; }
+.buybox__old { font-family: var(--font-mono); font-size: .85rem; color: var(--ink-400); text-decoration: line-through; }
+.buybox__actions { display: flex; flex-direction: column; gap: .55rem; margin-top: 1.3rem; }
+.buybox .etiquette { margin-top: .9rem; }
+.btn--ghost.is-active { border-color: var(--stamp-500); color: var(--stamp-600); }
+.btn--ghost.is-active .ic { fill: currentColor; }
+
+/* ---- Le vendeur ---- */
+.vendeur { display: flex; gap: .9rem; align-items: flex-start; }
+.fiche .avatar { width: 52px; height: 52px; font-size: 1rem; overflow: hidden; }
+.vendeur__name { font-weight: var(--fw-semibold); display: block; }
+.vendeur__meta { font-size: .78rem; color: var(--ink-500); }
+.vendeur__tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .45rem; }
+.vendeur__trust { font-family: var(--font-mono); font-weight: 700; }
+
+/* ---- Le formulaire de contact ---- */
+.fiche__contact { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--paper-rule); }
+.fiche__contact .form-group + .form-group { margin-top: .8rem; }
+
+/* ---- Le séquestre, en trois lignes ---- */
+.seq { border-top: 1.5px solid var(--ink-900); }
+.seq__row { display: grid; grid-template-columns: 2.6rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--paper-rule); }
+.seq__num { font-family: var(--font-mono); font-size: .78rem; color: var(--ink-400); letter-spacing: .08em; }
+.seq__row b { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; display: block; }
+.seq__row p { font-size: .875rem; color: var(--ink-600); margin-top: .2rem; }
+
+/* ---- La mini-charte de sécurité ---- */
+.charte { border-top: 1.5px solid var(--ink-900); }
+.charte__row {
+  display: grid; grid-template-columns: 3rem 1fr 1fr;
+  gap: 1.5rem; align-items: start;
+  padding: 1.3rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.charte__row h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
+.charte__row p { font-size: .875rem; color: var(--ink-600); max-width: 46ch; }
+.charte__proof { font-size: .78rem; color: var(--seal-600); font-weight: 600; }
+.charte__ic { color: var(--seal-500); width: 1.4em; height: 1.4em; }
+@media (max-width: 780px) {
+  .charte__row { grid-template-columns: 2rem 1fr; }
+  .charte__row p { grid-column: 2; }
+  .charte__proof { grid-column: 2; }
+}
+
+/* ---- Les fiches du même rayon ---- */
+.cat-list { border-top: 1.5px solid var(--ink-900); }
+.cat-row {
+  display: grid;
+  grid-template-columns: 92px 1fr 40px;
+  grid-template-areas:
+    "media main fav"
+    "media price fav";
+  gap: .85rem 1rem;
+  align-items: start;
+  padding: 1rem .4rem;
+  border-bottom: 1px solid var(--paper-rule);
+  transition: background var(--t-fast);
+}
+.cat-row:hover { background: rgba(255, 255, 255, .42); }
+.cat-row__media {
+  grid-area: media; align-self: start;
+  display: block; aspect-ratio: 4/3;
+  background: var(--paper-edge); border-radius: var(--radius-sm); overflow: hidden;
+}
+.cat-row__media img { width: 100%; height: 100%; object-fit: cover; }
+.cat-row__main { grid-area: main; min-width: 0; }
+.cat-row__head { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: .4rem; }
+.cat-row__title { font-size: 1.05rem; letter-spacing: -.02em; }
+.cat-row__title a { color: var(--ink-900); }
+.cat-row__title a:hover { color: var(--stamp-600); }
+.cat-row__meta { display: flex; flex-wrap: wrap; gap: .15rem .6rem; font-size: .78rem; color: var(--ink-500); margin-top: .3rem; }
+.cat-row__meta span + span::before { content: "·"; margin-right: .6rem; color: var(--ink-300); }
+.cat-row__tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .55rem; }
+.cat-row__price { grid-area: price; display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.cat-row__price .stamp-price { font-size: 1rem; padding: .28rem .7rem; }
+.cat-row__was { font-family: var(--font-mono); font-size: .72rem; color: var(--ink-400); }
+.cat-row__was s { text-decoration: line-through; }
+.cat-row__fav {
+  grid-area: fav; align-self: start; justify-self: end;
+  width: 36px; height: 36px; display: grid; place-items: center;
+  background: var(--paper-sheet); border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-xs); color: var(--ink-500);
+  transition: color var(--t-fast), border-color var(--t-fast);
+}
+.cat-row__fav:hover { color: var(--stamp-600); border-color: var(--ink-300); }
+.cat-row__fav.is-active { color: var(--stamp-500); border-color: var(--stamp-300); }
+.cat-row__fav.is-active .ic { fill: currentColor; }
+@media (min-width: 760px) {
+  .cat-row {
+    grid-template-columns: 124px 1fr auto 44px;
+    grid-template-areas: "media main price fav";
+    gap: 1.3rem; align-items: center;
+    padding: 1rem .6rem;
+  }
+  .cat-row__price { flex-direction: column; align-items: flex-end; gap: .35rem; }
+}
+</style>
+
+<script type="application/ld+json" id="ld-product">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Canapé 3 places IKEA KIVIK",
+  "image": ["https://maisonvide.fr/assets/img/listing-canape.jpg", "https://maisonvide.fr/assets/img/storytelling.jpg", "https://maisonvide.fr/assets/img/lifestyle-2.jpg"],
+  "description": "Canapé 3 places IKEA modèle KIVIK, 5 ans d'usage, non-fumeur. Tissu gris clair en très bon état, assise ferme, housse lavable.",
+  "sku": "L.01",
+  "category": "Mobilier",
+  "brand": {"@type": "Brand", "name": "IKEA"},
+  "itemCondition": "https://schema.org/UsedCondition",
+  "offers": {
+    "@type": "Offer",
+    "price": "280",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/UsedCondition",
+    "url": "https://maisonvide.fr/annonce.html?slug=canape-ikea-kivik",
+    "seller": {"@type": "Organization", "name": "Sophie M."}
+  }
+}
+</script>
+</head>
+
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="vendre.html">Estimer</a>
+      <a href="annonces.html" class="is-active">Annonces</a>
+      <a href="confiance.html">Confiance</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="fiche">
+  <div class="container">
+
+    <a href="annonces.html" class="fiche__back" id="fiche-back">
+      <svg class="ic ic--sm" aria-hidden="true"><use href="#i-arrow-left"></use></svg>
+      Retour au catalogue
+    </a>
+
+    <!-- ================= FICHE ================= -->
+    <div id="listing-content" class="hidden">
+      <div class="fiche__grid">
+
+        <!-- ---------- Colonne principale ---------- -->
+        <div>
+          <div class="fiche__media">
+            <img id="gallery-main" src="" alt="">
+            <span class="fiche__stamp"><span class="stamp-price" id="price">— €</span></span>
+          </div>
+          <div class="fiche__gal" id="gallery-thumbs"></div>
+
+          <p class="label" style="margin-top:1.6rem">
+            <span id="fiche-ref">L.01</span> · <span id="fiche-cat">Mobilier</span> · <span id="fiche-posted">Il y a 2h</span>
+          </p>
+          <h1 class="fiche__title" id="title">Titre de la fiche</h1>
+
+          <div class="fiche__etiq">
+            <span class="etiquette" id="etiq-state">État</span>
+            <span class="etiquette" id="etiq-brand">Marque</span>
+            <span class="etiquette" id="etiq-year">Année</span>
+          </div>
+
+          <div class="fiche__tags">
+            <span class="sceau" id="badge-verified"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> Identité vérifiée</span>
+            <span class="badge" id="badge-location">Lieu</span>
+            <span class="badge" id="badge-distance">Distance</span>
+            <span class="badge" id="badge-tier">Vérifié</span>
+          </div>
+
+          <div class="fiche__section" data-rise>
+            <h2>La fiche</h2>
+            <p id="desc">Description de l'objet.</p>
+          </div>
+
+          <div class="fiche__section" data-rise>
+            <h2>Les mesures</h2>
+            <table class="data-table">
+              <tbody>
+                <tr><th scope="row">Dimensions</th><td id="spec-dimensions">—</td></tr>
+                <tr><th scope="row">Matière</th><td id="spec-material">—</td></tr>
+                <tr><th scope="row">Remise</th><td id="spec-delivery">—</td></tr>
+                <tr><th scope="row">Paiement</th><td id="spec-payment">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="fiche__section" data-rise>
+            <h2>Le séquestre, en trois lignes</h2>
+            <p>Le paiement ne va jamais directement au vendeur. Il dort sur un compte tiers, et il ne bouge qu'une fois l'objet dans vos mains.</p>
+            <div class="seq mt-6">
+              <div class="seq__row">
+                <span class="seq__num">01</span>
+                <div><b>Vous payez</b><p>Le montant part vers un compte tiers agréé, jamais vers le vendeur.</p></div>
+              </div>
+              <div class="seq__row">
+                <span class="seq__num">02</span>
+                <div><b>L'argent dort</b><p>Le vendeur a été payé, l'acheteur pas encore. Personne ne peut filer avec la somme.</p></div>
+              </div>
+              <div class="seq__row">
+                <span class="seq__num">03</span>
+                <div><b>Vous confirmez</b><p>Vous validez la réception, le séquestre est libéré dans la foulée.</p></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fiche__section" data-rise>
+            <h2>La charte, en quatre lignes</h2>
+            <div class="charte mt-6">
+              <div class="charte__row">
+                <svg class="ic charte__ic" aria-hidden="true"><use href="#i-id"></use></svg>
+                <h4>Identité vérifiée</h4>
+                <div>
+                  <p>Pièce d'identité et selfie vidéo contrôlés avant la première annonce.</p>
+                  <div class="charte__proof">4 niveaux KYC · 4 min</div>
+                </div>
+              </div>
+              <div class="charte__row">
+                <svg class="ic charte__ic" aria-hidden="true"><use href="#i-lock"></use></svg>
+                <h4>Séquestre bancaire</h4>
+                <div>
+                  <p>Votre argent reste sur un compte tiers jusqu'à la réception de l'objet.</p>
+                  <div class="charte__proof">Mangopay · agréé ACPR</div>
+                </div>
+              </div>
+              <div class="charte__row">
+                <svg class="ic charte__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+                <h4>Assurance AXA</h4>
+                <div>
+                  <p>Non livré, non conforme, vice caché : vous êtes remboursé, objet compris.</p>
+                  <div class="charte__proof">Jusqu'à 10 000 €</div>
+                </div>
+              </div>
+              <div class="charte__row">
+                <svg class="ic charte__ic" aria-hidden="true"><use href="#i-flag"></use></svg>
+                <h4>Signalements</h4>
+                <div>
+                  <p>Un humain tranche le litige en 24 h, et le vendeur est noté en face.</p>
+                  <div class="charte__proof">8 médiateurs · réponse &lt; 2 min</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------- Colonne achat ---------- -->
+        <aside class="fiche__aside">
+          <div class="buybox">
+            <p class="label">Prix demandé</p>
+            <div class="buybox__price">
+              <span class="stamp-price" id="price-stamp">— €</span>
+              <span class="buybox__old" id="price-old">— €</span>
+            </div>
+            <span class="badge badge--stamp" id="price-off" style="margin-top:.6rem">— %</span>
+            <span class="etiquette" id="price-juste">— % du prix neuf</span>
+
+            <div class="buybox__actions">
+              <a href="#" class="btn btn--whatsapp btn--lg btn--block" id="whatsapp-btn">
+                <svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+                Écrire sur WhatsApp
+              </a>
+              <button type="button" class="btn btn--ghost btn--block" id="contact-btn" aria-expanded="false" aria-controls="contact-panel">
+                <svg class="ic" aria-hidden="true"><use href="#i-mail"></use></svg>
+                Contacter le vendeur
+              </button>
+              <button type="button" class="btn btn--ghost btn--block" id="favorite-btn" data-wishlist="">
+                <svg class="ic" aria-hidden="true"><use href="#i-heart"></use></svg>
+                <span id="fav-label">Garder la fiche</span>
+              </button>
+            </div>
+
+            <div class="hidden" id="contact-panel">
+              <form class="fiche__contact" id="contact-form">
+                <div class="form-group">
+                  <label class="form-label" for="c-name">Votre nom</label>
+                  <input class="input" id="c-name" name="name" type="text" autocomplete="name" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-mail">Votre e-mail</label>
+                  <input class="input" id="c-mail" name="email" type="email" autocomplete="email" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-msg">Votre message</label>
+                  <textarea class="textarea" id="c-msg" name="message" required></textarea>
+                </div>
+                <button class="btn btn--seal btn--block" type="submit">Envoyer la demande</button>
+                <p class="form-help" style="margin-top:.6rem">Réponse en <span id="reply-time">&lt; 2h</span> en moyenne. Aucun paiement avant d'avoir vu l'objet.</p>
+              </form>
+            </div>
+
+            <div class="fiche__section" style="margin-top:1.6rem;padding-top:1.2rem">
+              <h2 style="font-size:1.05rem">Le vendeur</h2>
+              <div class="vendeur mt-6">
+                <div class="avatar" id="seller-avatar">—</div>
+                <div>
+                  <span class="vendeur__name" id="seller-name">—</span>
+                  <span class="vendeur__meta" id="seller-meta">—</span>
+                  <div class="vendeur__tags" id="seller-tags"></div>
+                </div>
+              </div>
+            </div>
+
+            <p class="hand" style="margin-top:1.4rem">→ remis en main propre, à voir avant de payer</p>
+          </div>
+        </aside>
+      </div>
+
+      <!-- ---------- Le même rayon ---------- -->
+      <section class="fiche__section" data-rise>
+        <h2 id="related-title">Dans le même rayon</h2>
+        <div class="cat-list mt-6" id="related-grid"></div>
+      </section>
+    </div>
+
+    <!-- ---------- 404 ---------- -->
+    <div class="hidden text-center" id="not-found" style="padding-block:5rem">
+      <div style="color:var(--ink-400);margin-bottom:1rem">
+        <svg class="ic ic--xl" aria-hidden="true"><use href="#i-search"></use></svg>
+      </div>
+      <h2 class="display" style="font-size:1.9rem">Cette fiche n'est plus au carnet.</h2>
+      <p class="lead mt-6" style="margin-inline:auto">Elle a peut-être été vendue, ou retirée par son vendeur.</p>
+      <a href="annonces.html" class="btn btn--primary mt-8">Voir toutes les annonces</a>
+    </div>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/listings.js"></script>
+<script>
+(function () {
+  'use strict';
+  const MVD = window.MaisonVideData;
+  const DATA = MVD.DATA;
+
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('slug') || 'canape-ikea-kivik';
+  const l = MVD.findListing(slug);
+
+  const content = document.getElementById('listing-content');
+  const notFound = document.getElementById('not-found');
+
+  if (!l) {
+    document.getElementById('fiche-back').classList.add('hidden');
+    notFound.classList.remove('hidden');
+    return;
+  }
+  content.classList.remove('hidden');
+
+  const cat = DATA.categories[l.category];
+  const price = MVD.fmtPrice(l.price);
+  const off = Math.round((1 - l.price / l.originalPrice) * 100);
+  const ratio = Math.round((l.price / l.originalPrice) * 100);
+  const esc = MVD.esc;
+
+  /* ---------- Titre, description, JSON-LD ---------- */
+  const suffix = ' · ' + price + ' — MaisonVide';
+  document.title = (l.title.length + suffix.length > 60 ? l.title.slice(0, 60 - suffix.length - 1) + '…' : l.title) + suffix;
+
+  const desc = l.title + ' à ' + price + ' à ' + l.location + '. ' + l.description + ' Vendeur ' + l.seller.name + ', sceau vérifié, paiement en séquestre.';
+  const descTag = document.querySelector('meta[name="description"]');
+  if (descTag) descTag.setAttribute('content', desc.slice(0, 160));
+
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: l.title,
+    image: l.images.map(src => 'https://maisonvide.fr/' + src),
+    description: l.description,
+    sku: l.ref,
+    category: cat.label,
+    brand: { '@type': 'Brand', name: l.brand },
+    itemCondition: 'https://schema.org/UsedCondition',
+    offers: {
+      '@type': 'Offer',
+      price: String(l.price),
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/UsedCondition',
+      url: 'https://maisonvide.fr/annonce.html?slug=' + l.slug,
+      seller: { '@type': 'Organization', name: l.seller.name }
+    }
+  };
+  document.getElementById('ld-product').textContent = JSON.stringify(ld, null, 2);
+
+  /* ---------- L'en-tête de la fiche ---------- */
+  document.getElementById('fiche-ref').textContent = l.ref;
+  document.getElementById('fiche-cat').textContent = cat.label;
+  document.getElementById('fiche-posted').textContent = l.postedAt;
+  document.getElementById('title').textContent = l.title;
+
+  document.getElementById('etiq-state').textContent = MVD.cap(l.condition);
+  document.getElementById('etiq-brand').textContent = l.brand;
+  document.getElementById('etiq-year').textContent = l.year;
+
+  const verified = document.getElementById('badge-verified');
+  if (l.seller.verified) {
+    verified.innerHTML = '<svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> Identité vérifiée';
+  } else {
+    verified.innerHTML = '<svg class="ic ic--sm" aria-hidden="true"><use href="#i-user"></use></svg> Membre inscrit';
+    verified.classList.remove('sceau');
+    verified.classList.add('badge');
+  }
+  document.getElementById('badge-location').textContent = l.location;
+  document.getElementById('badge-distance').textContent = MVD.fmtKm(l.distance);
+  document.getElementById('badge-tier').textContent = MVD.tierLabel(l.seller.tier);
+
+  /* ---------- La fiche ---------- */
+  document.getElementById('desc').textContent = l.description;
+  document.getElementById('spec-dimensions').textContent = l.dimensions;
+  document.getElementById('spec-material').textContent = l.material;
+  document.getElementById('spec-delivery').textContent = l.delivery;
+  document.getElementById('spec-payment').textContent = l.payment;
+
+  /* ---------- Le prix ---------- */
+  document.getElementById('price').textContent = price;
+  document.getElementById('price-stamp').textContent = price;
+  document.getElementById('price-old').textContent = MVD.fmtPrice(l.originalPrice) + ' neuf';
+  document.getElementById('price-off').textContent = '−' + off + ' % sur le neuf';
+  document.getElementById('price-juste').textContent = ratio + ' % du prix neuf';
+
+  /* ---------- La galerie ---------- */
+  const main = document.getElementById('gallery-main');
+  const thumbs = document.getElementById('gallery-thumbs');
+  const photos = l.images;
+
+  function showPhoto(i) {
+    main.src = photos[i];
+    main.alt = l.title + ' — photo ' + (i + 1) + ' sur ' + photos.length;
+    thumbs.querySelectorAll('button').forEach((b, idx) => {
+      b.classList.toggle('is-on', idx === i);
+      if (idx === i) b.setAttribute('aria-current', 'true');
+      else b.removeAttribute('aria-current');
+    });
+  }
+
+  thumbs.innerHTML = photos.map((src, i) =>
+    `<button type="button" class="${i === 0 ? 'is-on' : ''}" aria-label="Photo ${i + 1} sur ${photos.length}"><img src="${src}" alt="" loading="lazy"></button>`
+  ).join('');
+  thumbs.querySelectorAll('button').forEach((b, i) => b.addEventListener('click', () => showPhoto(i)));
+  showPhoto(0);
+
+  /* ---------- Le vendeur ---------- */
+  const av = document.getElementById('seller-avatar');
+  if (l.avatar) {
+    av.innerHTML = '<img src="' + l.avatar + '" alt="" style="width:100%;height:100%;object-fit:cover">';
+  } else {
+    av.textContent = MVD.initials(l.seller.name);
+  }
+  document.getElementById('seller-name').textContent = l.seller.name;
+  document.getElementById('seller-meta').textContent =
+    l.seller.sales + ' ventes · membre depuis ' + l.seller.joinedYear + ' · répond en ' + l.seller.responseTime;
+
+  document.getElementById('seller-tags').innerHTML =
+    (l.seller.verified ? '<span class="sceau">Vérifié</span>' : '') +
+    '<span class="badge">' + MVD.tierLabel(l.seller.tier) + '</span>' +
+    '<span class="badge vendeur__trust"><span class="count">' + (l.seller.trustScore || 80) + '</span> / 100 de confiance</span>' +
+    '<span class="badge">' + MVD.icon('star', 'ic--sm') + ' ' + l.seller.rating.toFixed(1) + '/5</span>';
+
+  /* ---------- Contacter le vendeur ---------- */
+  const msg = encodeURIComponent('Bonjour, votre « ' + l.title + ' » sur MaisonVide m\'intéresse. Est-il toujours disponible ?');
+  document.getElementById('whatsapp-btn').href = 'https://wa.me/33600000000?text=' + msg;
+
+  const favBtn = document.getElementById('favorite-btn');
+  const favLabel = document.getElementById('fav-label');
+  favBtn.dataset.wishlist = l.slug;
+  favBtn.setAttribute('aria-label', 'Garder la fiche : ' + l.title);
+
+  // Le libellé suit l'état du favori (le clic est traité par site.js).
+  favBtn.addEventListener('click', function () {
+    setTimeout(function () {
+      const kept = favBtn.classList.contains('is-active');
+      favLabel.textContent = kept ? 'Fiche gardée' : 'Garder la fiche';
+    }, 0);
+  });
+
+  const contactBtn = document.getElementById('contact-btn');
+  const contactPanel = document.getElementById('contact-panel');
+  const contactMsg = document.getElementById('c-msg');
+  document.getElementById('reply-time').textContent = l.seller.responseTime;
+
+  contactBtn.addEventListener('click', () => {
+    const open = contactPanel.classList.toggle('hidden') === false;
+    contactBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open && !contactMsg.value) {
+      contactMsg.value = 'Bonjour, votre « ' + l.title + ' » m\'intéresse. Est-il toujours disponible ?';
+    }
+    if (open) contactMsg.focus();
+  });
+
+  document.getElementById('contact-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    window.mvToast('Demande envoyée au vendeur', 'success', 2200);
+    this.reset();
+  });
+
+  /* ---------- Le même rayon ---------- */
+  const memeCat = DATA.listings.filter(x => x.category === l.category && x.slug !== l.slug);
+  const reste = DATA.listings
+    .filter(x => x.category !== l.category)
+    .sort((a, b) => (b.seller.trustScore || 80) - (a.seller.trustScore || 80));
+  const related = memeCat.concat(reste).slice(0, 4);
+  document.getElementById('related-title').textContent =
+    memeCat.length >= 2 ? 'Dans le même rayon' : 'Le reste du carnet';
+  document.getElementById('related-grid').innerHTML = related.map(MVD.listingRow).join('');
+})();
+</script>
+
+</body>
+</html>

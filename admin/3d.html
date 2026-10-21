@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#141917">
+<meta name="description" content="CRM spatial MaisonVide : le stock en volume, un bloc par objet, hauteur proportionnelle au prix, couleur par categorie, opacite par statut.">
+<meta name="robots" content="noindex, nofollow">
+  <title>Dépôt 3D — Vue spatiale du stock | MaisonVide Admin</title>
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="../assets/css/motion.css">
+<style>
+  :root {
+    --paper-ground:#e8e5db; --paper-sheet:#f7f5ef; --paper-edge:#dcd7c9;
+    --ink-900:#1b1f1c; --ink-700:#3c423d; --ink-500:#6b7169; --ink-400:#8b9088; --ink-300:#b3b7ae;
+    --kraft-100:#e6d3b4; --kraft-300:#c9a87c; --kraft-500:#b38d5c; --kraft-700:#8a6a41;
+    --stamp-500:#c0392b; --stamp-600:#a52d20; --seal-500:#41624d; --seal-600:#33513e;
+  }
+  body { background:#141917; color:#f7f5ef; overflow:hidden; font-family:var(--font-body); }
+  /* Reset local : cette page ne dépend pas d'aucun CSS partagé */
+  * { box-sizing:border-box; margin:0; padding:0; }
+  button { font:inherit; cursor:pointer; border:0; background:transparent; color:inherit; }
+  a { color:inherit; text-decoration:none; }
+  img, svg { display:block; max-width:100%; }
+  /* Icônes SVG (sprite injecté par core.js) */
+  .ic {
+    width:1.15em; height:1.15em; flex-shrink:0;
+    fill:none; stroke:currentColor; stroke-width:1.6;
+    stroke-linecap:round; stroke-linejoin:round;
+    vertical-align:-0.18em;
+  }
+  .crm3d__pill { display:inline-flex; align-items:center; gap:.4rem; }
+  .crm3d { display:grid; grid-template-columns:1fr 320px; height:100vh; }
+  @media (max-width:900px){ .crm3d{ grid-template-columns:1fr; grid-template-rows:1fr auto; } .crm3d__panel{ max-height:44vh; overflow-y:auto; } }
+
+  .crm3d__stage { position:relative; }
+  .crm3d__panel {
+    background:#0e1210;
+    border-left:1px solid #262c28;
+    padding:1.5rem;
+    overflow-y:auto;
+  }
+  .crm3d__panel h1 { font-family:var(--font-display); font-size:1.5rem; color:var(--paper-sheet); letter-spacing:-.02em; }
+  .crm3d__panel h2 { font-family:var(--font-body); font-size:.7rem; text-transform:uppercase; letter-spacing:.14em; color:var(--ink-400); margin:1.6rem 0 .7rem; font-weight:600; }
+
+  .crm3d__legend { display:flex; flex-direction:column; gap:.5rem; }
+  .crm3d__legend button {
+    display:flex; align-items:center; gap:.55rem; width:100%;
+    font-size:.8rem; color:#b3b7ae;
+    padding:.35rem .5rem; border-radius:6px;
+    transition: background .15s, color .15s;
+    text-align:left;
+  }
+  .crm3d__legend button:hover { background:rgba(255,255,255,.05); color:var(--paper-sheet); }
+  .crm3d__legend button.is-off { opacity:.35; }
+  .crm3d__swatch { width:11px; height:11px; border-radius:2px; flex-shrink:0; }
+
+  .crm3d__kpis { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#262c28; border:1px solid #262c28; border-radius:8px; overflow:hidden; }
+  .crm3d__kpis > div { background:#0e1210; padding:.85rem .9rem; }
+  .crm3d__kpis b { display:block; font-family:var(--font-mono); font-size:1.35rem; letter-spacing:-.03em; color:var(--paper-sheet); }
+  .crm3d__kpis span { font-size:.66rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-400); }
+
+  .crm3d__tip {
+    position:absolute; pointer-events:none; z-index:10;
+    background:rgba(14,18,16,.94); border:1px solid #363d38;
+    border-radius:8px; padding:.6rem .8rem; min-width:170px;
+    transform:translate(-50%, -115%);
+    opacity:0; transition: opacity .14s;
+  }
+  .crm3d__tip.is-on { opacity:1; }
+  .crm3d__tip b { display:block; font-size:.82rem; color:var(--paper-sheet); margin-bottom:.15rem; }
+  .crm3d__tip span { font-size:.72rem; color:var(--ink-400); }
+  .crm3d__tip em { display:block; font-family:var(--font-mono); font-style:normal; font-size:.95rem; color:var(--kraft-300); margin-top:.3rem; }
+
+  .crm3d__hud { position:absolute; top:1.25rem; left:1.25rem; display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; }
+  .crm3d__pill {
+    background:#141917;
+    border:1px solid #2c322d; border-radius:999px;
+    padding:.35rem .8rem; font-size:.72rem; color:#e8e5db;
+    display:inline-flex; align-items:center; gap:.4rem;
+  }
+  .crm3d__pill--live { color:#4ade80; }
+  .crm3d__timeline {
+    position:absolute; left:1.25rem; right:1.25rem; bottom:1.25rem;
+    display:flex; align-items:center; gap:1rem;
+    background:#141917;
+    border:1px solid #2c322d; border-radius:10px; padding:.8rem 1rem;
+    z-index:2;
+  }
+  .crm3d__timeline label { font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-400); white-space:nowrap; }
+  .crm3d__timeline input[type=range] { flex:1; accent-color:var(--kraft-500); }
+  .crm3d__month { font-family:var(--font-mono); font-size:.85rem; color:var(--kraft-300); min-width:88px; text-align:right; }
+  .crm3d__back { position:absolute; top:1.25rem; right:1.25rem; }
+  .crm3d__back a { font-size:.78rem; color:var(--ink-300); display:inline-flex; align-items:center; gap:.4rem; }
+  .crm3d__back a:hover { color:var(--paper-sheet); }
+  .crm3d__fallback {
+    position:absolute; inset:0; display:grid; place-items:center; text-align:center;
+    background:#141917; color:var(--ink-400); font-size:.85rem; padding:2rem;
+  }
+
+  /* Boutons (versions locales : cette page est autonome) */
+  .btn-a {
+    display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    padding:.7rem 1.2rem; font-size:.85rem; font-weight:600;
+    border-radius:6px; border:1.5px solid transparent;
+    transition: background .18s, border-color .18s, color .18s;
+  }
+  .btn-a--ghost { background:transparent; color:var(--ink-300); border-color:#2c322d; }
+  .btn-a--ghost:hover { color:var(--paper-sheet); border-color:var(--ink-400); }
+  .btn-a--sm { padding:.45rem .8rem; font-size:.78rem; }
+</style>
+</head>
+<body>
+
+<div class="crm3d">
+  <div class="crm3d__stage" id="stage">
+    <div class="crm3d__hud">
+      <span class="crm3d__pill crm3d__pill--live"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-trend"></use></svg> Temps réel</span>
+      <span class="crm3d__pill" id="hud-count">— objets</span>
+      <span class="crm3d__pill" id="hud-value">— € en stock</span>
+    </div>
+    <div class="crm3d__back"><a href="index.html">← Retour au dashboard</a></div>
+    <div class="crm3d__tip" id="tip"></div>
+
+    <div class="crm3d__timeline">
+      <label>Évolution</label>
+      <input type="range" id="time" min="0" max="12" value="12" step="1" aria-label="Avancer dans le temps">
+      <span class="crm3d__month" id="month">Octobre 2026</span>
+      <button class="crm3d__pill" id="play"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg><span>Lire</span></button>
+    </div>
+
+    <div class="crm3d__fallback" id="fallback" style="display:none">
+      <div>
+        <div style="margin-bottom:.6rem"><svg class="ic" style="width:2rem;height:2rem" aria-hidden="true"><use href="#i-cube"></use></svg></div>
+        <p>La vue 3D n'a pas pu démarrer (WebGL indisponible sur cet appareil).<br>Les données restent accessibles dans le dashboard 2D.</p>
+        <a href="index.html" class="btn-a btn-a--primary" style="margin-top:1rem">Dashboard classique</a>
+      </div>
+    </div>
+  </div>
+
+  <aside class="crm3d__panel">
+    <h1>Le Dépôt</h1>
+    <p style="font-size:.8rem;color:var(--ink-400);margin-top:.4rem;line-height:1.5">
+      Vue spatiale de votre inventaire. Chaque bloc est un objet : sa hauteur suit le prix,
+      sa couleur la catégorie, sa transparence le statut.
+    </p>
+
+    <h2>Ce mois</h2>
+    <div class="crm3d__kpis">
+      <div><b id="k-stock">0</b><span>En stock</span></div>
+      <div><b id="k-value">0 €</b><span>Valeur</span></div>
+      <div><b id="k-sold">0</b><span>Vendus</span></div>
+      <div><b id="k-pending">0</b><span>À valider</span></div>
+    </div>
+
+    <h2>Catégories</h2>
+    <div class="crm3d__legend" id="legend"></div>
+
+    <h2>Statut</h2>
+    <div class="crm3d__legend" id="legend-status"></div>
+
+    <h2>Lecture</h2>
+    <p style="font-size:.76rem;color:var(--ink-400);line-height:1.6">
+      Glissez pour orbiter · molette pour zoomer · survolez un bloc pour le détail.<br>
+      La caméra est amortie (damp λ&nbsp;6) : le mouvement a du poids, comme dans une salle d'exposition.
+    </p>
+    <button class="btn-a btn-a--ghost btn-a--sm" id="reset-cam" style="width:100%;margin-top:.6rem">Recentrer la caméra</button>
+  </aside>
+</div>
+
+<script src="../assets/js/core.js"></script>
+<script type="importmap">
+{ "imports": { "three": "../assets/vendor/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+/* ------------------------------------------------------------------ */
+/* Données : le stock, mois par mois                                   */
+/* ------------------------------------------------------------------ */
+const CATS = {
+  mobilier:       { label:'Mobilier',        color:0xb38d5c },
+  decoration:     { label:'Décoration',      color:0xc0392b },
+  electronique:   { label:'Électronique',    color:0x41624d },
+  electromenager: { label:'Électroménager',  color:0x4a7c8c },
+  art:            { label:'Art',             color:0x8a6a41 },
+  vetements:      { label:'Vêtements',       color:0x6b7169 },
+  jardin:         { label:'Jardin',          color:0x5d7a4a },
+  livres:         { label:'Livres',          color:0x9a8f7a },
+};
+const STATUS = {
+  active:  { label:'En ligne',  color:0x41624d },
+  pending: { label:'À valider', color:0xb7791f },
+  sold:    { label:'Vendu',     color:0x5c6560 },
+};
+
+// 13 mois de stock : chaque entrée = une annonce apparue à un mois donné
+const SEED = [
+  ['canape',   'mobilier',       280,  0,  'Canapé 3 places',          'sold'],
+  ['table',    'mobilier',       340,  0,  'Table chêne massif',      'sold'],
+  ['lampe',    'decoration',      85,  1,  'Lampe articulée',         'active'],
+  ['commode',  'mobilier',       145,  1,  'Commode années 60',       'sold'],
+  ['macbook',  'electronique',   720,  2,  'MacBook Pro M1',          'sold'],
+  ['thermo',   'electromenager', 680,  2,  'Thermomix TM6',           'sold'],
+  ['manteau',  'vetements',      145,  3,  'Manteau cuir',            'active'],
+  ['murano',   'art',            320,  4,  'Vase Murano signé',       'active'],
+  ['velo',     'jardin',          95,  4,  'Vélo Peugeot',           'active'],
+  ['ps5',      'electronique',   380,  6,  'PlayStation 5',           'active'],
+  ['asterix',  'livres',         110,  7,  'Collection Astérix',      'sold'],
+  ['dyson',    'electromenager', 175,  8,  'Dyson Supersonic',        'active'],
+  ['fauteuil', 'mobilier',       210,  9,  'Fauteuil rotin',          'pending'],
+  ['radio',    'electronique',   120, 10,  'Radio vintage',           'active'],
+  ['cadre',    'decoration',      75, 11,  'Cadre ancien',            'pending'],
+  ['plante',   'jardin',          40, 12,  'Grandes plantes',         'active'],
+  ['bibliotheque','mobilier',    420, 12,  'Bibliothèque 5 niveaux',  'active'],
+  ['lampe2',   'decoration',      60, 12,  'Lampe de chevet',         'active'],
+];
+
+const MONTHS = ['Oct 2025','Nov 2025','Déc 2025','Jan 2026','Fév 2026','Mar 2026','Avr 2026','Mai 2026','Juin 2026','Juil 2026','Août 2026','Sept 2026','Oct 2026'];
+
+let month = 12;
+let playing = false;
+const hiddenCats = new Set();
+const hiddenStatus = new Set();
+
+/* ------------------------------------------------------------------ */
+/* Scène                                                                */
+/* ------------------------------------------------------------------ */
+const stageEl = document.getElementById('stage');
+let renderer, scene, camera, raycaster, pointer, group, boxes = [];
+let camTheta = 0.9, camPhi = 1.05, camRadius = 34;
+let tTheta = camTheta, tPhi = camPhi, tRadius = camRadius;
+let targetY = 0;
+
+const damp = (cur, tgt, lambda, dt) => cur + (tgt - cur) * (1 - Math.exp(-lambda * dt));
+const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
+
+function init() {
+  try {
+    renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: false,
+      // Sans ça, le buffer est vidé après compositing : capture d'écran
+      // et export PNG sortent noirs.
+      preserveDrawingBuffer: true,
+    });
+  } catch (e) { fallback(); return; }
+  if (!renderer) { fallback(); return; }
+
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(stageEl.clientWidth, stageEl.clientHeight);
+  renderer.setClearColor(0x141917, 1);
+  stageEl.insertBefore(renderer.domElement, stageEl.firstChild);
+
+  scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x141917, 40, 90);
+
+  camera = new THREE.PerspectiveCamera(38, stageEl.clientWidth/stageEl.clientHeight, .1, 200);
+  camera.position.set(0, 12, 30);
+
+  // Lumières de salle d'exposition
+  scene.add(new THREE.HemisphereLight(0xf5efe2, 0x1a1f1c, 1.25));
+  const key = new THREE.DirectionalLight(0xfff2dd, 1.5);
+  key.position.set(8, 16, 10);
+  scene.add(key);
+  const fill = new THREE.DirectionalLight(0x9db8a8, .45);
+  fill.position.set(-10, 6, -6);
+  scene.add(fill);
+
+  // Sol
+  const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(120, 120),
+    new THREE.MeshStandardMaterial({ color:0x1b211d, roughness:.95, metalness:0 })
+  );
+  ground.rotation.x = -Math.PI/2;
+  ground.position.y = -0.02;
+  scene.add(ground);
+
+  // Grille
+  const grid = new THREE.GridHelper(80, 40, 0x2f3a33, 0x232b26);
+  grid.position.y = 0.01;
+  scene.add(grid);
+
+  group = new THREE.Group();
+  scene.add(group);
+
+  raycaster = new THREE.Raycaster();
+  pointer = new THREE.Vector2();
+
+  bind();
+  build();
+  loop(performance.now());   // sans timestamp, dt = NaN et la caméra devient NaN
+}
+
+function fallback() {
+  document.getElementById('fallback').style.display = 'grid';
+  // Sans WebGL, la 3D est impossible — mais les chiffres restent justes.
+  try {
+    const visible = SEED.filter(b => b[3] <= month);
+    updateKpis(visible);
+  } catch (e) { /* le panneau reste tel quel */ }
+}
+
+/* ------------------------------------------------------------------ */
+/* Construction des blocs                                               */
+/* ------------------------------------------------------------------ */
+const geoCache = new THREE.BoxGeometry(1,1,1);
+
+function build() {
+  // Nettoie
+  while (group.children.length) {
+    const c = group.children.pop();
+    c.geometry?.dispose?.();
+    c.material?.dispose?.();
+  }
+  boxes = [];
+
+  const visible = SEED.filter(b => b[3] <= month);
+  // Disposition : grille en spirale, densité constante
+  const COLS = 8;
+  visible.forEach((b, i) => {
+    const [key, cat, price, born, title, status] = b;
+    const col = i % COLS, row = Math.floor(i / COLS);
+
+    const h = 0.55 + (price / 800) * 4.2;          // hauteur = prix
+    const w = 1.25, d = 1.25;
+
+    const mat = new THREE.MeshStandardMaterial({
+      color: CATS[cat].color,
+      roughness: .55,
+      metalness: .08,
+      transparent: true,
+      opacity: status === 'sold' ? .32 : .95,
+      emissive: status === 'active' ? 0x0d1a12 : 0x000000,
+      emissiveIntensity: .6,
+    });
+    const mesh = new THREE.Mesh(geoCache, mat);
+    mesh.scale.set(w, h, d);
+    mesh.position.set((col - COLS/2) * 2.1 + (row % 2 ? 1.05 : 0), h/2, row * 2.6 - 6);
+    mesh.userData = { title, price, cat, status, key, h };
+    group.add(mesh);
+    boxes.push(mesh);
+
+    // Liseré clair : la « fiche »
+    const edge = new THREE.LineSegments(
+      new THREE.EdgesGeometry(geoCache),
+      new THREE.LineBasicMaterial({ color:0xe8e5db, transparent:true, opacity: status==='sold' ? .12 : .34 })
+    );
+    edge.scale.copy(mesh.scale);
+    edge.position.copy(mesh.position);
+    group.add(edge);
+    mesh.userData.edge = edge;
+  });
+
+  updateKpis(visible);
+}
+
+function updateKpis(visible) {
+  const live = visible.filter(b => b[5] === 'active');
+  const sold = visible.filter(b => b[5] === 'sold');
+  const pend = visible.filter(b => b[5] === 'pending');
+  const value = live.reduce((a,b) => a + b[2], 0);
+  document.getElementById('k-stock').textContent = live.length;
+  document.getElementById('k-value').textContent = value.toLocaleString('fr-FR') + ' €';
+  document.getElementById('k-sold').textContent = sold.length;
+  document.getElementById('k-pending').textContent = pend.length;
+  document.getElementById('hud-count').textContent = visible.length + ' objets';
+  document.getElementById('hud-value').textContent = value.toLocaleString('fr-FR') + ' € en stock';
+}
+
+/* ------------------------------------------------------------------ */
+/* Filtrage                                                             */
+/* ------------------------------------------------------------------ */
+function applyFilters() {
+  boxes.forEach(m => {
+    const hide = hiddenCats.has(m.userData.cat) || hiddenStatus.has(m.userData.status);
+    m.visible = !hide;
+    if (m.userData.edge) m.userData.edge.visible = !hide;
+  });
+}
+
+function renderLegends() {
+  const lc = document.getElementById('legend');
+  lc.innerHTML = Object.entries(CATS).map(([k,c]) =>
+    `<button data-cat="${k}" class="${hiddenCats.has(k)?'is-off':''}">
+       <span class="crm3d__swatch" style="background:#${c.color.toString(16).padStart(6,'0')}"></span>${c.label}
+     </button>`).join('');
+  const ls = document.getElementById('legend-status');
+  ls.innerHTML = Object.entries(STATUS).map(([k,s]) =>
+    `<button data-status="${k}" class="${hiddenStatus.has(k)?'is-off':''}">
+       <span class="crm3d__swatch" style="background:#${s.color.toString(16).padStart(6,'0')}"></span>${s.label}
+     </button>`).join('');
+
+  lc.querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.cat;
+    hiddenCats.has(k) ? hiddenCats.delete(k) : hiddenCats.add(k);
+    b.classList.toggle('is-off');
+    applyFilters();
+  }));
+  ls.querySelectorAll('[data-status]').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.status;
+    hiddenStatus.has(k) ? hiddenStatus.delete(k) : hiddenStatus.add(k);
+    b.classList.toggle('is-off');
+    applyFilters();
+  }));
+}
+
+/* ------------------------------------------------------------------ */
+/* Caméra amortie + interaction                                         */
+/* ------------------------------------------------------------------ */
+function bind() {
+  let dragging = false, lastX = 0, lastY = 0;
+
+  renderer.domElement.addEventListener('pointerdown', e => {
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    renderer.domElement.setPointerCapture(e.pointerId);
+  });
+  renderer.domElement.addEventListener('pointerup', e => {
+    dragging = false;
+    try { renderer.domElement.releasePointerCapture(e.pointerId); } catch {}
+  });
+  renderer.domElement.addEventListener('pointermove', e => {
+    const r = renderer.domElement.getBoundingClientRect();
+    pointer.x = ((e.clientX - r.left)/r.width)*2 - 1;
+    pointer.y = -((e.clientY - r.top)/r.height)*2 + 1;
+
+    if (dragging) {
+      tTheta -= (e.clientX - lastX) * 0.005;
+      tPhi = clamp(tPhi - (e.clientY - lastY) * 0.005, 0.22, 1.48);
+      lastX = e.clientX; lastY = e.clientY;
+    }
+    hover();
+  });
+  renderer.domElement.addEventListener('wheel', e => {
+    e.preventDefault();
+    tRadius = clamp(tRadius + e.deltaY * 0.02, 12, 70);
+  }, { passive:false });
+
+  document.getElementById('reset-cam').addEventListener('click', () => {
+    tTheta = .9; tPhi = 1.05; tRadius = 34; targetY = 0;
+  });
+
+  // Timeline
+  const time = document.getElementById('time');
+  time.addEventListener('input', e => {
+    month = +e.target.value;
+    document.getElementById('month').textContent = MONTHS[month];
+    build(); applyFilters();
+  });
+
+  const play = document.getElementById('play');
+  play.addEventListener('click', () => {
+    playing = !playing;
+    play.innerHTML = window.mvIcon(playing ? 'pause' : 'play') +
+      `<span>${playing ? 'Pause' : 'Lire'}</span>`;
+    if (playing && month >= 12) { month = 0; time.value = 0; build(); applyFilters(); }
+  });
+
+  addEventListener('resize', () => {
+    if (!renderer) return;
+    camera.aspect = stageEl.clientWidth/stageEl.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(stageEl.clientWidth, stageEl.clientHeight);
+  });
+}
+
+const tip = document.getElementById('tip');
+function hover() {
+  raycaster.setFromCamera(pointer, camera);
+  const hits = raycaster.intersectObjects(boxes.filter(b => b.visible), false);
+  if (hits.length) {
+    const m = hits[0].object;
+    const d = m.userData;
+    tip.innerHTML = `<b>${d.title}</b><span>${CATS[d.cat].label} · ${STATUS[d.status].label}</span><em>${d.price} €</em>`;
+    const p = m.position.clone().project(camera);
+    tip.style.left = ((p.x*0.5+0.5) * stageEl.clientWidth) + 'px';
+    tip.style.top  = ((-p.y*0.5+0.5) * stageEl.clientHeight) + 'px';
+    tip.classList.add('is-on');
+    renderer.domElement.style.cursor = 'pointer';
+  } else {
+    tip.classList.remove('is-on');
+    renderer.domElement.style.cursor = 'grab';
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Boucle                                                               */
+/* ------------------------------------------------------------------ */
+let prev = performance.now();
+function loop(now) {
+  requestAnimationFrame(loop);
+  if (!renderer) return;
+  const dt = Math.min((now - prev) / 1000, .05);
+  prev = now;
+
+  // Caméra amortie (damp) — le mouvement a du poids
+  camTheta = damp(camTheta, tTheta, 6, dt);
+  camPhi   = damp(camPhi,   tPhi,   6, dt);
+  camRadius= damp(camRadius,tRadius,6, dt);
+  // La hauteur visée est calculée, PAS lue dans camera.position.y :
+  // sinon la caméra se retro-alimente et s'envole vers +infini.
+  const desiredY = targetY + Math.cos(camPhi) * camRadius;
+  const camY = damp(camera.position.y, desiredY, 4, dt);
+
+  camera.position.set(
+    Math.sin(camPhi) * Math.sin(camTheta) * camRadius,
+    camY,
+    Math.sin(camPhi) * Math.cos(camTheta) * camRadius
+  );
+  camera.lookAt(0, targetY + 1.4, 0);
+
+  // Respiration très lente des blocs (vie de la scène)
+  const t = now * 0.0006;
+  boxes.forEach((m, i) => {
+    if (!m.visible) return;
+    const d = m.userData;
+    const target = 0.55 + (d.price/800) * 4.2;
+    const breathe = 1 + Math.sin(t + i * 0.7) * 0.012;
+    m.scale.y = damp(m.scale.y, target * breathe, 5, dt);
+    m.position.y = m.scale.y / 2;
+    if (d.edge) { d.edge.scale.copy(m.scale); d.edge.position.copy(m.position); }
+  });
+
+  // Lecture automatique de la timeline
+  if (playing) {
+    const timeEl = document.getElementById('time');
+    if (now - lastPlay > 900) {
+      lastPlay = now;
+      month = (month + 1) % 13;
+      timeEl.value = month;
+      document.getElementById('month').textContent = MONTHS[month];
+      build(); applyFilters();
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+let lastPlay = 0;
+
+init();
+renderLegends();
+</script>
+</body>
+</html>

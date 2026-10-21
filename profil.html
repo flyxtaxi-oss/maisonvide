@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title id="t">Mon compte — MaisonVide</title>
+<meta name="description" content="Votre espace MaisonVide : vos annonces, vos ventes, vos avis et vos preferences. Gerez votre compte et votre inventaire au meme endroit.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://maisonvide.fr/profil.html">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+.acct { display:grid; grid-template-columns: 232px 1fr; gap: 2.5rem; align-items:start; }
+@media (max-width: 900px) { .acct { grid-template-columns: 1fr; } }
+.acct__nav { display:flex; flex-direction:column; gap:2px; position:sticky; top: calc(var(--header-height) + 1rem); }
+.acct__nav a {
+  display:flex; align-items:center; gap:.6rem;
+  padding:.6rem .8rem; border-radius: var(--radius-sm);
+  font-size:.875rem; color: var(--ink-600);
+  transition: all var(--t-fast);
+}
+.acct__nav a:hover { background: var(--paper-sheet); color: var(--ink-900); }
+.acct__nav a.is-active { background: var(--ink-900); color: var(--paper-sheet); font-weight:600; }
+.acct__nav .ic { width:1.05em; height:1.05em; }
+
+.acct__head { display:flex; gap:1.2rem; align-items:center; padding-bottom:1.6rem; border-bottom:1.5px solid var(--ink-900); margin-bottom:1.8rem; }
+.acct__avatar { width:72px; height:72px; border-radius:var(--radius-full); background:var(--kraft-100); border:1px solid var(--kraft-300); display:grid; place-items:center; font-family:var(--font-display); font-size:1.6rem; font-weight:600; color:var(--kraft-700); flex-shrink:0; }
+.acct__id h1 { font-size:1.9rem; letter-spacing:-.03em; }
+.acct__id .acct__meta { font-size:.82rem; color:var(--ink-500); display:flex; gap:.8rem; flex-wrap:wrap; margin-top:.3rem; }
+
+.kpirow { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--paper-rule); border:1px solid var(--paper-rule); border-radius:var(--radius-md); overflow:hidden; margin-bottom:2rem; }
+.kpirow > div { background: var(--paper-sheet); padding:1.1rem 1.2rem; }
+.kpirow b { display:block; font-family:var(--font-mono); font-size:1.7rem; letter-spacing:-.03em; line-height:1.1; }
+.kpirow span { font-size:.72rem; color:var(--ink-500); text-transform:uppercase; letter-spacing:.08em; }
+
+.review { padding:1.2rem 0; border-bottom:1px solid var(--paper-rule); display:grid; grid-template-columns:150px 1fr; gap:1.2rem; }
+.review__who { font-size:.85rem; font-weight:600; }
+.review__who small { display:block; font-weight:400; color:var(--ink-500); font-size:.75rem; }
+.review__stars { color:var(--kraft-700); font-size:.8rem; letter-spacing:.1em; }
+.review__txt { font-size:.9rem; color:var(--ink-700); margin-top:.3rem; }
+@media (max-width:640px) { .review { grid-template-columns:1fr; gap:.4rem; } }
+</style>
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo"><span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span> MaisonVide</a>
+    <nav class="nav">
+      <a href="index.html">Accueil</a><a href="vendre.html">Estimer</a><a href="annonces.html">Annonces</a>
+      <a href="confiance.html">Confiance</a><a href="services.html">Services</a><a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Menu"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+    </div>
+  </div>
+</header>
+
+<section class="section" style="padding-block:2.5rem var(--space-16)">
+  <div class="container">
+    <div class="acct">
+      <!-- NAV -->
+      <nav class="acct__nav" aria-label="Navigation du compte">
+        <a href="profil.html" class="is-active" data-pane="overview"><svg class="ic" aria-hidden="true"><use href="#i-grid"></use></svg> Vue d'ensemble</a>
+        <a href="mes-annonces.html" data-pane="listings"><svg class="ic" aria-hidden="true"><use href="#i-box"></use></svg> Mes annonces</a>
+        <a href="favoris.html" data-pane="wishlist"><svg class="ic" aria-hidden="true"><use href="#i-heart"></use></svg> Mes favoris</a>
+        <a href="profil.html#avis" data-pane="reviews"><svg class="ic" aria-hidden="true"><use href="#i-star"></use></svg> Mes avis</a>
+        <a href="profil.html#ventes" data-pane="sales"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg> Mes ventes</a>
+        <a href="#" data-action="logout"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg> Se déconnecter</a>
+      </nav>
+
+      <!-- CONTENU -->
+      <div>
+        <!-- État non connecté -->
+        <div id="logged-out" class="hidden" style="text-align:center;padding:4rem 1rem">
+          <div style="font-size:2.5rem;margin-bottom:1rem"><svg class="ic ic--xl" aria-hidden="true" style="color:var(--ink-400)"><use href="#i-user"></use></svg></div>
+          <h2 class="display" style="max-width:16ch;margin-inline:auto">Il vous faut un compte.</h2>
+          <p class="lead mt-6" style="margin-inline:auto">Connectez-vous pour retrouver vos annonces, vos ventes et vos favoris.</p>
+          <a href="auth.html" class="btn btn--primary btn--lg mt-8">Se connecter</a>
+        </div>
+
+        <!-- État connecté -->
+        <div id="logged-in" class="hidden">
+          <div class="acct__head">
+            <div class="acct__avatar" id="me-initials">—</div>
+            <div class="acct__id">
+              <h1 id="me-name">—</h1>
+              <div class="acct__meta">
+                <span id="me-email">—</span>
+                <span class="sceau" id="me-tier"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> Vérifié</span>
+                <span id="me-since">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="kpirow">
+            <div><b id="k-listings">0</b><span>Annonces</span></div>
+            <div><b id="k-sales">0</b><span>Ventes</span></div>
+            <div><b id="k-views">0</b><span>Vues</span></div>
+            <div><b id="k-rev">0</b><span>Avis</span></div>
+            <div><b id="k-revenue">0 €</b><span>Encaissé</span></div>
+          </div>
+
+          <!-- Annonces récentes -->
+          <section data-pane-body="listings" style="margin-bottom:2.5rem">
+            <div class="flex-between" style="margin-bottom:1rem">
+              <h2 class="display" style="font-size:1.5rem">Annonces en cours</h2>
+              <a href="mes-annonces.html" class="btn btn--ghost btn--sm">Tout gérer</a>
+            </div>
+            <div id="my-listings" class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))"></div>
+            <p id="my-listings-empty" class="hidden" style="color:var(--ink-500);font-size:.9rem">
+              Aucune annonce pour l'instant. <a href="vendre.html" class="link-underline">Estimez votre premier objet →</a>
+            </p>
+          </section>
+
+          <!-- Avis -->
+          <section data-pane-body="reviews" id="avis" style="margin-bottom:2.5rem">
+            <h2 class="display" style="font-size:1.5rem;margin-bottom:.6rem">Ce que disent les acheteurs</h2>
+            <div id="my-reviews"></div>
+          </section>
+
+          <!-- Ventes -->
+          <section data-pane-body="sales" id="ventes" style="margin-bottom:2.5rem">
+            <h2 class="display" style="font-size:1.5rem;margin-bottom:.6rem">Historique des ventes</h2>
+            <table class="data-table">
+              <thead><tr><th>Article</th><th>Acheteur</th><th class="num">Prix</th><th>Date</th><th>Statut</th></tr></thead>
+              <tbody id="my-sales"></tbody>
+            </table>
+          </section>
+
+          <!-- Réglages -->
+          <section data-pane-body="settings">
+            <h2 class="display" style="font-size:1.5rem;margin-bottom:1rem">Réglages</h2>
+            <div style="background:var(--paper-sheet);border:1px solid var(--paper-edge);border-radius:var(--radius-md);padding:1.4rem">
+              <div class="flex-between" style="padding:.8rem 0;border-bottom:1px solid var(--paper-rule)">
+                <div><b style="font-size:.9rem">Alertes WhatsApp</b><div style="font-size:.78rem;color:var(--ink-500)">Être prévenu dès qu'un acheteur écrit.</div></div>
+                <div class="toggle is-on" role="switch" aria-checked="true" tabindex="0"></div>
+              </div>
+              <div class="flex-between" style="padding:.8rem 0;border-bottom:1px solid var(--paper-rule)">
+                <div><b style="font-size:.9rem">Estimation automatique</b><div style="font-size:.78rem;color:var(--ink-500)">L'IA prépare la description à l'ouverture de l'annonce.</div></div>
+                <div class="toggle is-on" role="switch" aria-checked="true" tabindex="0"></div>
+              </div>
+              <div class="flex-between" style="padding:.8rem 0">
+                <div><b style="font-size:.9rem">Profil public</b><div style="font-size:.78rem;color:var(--ink-500)">Visible par les acheteurs sur vos annonces.</div></div>
+                <div class="toggle is-on" role="switch" aria-checked="true" tabindex="0"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/listings.js"></script>
+<script>
+(function () {
+  const u = window.mvAuth.current();
+  const out = document.getElementById('logged-out');
+  const inn = document.getElementById('logged-in');
+
+  if (!u) { out.classList.remove('hidden'); return; }
+  inn.classList.remove('hidden');
+
+  document.getElementById('me-initials').textContent = u.name.split(' ').map(p => p[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('me-name').textContent = u.name;
+  document.getElementById('me-email').textContent = u.email;
+  const STAR = '<svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg>';
+  document.getElementById('me-since').textContent = 'Membre depuis ' + new Date(u.createdAt).getFullYear();
+  const tierEl = document.getElementById('me-tier');
+  const tiers = { basic: ['Email'], verified: ['Vérifié'], pro: ['Pro'], premium: ['Premium'] };
+  const t = tiers[u.tier] || tiers.verified;
+  tierEl.innerHTML = '<svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> ' + t[0];
+
+  // Données de démo cohérentes
+  const DEMO_LISTINGS = [
+    { slug:'canape-ikea-kivik', title:'Canapé 3 places IKEA KIVIK', price:280, status:'active', views:412, image:'assets/img/listing-canape.jpg' },
+    { slug:'lampe-articulo', title:'Lampe sur pied Articulée vintage', price:85, status:'active', views:156, image:'assets/img/listing-lampe.jpg' },
+    { slug:'commode-laque-p60', title:'Commode années 60', price:145, status:'sold', views:289, image:'assets/img/listing-commode.jpg' },
+  ];
+  const DEMO_REVIEWS = [
+    { who:'Karim B.', when:'il y a 3 semaines', stars:5, txt:"Très bon vendeur, le canapé était exactement comme décrit. Réponse rapide sur WhatsApp." },
+    { who:'Élodie N.', when:'il y a 2 mois', stars:5, txt:"Remise en main propre nickel, vendeur ponctuel. Je recommande." },
+    { who:'Thomas L.', when:'il y a 3 mois', stars:4, txt:"Objet conforme. Un peu de retard sur le créneau mais rien de grave." },
+  ];
+  const DEMO_SALES = [
+    { title:'Commode années 60', buyer:'Ach. #1843', price:145, date:'12/10', status:'Vendue' },
+    { title:'Fauteuil rotin', buyer:'Ach. #1839', price:90, date:'02/10', status:'Vendue' },
+    { title:'Miroir rond bronze', buyer:'Ach. #1821', price:60, date:'21/09', status:'Vendue' },
+  ];
+
+  const listings = (u.listings && u.listings.length) ? u.listings : DEMO_LISTINGS;
+  const reviews = (u.reviews && u.reviews.length) ? u.reviews : DEMO_REVIEWS;
+  const sales = (u.salesList && u.salesList.length) ? u.salesList : DEMO_SALES;
+
+  document.getElementById('k-listings').textContent = listings.length;
+  document.getElementById('k-sales').textContent = sales.length;
+  document.getElementById('k-views').textContent = listings.reduce((a,l)=>a+(l.views||0),0).toLocaleString('fr-FR');
+  document.getElementById('k-rev').textContent = reviews.length;
+  document.getElementById('k-revenue').textContent = (sales.reduce((a,s)=>a+s.price,0)).toLocaleString('fr-FR') + ' €';
+
+  // Annonces
+  const ml = document.getElementById('my-listings');
+  document.getElementById('my-listings-empty').classList.toggle('hidden', listings.length > 0);
+  ml.innerHTML = listings.map(l => `
+    <article class="listing-card" data-slug="${l.slug}">
+      <div class="listing-card__img">
+        <span class="listing-card__price"><span class="stamp-price" style="font-size:.85rem;padding:.25rem .6rem">${l.price} €</span></span>
+        <img src="${l.image}" alt="${l.title}" loading="lazy">
+      </div>
+      <div class="listing-card__body">
+        <div class="listing-card__title">${l.title}</div>
+        <div class="listing-card__meta"><span>${l.status === 'sold' ? 'Vendue' : 'En ligne'}</span><span>${l.views} vues</span></div>
+      </div>
+    </article>
+  `).join('');
+
+  // Avis
+  document.getElementById('my-reviews').innerHTML = reviews.map(r => `
+    <div class="review">
+      <div>
+        <div class="review__who">${r.who}<small>${r.when}</small></div>
+        <div class="review__stars" aria-label="Note : ${r.stars} sur 5">${STAR.repeat(r.stars)}</div>
+      </div>
+      <div><p class="review__txt">${r.txt}</p></div>
+    </div>
+  `).join('');
+
+  // Ventes
+  document.getElementById('my-sales').innerHTML = sales.map(s => `
+    <tr><td><strong>${s.title}</strong></td><td>${s.buyer}</td><td class="num">${s.price} €</td><td>${s.date}</td>
+    <td><span class="badge badge--seal">${s.status}</span></td></tr>
+  `).join('');
+
+  // Panneaux
+  document.querySelectorAll('[data-pane]').forEach(a => {
+    a.addEventListener('click', e => {
+      if (a.getAttribute('href') === '#') return;
+      e.preventDefault();
+      const pane = a.dataset.pane;
+      document.querySelectorAll('[data-pane-body]').forEach(p => p.classList.add('hidden'));
+      const target = document.querySelector(`[data-pane-body="${pane}"]`);
+      if (target) target.classList.remove('hidden');
+      document.querySelectorAll('.acct__nav a').forEach(x => x.classList.toggle('is-active', x === a));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+  // Onglet par hash
+  const hash = location.hash.replace('#','');
+  if (hash) {
+    const link = document.querySelector(`[data-pane="${hash}"]`);
+    if (link) link.click();
+  }
+})();
+</script>
+</body>
+</html>

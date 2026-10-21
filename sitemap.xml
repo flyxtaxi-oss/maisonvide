@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://maisonvide.fr/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://maisonvide.fr/vendre.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://maisonvide.fr/annonces.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://maisonvide.fr/services.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://maisonvide.fr/contact.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://maisonvide.fr/mentions-legales.html</loc><priority>0.3</priority></url>
+  <url><loc>https://maisonvide.fr/confidentialite.html</loc><priority>0.3</priority></url>
+  <url><loc>https://maisonvide.fr/cgu.html</loc><priority>0.3</priority></url>
+  <url><loc>https://maisonvide.fr/cookies.html</loc><priority>0.3</priority></url>
+</urlset>

@@ -1,0 +1,8 @@
+node_modules
+.git
+db/.env
+db/.connection-url.tmp
+*.tmp
+.DS_Store
+videos
+.video-creater

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Paramètres — Espace pro | MaisonVide</title>
+<meta name="description" content="Les réglages de la plateforme MaisonVide : commissions, paiements, modération, notifications, RGPD, équipe et API, section par section.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="parametres">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Paramètres</h1>
+          <p class="admin-header__sub">Le règlement intérieur de la plateforme</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <span class="badge badge--kraft">Dernière sauvegarde · hier 18:42</span>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <div class="settings">
+
+        <nav class="settings-nav panel" aria-label="Sections des paramètres">
+          <a href="#general" class="is-active"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg> Général</a>
+          <a href="#commissions"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg> Tarifs &amp; commissions</a>
+          <a href="#paiements"><svg class="ic" aria-hidden="true"><use href="#i-card"></use></svg> Paiements</a>
+          <a href="#moderation"><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg> Modération</a>
+          <a href="#notifications"><svg class="ic" aria-hidden="true"><use href="#i-bell"></use></svg> Notifications</a>
+          <a href="#rgpd"><svg class="ic" aria-hidden="true"><use href="#i-lock"></use></svg> RGPD</a>
+          <a href="#equipe"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg> Équipe</a>
+          <a href="#api"><svg class="ic" aria-hidden="true"><use href="#i-cog"></use></svg> API &amp; webhooks</a>
+        </nav>
+
+        <div class="stack">
+
+          <section class="panel" id="general">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg> Informations générales</h2>
+                <p>Ce que la plateforme présente au public</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Nom de l’entreprise</span>
+                  <span class="form-row__h">Raison sociale affichée</span>
+                </span>
+                <span class="form-row__ctl"><input type="text" class="input" value="MaisonVide" aria-label="Nom de l’entreprise"></span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Slogan</span>
+                  <span class="form-row__h">La promesse en une ligne</span>
+                </span>
+                <span class="form-row__ctl"><input type="text" class="input" value="Videz votre maison au juste prix" aria-label="Slogan"></span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Description</span>
+                  <span class="form-row__h">Reprise du texte public d’accueil</span>
+                </span>
+                <span class="form-row__ctl">
+                  <textarea class="textarea" rows="3" aria-label="Description">MaisonVide est la plateforme française qui fait l’inventaire de votre maison : photographie d’un meuble, relevé du juste prix, dépôt de l’annonce et paiement protégé.</textarea>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Email de contact</span>
+                  <span class="form-row__h">La boîte qui reçoit les messages du site</span>
+                </span>
+                <span class="form-row__ctl"><input type="email" class="input" value="bonjour@maisonvide.fr" aria-label="Email de contact"></span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Téléphone</span>
+                  <span class="form-row__h">Le standard affiché</span>
+                </span>
+                <span class="form-row__ctl"><input type="tel" class="input" value="+33 1 23 45 67 89" aria-label="Téléphone"></span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Adresse</span>
+                  <span class="form-row__h">Siège social</span>
+                </span>
+                <span class="form-row__ctl"><input type="text" class="input" value="12 rue des Lilas, 75011 Paris" aria-label="Adresse"></span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">SIRET</span>
+                  <span class="form-row__h">Identifiant legal</span>
+                </span>
+                <span class="form-row__ctl"><input type="text" class="input" value="000 000 000 00000" aria-label="SIRET"></span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Fuseau horaire</span>
+                  <span class="form-row__h">Base de référence des horaires</span>
+                </span>
+                <span class="form-row__ctl">
+                  <select class="select" aria-label="Fuseau horaire">
+                    <option selected>Europe/Paris (UTC+1)</option>
+                    <option>UTC</option>
+                  </select>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Langue par défaut</span>
+                  <span class="form-row__h">Langue du site et des messages</span>
+                </span>
+                <span class="form-row__ctl">
+                  <select class="select" aria-label="Langue par défaut">
+                    <option selected>Français</option>
+                    <option>English</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="commissions">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg> Tarifs &amp; commissions</h2>
+                <p>Ce que la plateforme prélève sur chaque vente</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Commission Solo</span>
+                  <span class="form-row__h">Sur les ventes en formule gratuite</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="8" aria-label="Commission Solo en pourcentage">
+                    <span class="field-inline__unit">%</span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Commission Guidé</span>
+                  <span class="form-row__h">Avec accompagnement d’un conseiller</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="5" aria-label="Commission Guidé en pourcentage">
+                    <span class="field-inline__unit">%</span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Commission Clé en main</span>
+                  <span class="form-row__h">Estimation, photos et enlèvement compris</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="12" aria-label="Commission Clé en main en pourcentage">
+                    <span class="field-inline__unit">%</span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Forfait Guidé</span>
+                  <span class="form-row__h">Chargé seulement si une vente aboutit</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="29" aria-label="Forfait Guidé en euros">
+                    <span class="field-inline__unit">€</span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Seuil de séquestre obligatoire</span>
+                  <span class="form-row__h">Au-dessus, les fonds sont bloqués par le prestataire</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="300" aria-label="Seuil de séquestre en euros">
+                    <span class="field-inline__unit">€</span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Frais de service acheteur</span>
+                  <span class="form-row__h">Couverts par la commission vendeur</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="2.5" step="0.1" aria-label="Frais de service acheteur en pourcentage">
+                    <span class="field-inline__unit">%</span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Devise</span>
+                  <span class="form-row__h">Monnaie d’affichage des prix</span>
+                </span>
+                <span class="form-row__ctl">
+                  <select class="select" aria-label="Devise">
+                    <option selected>Euro (EUR)</option>
+                    <option>Dollar (USD)</option>
+                    <option>Livre (GBP)</option>
+                  </select>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Assurance AXA</span>
+                  <span class="form-row__h">Plafond de couverture par vente</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="10000" aria-label="Plafond AXA en euros">
+                    <span class="field-inline__unit">€</span>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="paiements">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-card"></use></svg> Paiements</h2>
+                <p>Les prestataires branchés sur la caisse</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Stripe Connect</span>
+                  <span class="form-row__h">Compte principal pour les paiements</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Connecté · acct_***3829</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Lydia</span>
+                  <span class="form-row__h">Paiement sans carte pour les petits montants</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Connecté · Particulier</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Séquestre</span>
+                  <span class="form-row__h">Gestion des fonds bloqués au-delà de 300 €</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Mangopay · Connecté</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Délai de versement</span>
+                  <span class="form-row__h">Quand le vendeur reçoit son argent</span>
+                </span>
+                <span class="form-row__ctl">
+                  <select class="select" aria-label="Délai de versement">
+                    <option>24 h après confirmation</option>
+                    <option selected>7 jours après enlèvement</option>
+                    <option>14 jours (sécurité)</option>
+                  </select>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Versement automatique</span>
+                  <span class="form-row__h">Virer chaque semaine sur le compte bancaire</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Virement hebdomadaire</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="moderation">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg> Modération &amp; sécurité</h2>
+                <p>Les sept barrières qui protègent la plateforme</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Modération automatique</span>
+                  <span class="form-row__h">Le modèle IA écarte les photos et annonces suspectes</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Activée sur 100 % des publications</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Vérification d’identité</span>
+                  <span class="form-row__h">Exiger une pièce d’identité à la première publication</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Obligatoire</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Mots interdits</span>
+                  <span class="form-row__h">Un par ligne · insensible à la casse</span>
+                </span>
+                <span class="form-row__ctl">
+                  <textarea class="textarea" rows="3" aria-label="Mots interdits">arme, drogue, contrefaçon, vol, recel, espèces protégées</textarea>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Limite d’annonces par jour</span>
+                  <span class="form-row__h">Par vendeur</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="20" aria-label="Limite d’annonces par jour">
+                    <span class="field-inline__unit">annonces</span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Auto-suspension</span>
+                  <span class="form-row__h">Suspendre automatiquement le compte</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="3" aria-label="Nombre de signalements avant suspension">
+                    <span class="field-inline__unit">signalements</span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Contrôle IBAN</span>
+                  <span class="form-row__h">Vérifier l’IBAN à chaque paiement</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Actif</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Réversibilité des données</span>
+                  <span class="form-row__h">Douze patterns d’arnaque surveillés en continu</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Analyse active</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="notifications">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-bell"></use></svg> Notifications</h2>
+                <p>Ce que l’équipe reçoit, et quand</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Nouvelle annonce</span>
+                  <span class="form-row__h">Pour les modérateurs</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">E-mail + WhatsApp</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Nouvelle vente</span>
+                  <span class="form-row__h">Pour la caisse</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">E-mail + WhatsApp</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Litige ouvert</span>
+                  <span class="form-row__h">Alerte immédiate à la direction</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">E-mail immédiat</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Quota WhatsApp</span>
+                  <span class="form-row__h">Déclenchement à 80 % du quota mensuel</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">E-mail à Pierre</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Rapport mensuel</span>
+                  <span class="form-row__h">Envoyé le premier du mois</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Actif</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Canal</span>
+                  <span class="form-row__h">Support de diffusion</span>
+                </span>
+                <span class="form-row__ctl">
+                  <select class="select" aria-label="Canal de notification">
+                    <option selected>E-mail + WhatsApp</option>
+                    <option>E-mail uniquement</option>
+                    <option>Webhook Slack</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="rgpd">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-lock"></use></svg> RGPD &amp; confidentialité</h2>
+                <p>Où vivent les données, et jusqu’à quand</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Hébergement des données</span>
+                  <span class="form-row__h">Hébergement français exigé</span>
+                </span>
+                <span class="form-row__ctl">
+                  <select class="select" aria-label="Hébergement des données">
+                    <option selected>Scaleway (recommandé)</option>
+                    <option>AWS Paris</option>
+                    <option>OVHcloud Roubaix</option>
+                  </select>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Conservation des photos</span>
+                  <span class="form-row__h">Suppression automatique après vente ou expiration</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="field-inline">
+                    <input type="number" class="input" value="90" aria-label="Durée de conservation des photos">
+                    <span class="field-inline__unit">jours</span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Droit à l’oubli</span>
+                  <span class="form-row__h">Auto-suppression du compte après 3 ans d’inactivité</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Actif</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Export des données</span>
+                  <span class="form-row__h">Permettre aux utilisateurs de tout télécharger</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Actif</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Mesure d’audience</span>
+                  <span class="form-row__h">Matomo, sans cookie wall</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Anonymisée</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Délégué à la protection</span>
+                  <span class="form-row__h">Contact RGPD public</span>
+                </span>
+                <span class="form-row__ctl"><input type="email" class="input" value="dpo@maisonvide.fr" aria-label="Délégué à la protection des données"></span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="equipe">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg> Équipe &amp; accès</h2>
+                <p>Qui ouvre le carnet, et avec quel niveau</p>
+              </div>
+              <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg> Inviter</button>
+            </div>
+            <div class="panel__body--flush table-wrap">
+              <table class="data-table data-table--dense">
+                <thead>
+                  <tr><th>Membre</th><th>Rôle</th><th>E-mail</th><th>Dernière connexion</th><th>Double authentification</th><th></th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Pierre V.</strong><span class="sub">Direction</span></td>
+                    <td><span class="badge badge--stamp">Propriétaire</span></td>
+                    <td>pierre@maisonvide.fr</td>
+                    <td>Aujourd’hui · 09:42</td>
+                    <td><span class="status status--seal"><span class="status__dot"></span>Activée</span></td>
+                    <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Sophie M.</strong><span class="sub">Conseillère senior</span></td>
+                    <td><span class="badge badge--seal">Conseillère</span></td>
+                    <td>sophie.m@maisonvide.fr</td>
+                    <td>Aujourd’hui · 09:15</td>
+                    <td><span class="status status--seal"><span class="status__dot"></span>Activée</span></td>
+                    <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Thomas M.</strong><span class="sub">Modération</span></td>
+                    <td><span class="badge badge--warn">Modérateur</span></td>
+                    <td>thomas.m@maisonvide.fr</td>
+                    <td>Hier · 18:42</td>
+                    <td><span class="status status--seal"><span class="status__dot"></span>Activée</span></td>
+                    <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Léa B.</strong><span class="sub">Support</span></td>
+                    <td><span class="badge">Support</span></td>
+                    <td>lea.b@maisonvide.fr</td>
+                    <td>Il y a 3 jours</td>
+                    <td><span class="status status--warn"><span class="status__dot"></span>À activer</span></td>
+                    <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel" id="api">
+            <div class="panel__head">
+              <div>
+                <h2><svg class="ic" aria-hidden="true"><use href="#i-cog"></use></svg> API &amp; webhooks</h2>
+                <p>Les points d’entrée utilisés par le modèle et le bot</p>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">API publique</span>
+                  <span class="form-row__h">Exposition du catalogue et des estimations</span>
+                </span>
+                <span class="form-row__ctl">
+                  <span class="switch-row">
+                    <span class="switch-row__k">Activée · version 1</span>
+                    <span class="toggle is-on"></span>
+                  </span>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Clé API principale</span>
+                  <span class="form-row__h">À faire tourner tous les 90 jours</span>
+                </span>
+                <span class="form-row__ctl">
+                  <input type="text" class="input" id="api-key" value="mv_live_8a3f9c2d••••••••" readonly aria-label="Clé API principale">
+                  <button class="btn btn--ghost btn--sm" type="button" data-action="copy" data-copy="#api-key"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-bookmark"></use></svg> Copier</button>
+                  <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-refresh"></use></svg> Régénérer</button>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Webhooks</span>
+                  <span class="form-row__h">Une URL par ligne</span>
+                </span>
+                <span class="form-row__ctl">
+                  <textarea class="textarea" rows="3" aria-label="Webhooks">https://api.maisonvide.fr/webhooks/vente
+https://api.maisonvide.fr/webhooks/message
+https://api.maisonvide.fr/webhooks/utilisateur</textarea>
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Logs API</span>
+                  <span class="form-row__h">Requêtes des dernières 24 heures</span>
+                </span>
+                <span class="form-row__ctl">
+                  <input type="text" class="input" value="1 248 requêtes · 0 erreur · 99,8 % de succès" readonly aria-label="Logs API">
+                </span>
+              </div>
+              <div class="form-row">
+                <span>
+                  <span class="form-row__k">Documentation</span>
+                  <span class="form-row__h">Schéma OpenAPI et exemples</span>
+                </span>
+                <span class="form-row__ctl">
+                  <a href="#" class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-bookmark"></use></svg> Voir la doc OpenAPI</a>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <div class="panel" style="position:sticky;bottom:var(--space-4)">
+            <div class="panel__body--tight flex-between">
+              <span class="panel__note"><svg class="ic" aria-hidden="true"><use href="#i-info"></use></svg> Les modifications s’appliquent immédiatement à la plateforme.</span>
+              <div class="table-tools">
+                <button class="btn btn--ghost btn--sm" type="button">Réinitialiser</button>
+                <button class="btn btn--primary btn--sm" type="button" data-action="save" data-label="Paramètres enregistrés">Enregistrer tous les paramètres</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

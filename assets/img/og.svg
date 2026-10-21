@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="og" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f5d44"/>
+      <stop offset="100%" stop-color="#2d6a4f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#og)"/>
+  <circle cx="1050" cy="120" r="200" fill="#e76f51" opacity=".15"/>
+  <text x="80" y="320" font-family="Fraunces, Georgia, serif" font-size="84" font-weight="700" fill="#faf6f0">MaisonVide</text>
+  <text x="80" y="380" font-family="Inter, sans-serif" font-size="28" fill="#d2e3d6">Videz votre maison en quelques clics.</text>
+  <text x="80" y="430" font-family="Inter, sans-serif" font-size="22" fill="#a7c8b1">Photo → Estimation instantanée → Acheteur en 24h</text>
+</svg>

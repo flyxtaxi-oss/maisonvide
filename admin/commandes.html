@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Commandes — Espace pro | MaisonVide</title>
+<meta name="description" content="Suivez les transactions MaisonVide : séquestre, livraison, validation et versement du vendeur, avec le détail des montants et de la commission.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="commandes">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Commandes &amp; paiements</h1>
+          <p class="admin-header__sub">Le séquestre protège la vente · 8 % de commission</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <button class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-download"></use></svg> Export comptable</button>
+        <button class="btn btn--primary btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-banknote"></use></svg> Trésorerie</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <section class="metric-band metric-band--5" aria-label="État de la caisse">
+        <div class="metric">
+          <span class="metric__ref">C.01</span>
+          <span class="metric__k">12 480 €</span>
+          <span class="metric__l">Chiffre d’affaires 30 jours</span>
+          <span class="metric__d metric__d--up">+18 %</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">C.02</span>
+          <span class="metric__k">7,8 %</span>
+          <span class="metric__l">Commission moyenne</span>
+          <span class="metric__d metric__d--flat">8 % au barème</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">C.03</span>
+          <span class="metric__k">2 340 €</span>
+          <span class="metric__l">Bloqués en séquestre</span>
+          <span class="metric__d metric__d--up">11 commandes</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">C.04</span>
+          <span class="metric__k">214 €</span>
+          <span class="metric__l">Panier moyen</span>
+          <span class="metric__d metric__d--up">+12 €</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">C.05</span>
+          <span class="metric__k metric__k--stamp">3</span>
+          <span class="metric__l">Litiges ouverts</span>
+          <span class="metric__d metric__d--down">AXA consultée</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-lock"></use></svg> Le parcours du séquestre</h2>
+            <p>Cinq états, du paiement de l’acheteur au versement du vendeur</p>
+          </div>
+        </div>
+        <div class="panel__body">
+          <div class="pipe">
+            <div class="pipe__row">
+              <span class="pipe__n">E.01</span>
+              <span><span class="pipe__t">En attente de paiement</span><span class="pipe__d">L’acheteur a choisi, la transaction n’est pas encore encaissée</span></span>
+              <span class="pipe__v">8 commandes</span>
+            </div>
+            <div class="pipe__row">
+              <span class="pipe__n">E.02</span>
+              <span><span class="pipe__t">En séquestre</span><span class="pipe__d">Fonds bloqués chez Mangopay, vendeur encore en attente</span></span>
+              <span class="pipe__v">11 · 2 340 €</span>
+            </div>
+            <div class="pipe__row">
+              <span class="pipe__n">E.03</span>
+              <span><span class="pipe__t">En livraison</span><span class="pipe__d">Remise en main propre ou transporteur, preuve de dépôt attendue</span></span>
+              <span class="pipe__v">6 commandes</span>
+            </div>
+            <div class="pipe__row">
+              <span class="pipe__n">E.04</span>
+              <span><span class="pipe__t">Validé</span><span class="pipe__d">Acheteur et vendeur confirment · garantie AXA jusqu’à 10 000 €</span></span>
+              <span class="pipe__v">4 commandes</span>
+            </div>
+            <div class="pipe__row">
+              <span class="pipe__n">E.05</span>
+              <span><span class="pipe__t">Versé</span><span class="pipe__d">Commission prélevée, solde viré sous 7 jours</span></span>
+              <span class="pipe__v">68 commandes</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__body--tight">
+          <div class="table-tools">
+            <input type="search" class="input" placeholder="Rechercher un numéro de commande, un vendeur…" aria-label="Rechercher une commande">
+            <select class="select" aria-label="Filtrer par état du séquestre">
+              <option>Tous les états</option>
+              <option>En attente de paiement</option>
+              <option>En séquestre</option>
+              <option>En livraison</option>
+              <option>Validé</option>
+              <option>Versé</option>
+              <option>Litige</option>
+            </select>
+            <select class="select" aria-label="Filtrer par mode de remise">
+              <option>Tous les modes</option>
+              <option>Remise en main propre</option>
+              <option>Transporteur</option>
+              <option>Reprise à domicile</option>
+            </select>
+            <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-refresh"></use></svg> Réinitialiser</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg> Carnet des transactions</h2>
+            <p>Montant, commission retenue et état du séquestre</p>
+          </div>
+          <span class="badge badge--kraft">97 commandes sur 30 jours</span>
+        </div>
+        <div class="panel__body--flush table-wrap">
+          <table class="data-table data-table--dense">
+            <thead>
+              <tr>
+                <th>N° commande</th>
+                <th>Objet</th>
+                <th>Vendeur</th>
+                <th>Acheteur</th>
+                <th class="num">Montant</th>
+                <th class="num">Commission</th>
+                <th>État du séquestre</th>
+                <th>Remise</th>
+                <th class="num">Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>MV-4872</strong></td>
+                <td>Canapé teck des années 60</td>
+                <td>Sophie M.</td>
+                <td>Ach. #1847</td>
+                <td class="num">280 €</td>
+                <td class="num">22,40 €</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Versé</span></td>
+                <td>Main propre</td>
+                <td class="num">14/10</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+              <tr>
+                <td><strong>MV-4871</strong></td>
+                <td>MacBook Pro M1 2020</td>
+                <td>Antoine R.</td>
+                <td>Ach. #1846</td>
+                <td class="num">720 €</td>
+                <td class="num">57,60 €</td>
+                <td><span class="status status--kraft"><span class="status__dot"></span>En séquestre</span></td>
+                <td>Transporteur</td>
+                <td class="num">14/10</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+              <tr>
+                <td><strong>MV-4870</strong></td>
+                <td>Thermomix TM6</td>
+                <td>Cuisine M.</td>
+                <td>Ach. #1845</td>
+                <td class="num">680 €</td>
+                <td class="num">54,40 €</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Versé</span></td>
+                <td>Main propre</td>
+                <td class="num">14/10</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+              <tr>
+                <td><strong>MV-4869</strong></td>
+                <td>Table chêne massif</td>
+                <td>Julien D.</td>
+                <td>Ach. #1844</td>
+                <td class="num">340 €</td>
+                <td class="num">27,20 €</td>
+                <td><span class="status status--warn"><span class="status__dot"></span>En livraison</span></td>
+                <td>Reprise à domicile</td>
+                <td class="num">13/10</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+              <tr>
+                <td><strong>MV-4868</strong></td>
+                <td>PlayStation 5 + 2 manettes</td>
+                <td>Gamer P.</td>
+                <td>Ach. #1843</td>
+                <td class="num">380 €</td>
+                <td class="num">30,40 €</td>
+                <td><span class="status status--kraft"><span class="status__dot"></span>En séquestre</span></td>
+                <td>Transporteur</td>
+                <td class="num">13/10</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+              <tr>
+                <td><strong>MV-4867</strong></td>
+                <td>Lampe articulée vintage</td>
+                <td>Christine P.</td>
+                <td>Ach. #1842</td>
+                <td class="num">85 €</td>
+                <td class="num">6,80 €</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Validé</span></td>
+                <td>Main propre</td>
+                <td class="num">13/10</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+              <tr>
+                <td><strong>MV-4866</strong></td>
+                <td>Vase Murano signé</td>
+                <td>Galerie S.</td>
+                <td>Ach. #1841</td>
+                <td class="num">320 €</td>
+                <td class="num">25,60 €</td>
+                <td><span class="status status--stamp"><span class="status__dot"></span>Litige</span></td>
+                <td>Transporteur</td>
+                <td class="num">12/10</td>
+                <td class="cell-actions"><button class="btn btn--ghost btn--sm" type="button">Traiter</button></td>
+              </tr>
+              <tr>
+                <td><strong>MV-4865</strong></td>
+                <td>Dyson Supersonic</td>
+                <td>Beauté F.</td>
+                <td>Ach. #1840</td>
+                <td class="num">175 €</td>
+                <td class="num">14 €</td>
+                <td><span class="status status--ink"><span class="status__dot"></span>En attente de paiement</span></td>
+                <td>Main propre</td>
+                <td class="num">12/10</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel__foot" style="justify-content:space-between">
+          <span class="panel__note">Affichage de 1 à 8 sur 97 commandes</span>
+          <div class="pager__pages">
+            <button class="btn btn--ghost btn--sm" type="button">Précédent</button>
+            <button class="btn btn--primary btn--sm" type="button">1</button>
+            <button class="btn btn--ghost btn--sm" type="button">2</button>
+            <button class="btn btn--ghost btn--sm" type="button">Suivant</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="admin-grid admin-grid--2">
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-scale"></use></svg> Répartition des états</h2>
+              <p>Où en sont les 97 commandes du mois</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div class="chart-split">
+              <div id="chart-escrow"></div>
+              <div class="chart-split__legend">
+                <div><i style="background:var(--ink-300)"></i><span>En attente</span><b>8</b></div>
+                <div><i style="background:var(--kraft-500)"></i><span>En séquestre</span><b>11</b></div>
+                <div><i style="background:var(--info-500)"></i><span>En livraison</span><b>6</b></div>
+                <div><i style="background:var(--seal-500)"></i><span>Validé</span><b>4</b></div>
+                <div><i style="background:var(--stamp-500)"></i><span>Versé</span><b>68</b></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg> Trésorerie du mois</h2>
+              <p>Ce qui est encaissé, bloqué et versé</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <dl class="kv">
+              <dt>Ventes encaissées</dt><dd>12 480,00 €</dd>
+              <dt>Commission collectée</dt><dd>973,44 €</dd>
+              <dt>Frais acheteur</dt><dd>312,00 €</dd>
+              <dt>En séquestre</dt><dd>2 340,00 €</dd>
+              <dt>Reversé aux vendeurs</dt><dd>9 194,56 €</dd>
+              <dt>Indemnités AXA</dt><dd>1 240,00 €</dd>
+            </dl>
+            <div class="note-band note-band--seal" style="margin-top:var(--space-4)">
+              <svg class="ic" aria-hidden="true"><use href="#i-shield-check"></use></svg>
+              <p style="margin:0;font-size:.8rem">Toute vente supérieure à 300 € passe obligatoirement en séquestre. Sept barrières protègent la transaction de bout en bout.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

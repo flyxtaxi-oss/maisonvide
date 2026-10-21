@@ -1,0 +1,275 @@
+/* ==========================================================================
+   MaisonVide — Motion
+   UNE séquence signature (le « relevé » du hero), le reste en feedback discret.
+   Contenu visible par défaut : le motion enhances, il ne conditionne pas.
+   ========================================================================== */
+
+@import url('tokens.css');
+
+/* ---------- Papier : texture de fibre ---------- */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-toast);
+  pointer-events: none;
+  opacity: .05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .16 0 0 0 .35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* ==========================================================================
+   LE MOMENT SIGNATURE — « Le relevé »
+   Séquence unique au chargement du hero : la photo se révèle comme une page
+   qu'on Soulève, les lignes du carnet se tracent, le prix s'estampe.
+   ========================================================================== */
+.releve {
+  position: relative;
+  overflow: hidden;
+}
+.releve__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+/* Le voile « papier » qui se soulève.
+   État par défaut : absent (scaleX 0) — la photo est toujours visible. */
+.releve__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--paper-ground);
+  transform-origin: 100% 0;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+.releve.is-stamped .releve__media::after {
+  animation: page-turn 900ms cubic-bezier(.16, 1, .3, 1) both;
+}
+@keyframes page-turn {
+  0%   { transform: scaleX(1) skewX(0deg); }
+  55%  { transform: scaleX(1) skewX(-6deg); }
+  100% { transform: scaleX(0) skewX(-6deg); transform-origin: 100% 0; }
+}
+
+/* Le prix qui s'estampe */
+.stamp-in {
+  opacity: 1;
+  transform: rotate(-1.6deg) scale(1);
+}
+.is-stamped .stamp-in {
+  animation: stamp-down 460ms cubic-bezier(.16, 1, .3, 1) 620ms both;
+}
+@keyframes stamp-down {
+  0%   { opacity: 0; transform: rotate(-14deg) scale(1.7); }
+  60%  { opacity: 1; transform: rotate(-1deg) scale(.94); }
+  100% { opacity: 1; transform: rotate(-1.6deg) scale(1); }
+}
+
+/* Les lignes du carnet qui se tracent */
+.rules-in { position: relative; overflow: hidden; }
+.rules-in::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: var(--stamp-500);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.is-stamped .rules-in::before {
+  animation: draw-rule 700ms cubic-bezier(.16, 1, .3, 1) 380ms both;
+}
+@keyframes draw-rule { to { transform: scaleX(1); } }
+
+/* Le titre qui se déplie ligne par ligne */
+.lift-in {
+  display: block;
+  overflow: hidden;
+}
+.lift-in > span {
+  display: block;
+  transform: none;
+  opacity: 1;
+}
+.is-stamped .lift-in > span {
+  animation: lift-up 720ms cubic-bezier(.16, 1, .3, 1) both;
+}
+@keyframes lift-up {
+  from { transform: translateY(105%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   FILET DE SÉCURITÉ
+   L'état par DÉFAUT est l'état visible. Si la séquence n'a pas pu se jouer
+   (onglet en arrière-plan non peint, animation gelée, JS bloqué), rien ne
+   doit rester invisible. `.is-revealed` force l'état final, en `!important`
+   pour passer au-dessus de l'animation.
+   -------------------------------------------------------------------------- */
+.releve.is-revealed .lift-in > span,
+.releve.is-revealed .stamp-in {
+  animation: none !important;
+  opacity: 1 !important;
+}
+.releve.is-revealed .lift-in > span { transform: none !important; }
+.releve.is-revealed .stamp-in { transform: rotate(-1.6deg) scale(1) !important; }
+.releve.is-revealed .releve__media::after {
+  animation: none !important;
+  transform: scaleX(0) !important;
+}
+
+/* ==========================================================================
+   Feedback discret (états, pas chorégraphie)
+   ========================================================================== */
+.press { transition: transform var(--t-press), background var(--t-base), border-color var(--t-base), color var(--t-base); }
+.press:active { transform: translateY(1px); }
+
+.lift { transition: transform var(--t-base), box-shadow var(--t-base); }
+.lift:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+
+/* Soulignement au survol (pas de gradient sur le texte) */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 280ms cubic-bezier(.16, 1, .3, 1);
+}
+.link-underline:hover { background-size: 100% 1px; }
+
+/* Le marque-page qui glisse */
+.bookmark {
+  position: relative;
+  padding-left: var(--space-5);
+}
+.bookmark::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .15em; bottom: .15em;
+  width: 3px;
+  background: var(--kraft-500);
+}
+
+/* ==========================================================================
+   Marquee (bandeau de catégories)
+   ========================================================================== */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+}
+.marquee__track {
+  display: flex;
+  gap: var(--space-8);
+  flex-shrink: 0;
+  animation: marquee 46s linear infinite;
+  padding-right: var(--space-8);
+}
+.marquee--reverse .marquee__track { animation-direction: reverse; }
+.marquee__item {
+  display: flex; align-items: center; gap: .55rem;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+  color: var(--ink-700);
+}
+.marquee__item .ic { color: var(--kraft-700); }
+@keyframes marquee { to { transform: translateX(-100%); } }
+
+/* ==========================================================================
+   Compteurs
+   ========================================================================== */
+.count { font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   Révélation au scroll — CONSERVATRICE
+   Contenu visible sans JS ; l'animation n'est qu'un bonus.
+   ========================================================================== */
+[data-rise] {
+  opacity: 1;
+}
+.js [data-rise] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 620ms cubic-bezier(.16, 1, .3, 1), transform 620ms cubic-bezier(.16, 1, .3, 1);
+}
+.js [data-rise].is-in { opacity: 1; transform: none; }
+
+/* ==========================================================================
+   3D
+   ========================================================================== */
+.stage3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 35%, #222a25 0%, #141917 60%, #0e1210 100%);
+}
+.stage3d canvas { display: block; width: 100%; height: 100%; }
+.stage3d__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-5);
+}
+.stage3d__legend {
+  align-self: flex-start;
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  background: rgba(20, 25, 23, .72);
+  backdrop-filter: blur(8px);
+  border: 1px solid #2c322d;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-xs);
+  color: var(--ink-300);
+}
+.stage3d__legend span { display: inline-flex; align-items: center; gap: .35rem; }
+.stage3d__dot { width: 8px; height: 8px; border-radius: 2px; }
+.stage3d__hint {
+  align-self: flex-end;
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+  background: rgba(20, 25, 23, .72);
+  padding: .35rem .7rem;
+  border-radius: var(--radius-xs);
+}
+
+/* ==========================================================================
+   Tableaux de données
+   ========================================================================== */
+.data-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.data-table th {
+  text-align: left;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--ink-500);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1.5px solid var(--paper-rule);
+  font-family: var(--font-body);
+}
+.data-table td { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--paper-rule); font-size: var(--fs-sm); }
+.data-table tbody tr { transition: background var(--t-fast); }
+.data-table tbody tr:hover { background: var(--paper-ground); }
+.data-table tbody tr:last-child td { border-bottom: 0; }
+.data-table .num { font-family: var(--font-mono); text-align: right; }
+
+/* ---------- Écriture manuscrite (les annotations d'inventaire) ---------- */
+.hand {
+  font-family: 'Caveat', 'Bradley Hand', cursive;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--stamp-600);
+  transform: rotate(-2deg);
+  display: inline-block;
+}

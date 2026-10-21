@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Annonces — Espace pro | MaisonVide</title>
+<meta name="description" content="Modérez les annonces MaisonVide : filtres par catégorie, ville et statut, score de confiance du modèle IA et validation en lot.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="annonces">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Annonces</h1>
+          <p class="admin-header__sub">Les fiches du carnet : à lire, à valider, à publier</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <button class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-download"></use></svg> Exporter CSV</button>
+        <button class="btn btn--primary btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg> Nouvelle fiche</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <section class="metric-band metric-band--5" aria-label="État des annonces">
+        <div class="metric">
+          <span class="metric__ref">A.01</span>
+          <span class="metric__k">187</span>
+          <span class="metric__l">Fiches au total</span>
+          <span class="metric__d metric__d--up">+14 cette semaine</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">A.02</span>
+          <span class="metric__k">142</span>
+          <span class="metric__l">En ligne</span>
+          <span class="metric__d metric__d--flat">76 % du carnet</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">A.03</span>
+          <span class="metric__k metric__k--stamp">24</span>
+          <span class="metric__l">En attente de validation</span>
+          <span class="metric__d metric__d--up">+3</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">A.04</span>
+          <span class="metric__k">68</span>
+          <span class="metric__l">Vendues sur 30 jours</span>
+          <span class="metric__d metric__d--up">+12 %</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">A.05</span>
+          <span class="metric__k metric__k--stamp">5</span>
+          <span class="metric__l">À contrôler</span>
+          <span class="metric__d metric__d--down">2 signalées</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__body--tight">
+          <div class="table-tools">
+            <input type="search" class="input" id="filter-search" placeholder="Rechercher un titre, un vendeur, une référence…" aria-label="Rechercher une annonce">
+            <select class="select" id="filter-cat" aria-label="Filtrer par catégorie">
+              <option value="">Toutes catégories</option>
+              <option value="mobilier">Mobilier</option>
+              <option value="electronique">Électronique</option>
+              <option value="electromenager">Électroménager</option>
+              <option value="decoration">Décoration</option>
+              <option value="art">Art</option>
+              <option value="livres">Livres</option>
+            </select>
+            <select class="select" id="filter-status" aria-label="Filtrer par statut">
+              <option value="">Tous les statuts</option>
+              <option value="active">En ligne</option>
+              <option value="pending">En attente</option>
+              <option value="sold">Vendue</option>
+              <option value="review">À contrôler</option>
+              <option value="flagged">Signalée</option>
+            </select>
+            <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-refresh"></use></svg> Réinitialiser</button>
+          </div>
+        </div>
+        <div class="panel__body--tight" style="border-top:1px solid var(--paper-rule)">
+          <div class="flex-between" style="gap:var(--space-4);flex-wrap:wrap">
+            <div class="chips" data-chip-group="listing">
+              <button class="chip is-active" data-chip="all">Toutes (187)</button>
+              <button class="chip" data-chip="active">En ligne (142)</button>
+              <button class="chip" data-chip="pending">En attente (24)</button>
+              <button class="chip" data-chip="sold">Vendues (68)</button>
+              <button class="chip" data-chip="review">À contrôler (5)</button>
+              <button class="chip" data-chip="flagged">Signalées (2)</button>
+            </div>
+            <div class="table-tools">
+              <span class="panel__note" id="selection-count">Sélection : 0</span>
+              <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> Approuver</button>
+              <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-close"></use></svg> Refuser</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg> Carnet des annonces</h2>
+            <p><span id="listing-count">10</span> fiches affichées · le score de confiance vient du modèle d’estimation</p>
+          </div>
+          <button class="btn btn--quiet btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-filter"></use></svg> Colonnes</button>
+        </div>
+        <div class="panel__body--flush table-wrap">
+          <table class="data-table data-table--dense">
+            <thead>
+              <tr>
+                <th style="width:36px"><input type="checkbox" aria-label="Tout sélectionner"></th>
+                <th>Fiche</th>
+                <th class="num">Prix</th>
+                <th>Vendeur</th>
+                <th>Confiance IA</th>
+                <th>Statut</th>
+                <th class="num">Vues / contacts</th>
+                <th>Déposée</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="listings-tbody"></tbody>
+          </table>
+        </div>
+        <div class="panel__foot" style="justify-content:space-between">
+          <span class="panel__note">Affichage de 1 à 10 sur 187 fiches</span>
+          <div class="pager__pages">
+            <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Précédent</button>
+            <button class="btn btn--primary btn--sm" type="button">1</button>
+            <button class="btn btn--ghost btn--sm" type="button">2</button>
+            <button class="btn btn--ghost btn--sm" type="button">3</button>
+            <button class="btn btn--ghost btn--sm" type="button">Suivant <svg class="ic ic--sm" aria-hidden="true"><use href="#i-arrow-right"></use></svg></button>
+          </div>
+        </div>
+      </section>
+
+      <div class="note-band">
+        <svg class="ic" aria-hidden="true"><use href="#i-info"></use></svg>
+        <p style="margin:0;font-size:.82rem">Toute fiche sous 65 % de confiance part en modération humaine. La barre de confiance indique l’accord entre la catégorie détectée et le prix proposé — plus elle est basse, plus la main d’un conseiller est attendue.</p>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

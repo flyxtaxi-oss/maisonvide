@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>WhatsApp — Espace pro | MaisonVide</title>
+<meta name="description" content="Le canal WhatsApp MaisonVide : règles de réponse automatique, modèles de messages, identité du numéro et aperçu d’une conversation.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="whatsapp">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">WhatsApp Business</h1>
+          <p class="admin-header__sub">Le canal principal : 4 280 conversations ouvertes sur le mois</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <span class="badge badge--seal"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-whatsapp"></use></svg> Connecté</span>
+        <button class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-refresh"></use></svg> Reconnecter</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <section class="metric-band metric-band--4" aria-label="État du canal">
+        <div class="metric">
+          <span class="metric__ref">W.01</span>
+          <span class="metric__k">Opérationnelle</span>
+          <span class="metric__l">Statut de l’API</span>
+          <span class="metric__d metric__d--flat">API v18.0</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">W.02</span>
+          <span class="metric__k">4 280</span>
+          <span class="metric__l">Conversations sur 10 000</span>
+          <span class="metric__d metric__d--down">43 % du quota</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">W.03</span>
+          <span class="metric__k">487</span>
+          <span class="metric__l">Messages aujourd’hui</span>
+          <span class="metric__d metric__d--up">+9 %</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">W.04</span>
+          <span class="metric__k">0</span>
+          <span class="metric__l">Messages en file d’attente</span>
+          <span class="metric__d metric__d--up">aucun retard</span>
+        </div>
+      </section>
+
+      <div class="admin-grid admin-grid--2">
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-filter"></use></svg> Règles de réponse</h2>
+              <p>Ce que le canal déclenche automatiquement, dans l’ordre</p>
+            </div>
+            <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg> Ajouter</button>
+          </div>
+          <div class="panel__body--flush table-wrap">
+            <table class="data-table data-table--dense">
+              <thead>
+                <tr><th>Priorité</th><th>Si…</th><th>Alors</th><th>Effet</th><th>État</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">R.01</td>
+                  <td>Le message contient un lien de paiement</td>
+                  <td>Transfert immédiat au conseiller</td>
+                  <td class="num">12 / j</td>
+                  <td><span class="status status--seal"><span class="status__dot"></span>Active</span></td>
+                </tr>
+                <tr>
+                  <td class="num">R.02</td>
+                  <td>Estimation demandée et confiance &gt; 65 %</td>
+                  <td>Envoi du relevé et proposition de dépôt</td>
+                  <td class="num">218 / j</td>
+                  <td><span class="status status--seal"><span class="status__dot"></span>Active</span></td>
+                </tr>
+                <tr>
+                  <td class="num">R.03</td>
+                  <td>Estimation demandée et confiance &lt; 65 %</td>
+                  <td>Transfert au conseiller, le bot se tait</td>
+                  <td class="num">54 / j</td>
+                  <td><span class="status status--seal"><span class="status__dot"></span>Active</span></td>
+                </tr>
+                <tr>
+                  <td class="num">R.04</td>
+                  <td>Le client demande une facture</td>
+                  <td>Envoi du modèle « facture_vente »</td>
+                  <td class="num">31 / j</td>
+                  <td><span class="status status--seal"><span class="status__dot"></span>Active</span></td>
+                </tr>
+                <tr>
+                  <td class="num">R.05</td>
+                  <td>Aucune réponse depuis 24 h</td>
+                  <td>Relance puis mise en attente</td>
+                  <td class="num">8 / j</td>
+                  <td><span class="status status--kraft"><span class="status__dot"></span>En veille</span></td>
+                </tr>
+                <tr>
+                  <td class="num">R.06</td>
+                  <td>Message hors catalogue (armes, contrefaçon)</td>
+                  <td>Blocage et signalement à la modération</td>
+                  <td class="num">2 / j</td>
+                  <td><span class="status status--seal"><span class="status__dot"></span>Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg> Aperçu de conversation</h2>
+              <p>Ce que voit le vendeur sur son téléphone</p>
+            </div>
+            <span class="badge badge--kraft">Sophie M.</span>
+          </div>
+          <div class="panel__body">
+            <div class="wa">
+              <div class="wa__head">
+                <span class="chat__av">MV</span>
+                <span class="wa__id">
+                  <b>MaisonVide</b>
+                  <span>+33 6 00 00 00 00 · compte vérifié</span>
+                </span>
+              </div>
+              <div class="wa__body">
+                <div class="wa__stamp">14:21</div>
+                <div class="wa__bubble wa__bubble--in">Bonjour Sophie, je suis l’assistant MaisonVide. Dites-moi ce que vous souhaitez estimer.
+                  <time>14:21</time>
+                </div>
+                <div class="wa__bubble wa__bubble--out">Bonjour, mon estimation pour un canapé teck n’est pas encore arrivée.
+                  <time>14:23</time>
+                </div>
+                <div class="wa__stamp">14:23</div>
+                <div class="wa__bubble wa__bubble--in">D’après notre relevé, votre canapé teck est estimé entre 260 et 320 €. Confiance 92 %. Je dépose la fiche ?
+                  <time>14:23</time>
+                </div>
+                <div class="wa__bubble wa__bubble--out">Oui, déposez-la. Photo de face d’abord.
+                  <time>14:26</time>
+                </div>
+                <div class="wa__bubble wa__bubble--in">C’est noté. Envoyez-moi 3 à 5 photos sous différents angles pour affiner le relevé.
+                  <time>14:26</time>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-bookmark"></use></svg> Modèles de messages</h2>
+            <p>Les textes approuvés par Meta et leur taux d’ouverture</p>
+          </div>
+          <button class="btn btn--primary btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg> Nouveau modèle</button>
+        </div>
+        <div class="panel__body--flush table-wrap">
+          <table class="data-table data-table--dense">
+            <thead>
+              <tr><th>Nom</th><th>Catégorie</th><th>État Meta</th><th class="num">Envoyés 30 j</th><th class="num">Ouverture</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>estimation_ready</strong>
+                  <span class="sub">Bonjour {{1}}, votre estimation est prête : {{2}}</span>
+                </td>
+                <td>Utility</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Approuvé</span></td>
+                <td class="num">2 412</td>
+                <td class="num">87 %</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>vente_confirmee</strong>
+                  <span class="sub">Félicitations {{1}}, votre {{2}} est vendu !</span>
+                </td>
+                <td>Marketing</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Approuvé</span></td>
+                <td class="num">487</td>
+                <td class="num">92 %</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>rappel_visite</strong>
+                  <span class="sub">{{1}}, n’oubliez pas votre visite demain à 14 h</span>
+                </td>
+                <td>Utility</td>
+                <td><span class="status status--seal"><span class="status__dot"></span>Approuvé</span></td>
+                <td class="num">240</td>
+                <td class="num">78 %</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>nouvelle_annonce</strong>
+                  <span class="sub">Nouveau sur MaisonVide : {{1}}</span>
+                </td>
+                <td>Marketing</td>
+                <td><span class="status status--warn"><span class="status__dot"></span>En attente de Meta</span></td>
+                <td class="num">—</td>
+                <td class="num">—</td>
+                <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="admin-grid admin-grid--2">
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-id"></use></svg> Identité du numéro</h2>
+              <p>Ce que Meta affiche sur le profil</p>
+            </div>
+          </div>
+          <div class="panel__body">
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Nom affiché</span>
+                <span class="form-row__h">Visible sur le profil public</span>
+              </span>
+              <span class="form-row__ctl">
+                <input type="text" class="input" value="MaisonVide" aria-label="Nom affiché">
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Description</span>
+                <span class="form-row__h">La phrase d’accroche du canal</span>
+              </span>
+              <span class="form-row__ctl">
+                <textarea class="textarea" rows="2" aria-label="Description">Videz votre maison au juste prix. Estimation IA gratuite, paiement sécurisé, accompagnement 7 j/7.</textarea>
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Catégorie</span>
+                <span class="form-row__h">Secteur déclaré auprès de Meta</span>
+              </span>
+              <span class="form-row__ctl">
+                <select class="select" aria-label="Catégorie">
+                  <option selected>Shopping &amp; retail</option>
+                  <option>Home services</option>
+                  <option>Real estate</option>
+                </select>
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Horaires</span>
+                <span class="form-row__h">Affichés sur le profil</span>
+              </span>
+              <span class="form-row__ctl">
+                <input type="text" class="input" value="Lun-Dim 8h-22h" aria-label="Horaires">
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Réponses automatiques hors horaires</span>
+                <span class="form-row__h">Le bot reste joignable la nuit</span>
+              </span>
+              <span class="form-row__ctl">
+                <span class="switch-row">
+                  <span class="switch-row__k">Envoyer le modèle « hors_horaires »</span>
+                  <span class="toggle is-on"></span>
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="panel__foot">
+            <button class="btn btn--ghost btn--sm" type="button">Annuler</button>
+            <button class="btn btn--primary btn--sm" type="button" data-action="save" data-label="Identité enregistrée">Enregistrer</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-phone"></use></svg> Numéros connectés</h2>
+              <p>Trois lignes pilotées depuis le même carnet</p>
+            </div>
+            <button class="btn btn--ghost btn--sm" type="button"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg> Ajouter</button>
+          </div>
+          <div class="panel__body--flush table-wrap">
+            <table class="data-table data-table--dense">
+              <thead>
+                <tr><th>Numéro</th><th>Usage</th><th>État</th><th class="num">Messages 24 h</th><th></th></tr>
+              </thead>
+              <tbody>
+                <tr><td>+33 6 00 00 00 00</td><td>MaisonVide principal</td><td><span class="status status--seal"><span class="status__dot"></span>Actif</span></td><td class="num">487</td><td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td></tr>
+                <tr><td>+33 6 00 00 00 01</td><td>Support et litiges</td><td><span class="status status--seal"><span class="status__dot"></span>Actif</span></td><td class="num">142</td><td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td></tr>
+                <tr><td>+33 6 00 00 00 02</td><td>Recette</td><td><span class="status status--ink"><span class="status__dot"></span>En pause</span></td><td class="num">0</td><td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-eye"></use></svg></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel__head" style="border-top:1px solid var(--paper-rule);border-bottom:0">
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg> Quotas et facturation</h2>
+          </div>
+          <div class="panel__body">
+            <div class="signals">
+              <div class="signal">
+                <span class="signal__k">Conversations ce mois</span>
+                <span class="signal__v">4 280 / 10 000</span>
+                <span class="status status--kraft"><span class="status__dot"></span>43 %</span>
+              </div>
+              <div class="signal">
+                <span class="signal__k">Coût du mois</span>
+                <span class="signal__v">487,32 €</span>
+                <span class="status status--ink"><span class="status__dot"></span>0,085 € / conv.</span>
+              </div>
+              <div class="signal">
+                <span class="signal__k">Alerte à 80 % du quota</span>
+                <span class="signal__v">e-mail</span>
+                <span class="status status--seal"><span class="status__dot"></span>Active</span>
+              </div>
+              <div class="signal">
+                <span class="signal__k">Pause automatique à 95 %</span>
+                <span class="signal__v">envois</span>
+                <span class="status status--seal"><span class="status__dot"></span>Active</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

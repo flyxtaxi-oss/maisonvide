@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Nos garanties : séquestre et assurance — MaisonVide</title>
+<meta name="description" content="Séquestre bancaire Mangopay, assurance AXA jusqu'à 10 000 €, vérification d'identité en 4 minutes et médiation humaine sous 24 h. Toutes nos garanties.">
+<link rel="canonical" href="https://maisonvide.fr/garanties.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+/* ---- Tête de page ---- */
+.page-head { padding-block: clamp(2.6rem, 6vw, 5rem) clamp(2rem, 4vw, 3.4rem); border-bottom: 1px solid var(--paper-rule); }
+.page-head__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem, 5vw, 4rem); align-items: end; }
+.page-head__title {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(2.3rem, 5.4vw, 4.3rem); line-height: 1.02; letter-spacing: -.04em;
+  margin: .7rem 0 1.1rem;
+}
+.page-head__title em { font-style: italic; color: var(--kraft-700); }
+.page-head__lede { font-size: 1.05rem; color: var(--ink-700); max-width: 48ch; }
+.page-head__actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.8rem; }
+.sommaire { border-top: 1.5px solid var(--ink-900); }
+.sommaire a {
+  display: flex; align-items: baseline; gap: 1rem;
+  padding: .72rem 0; border-bottom: 1px solid var(--paper-rule);
+  font-size: .9rem; color: var(--ink-700); transition: color var(--t-fast);
+}
+.sommaire a:hover { color: var(--ink-900); }
+.sommaire b { font-family: var(--font-mono); font-weight: 500; color: var(--ink-400); font-size: .78rem; }
+@media (max-width: 900px) { .page-head__grid { grid-template-columns: 1fr; align-items: start; } }
+
+/* ---- Le parcours du séquestre : un chemin dessiné ---- */
+.escrow-flow {
+  position: relative; display: grid; grid-template-columns: repeat(5, 1fr);
+  margin-top: 2.8rem;
+}
+.escrow-flow::before {
+  content: ""; position: absolute; left: 10%; right: 10%; top: 1.35rem;
+  height: 1px; background: var(--ink-300);
+}
+.escrow-step { position: relative; padding: 0 .9rem; }
+.escrow-step__num {
+  position: relative; z-index: 1;
+  width: 2.7rem; height: 2.7rem; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--paper-ground); border: 1.5px solid var(--ink-900); color: var(--ink-900);
+  font-family: var(--font-mono); font-size: .85rem; font-weight: 700;
+}
+.escrow-step--active .escrow-step__num { background: var(--seal-500); border-color: var(--seal-500); color: #fff; }
+.escrow-step__body { margin-top: .95rem; }
+.escrow-step__title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+.escrow-step__desc { font-size: .84rem; color: var(--ink-600); margin-top: .3rem; max-width: 30ch; }
+.escrow-step__meta { font-family: var(--font-mono); font-size: .72rem; color: var(--ink-400); margin-top: .55rem; }
+.escrow-step__amount { font-family: var(--font-mono); font-size: .95rem; font-weight: 700; color: var(--stamp-600); margin-top: .5rem; }
+.escrow-step__state { font-size: .72rem; color: var(--seal-600); font-weight: 600; margin-top: .2rem; }
+@media (max-width: 780px) {
+  .escrow-flow { grid-template-columns: 1fr; margin-top: 2rem; }
+  .escrow-flow::before { left: 1.35rem; right: auto; top: 1.35rem; bottom: 1.35rem; width: 1px; height: auto; }
+  .escrow-step { display: grid; grid-template-columns: 2.7rem 1fr; gap: 1rem; padding: 0 0 1.7rem; }
+  .escrow-step__body { margin-top: 0; }
+  .escrow-step__desc { max-width: none; }
+}
+
+/* ---- L'encart kraft : l'avertissement ---- */
+.encart {
+  margin-top: 2.6rem; padding: 1.1rem 1.3rem;
+  background: var(--kraft-50); border: 1px solid var(--kraft-300); border-radius: var(--radius-sm);
+  display: flex; gap: .9rem; align-items: flex-start;
+}
+.encart .ic { color: var(--kraft-700); width: 1.25em; height: 1.25em; margin-top: .15rem; flex-shrink: 0; }
+.encart p { font-size: .875rem; margin: 0; max-width: 78ch; }
+.encart strong { color: var(--ink-900); }
+
+/* ---- Les tableaux ---- */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll .data-table { min-width: 820px; }
+.table-scroll .data-table td { vertical-align: top; }
+.table-scroll .data-table td:first-child { font-weight: 600; color: var(--ink-900); white-space: nowrap; }
+.table-hint { display: none; font-size: .72rem; color: var(--ink-500); margin-bottom: .5rem; }
+@media (max-width: 900px) { .table-hint { display: block; } }
+.contrat { margin-top: 1.4rem; font-size: .82rem; color: var(--ink-500); max-width: 80ch; }
+.contrat strong { color: var(--ink-900); }
+
+/* ---- Les étapes de KYC : des lignes numérotées ---- */
+.etapes { border-top: 1.5px solid var(--ink-900); }
+.etapes__row {
+  display: grid; grid-template-columns: 4rem 2rem 1fr; gap: 1.1rem; align-items: start;
+  padding: 1.2rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.etapes__num { font-family: var(--font-mono); font-size: .78rem; color: var(--ink-400); letter-spacing: .08em; }
+.etapes__ic { color: var(--seal-500); width: 1.35em; height: 1.35em; }
+.etapes__row h4 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+.etapes__row p { font-size: .875rem; color: var(--ink-600); max-width: 62ch; margin-top: .25rem; }
+@media (max-width: 780px) {
+  .etapes__row { grid-template-columns: 3.2rem 1.6rem 1fr; }
+}
+@media (max-width: 560px) {
+  .etapes__row { grid-template-columns: 2.8rem 1.4rem 1fr; gap: .8rem; }
+}
+
+/* ---- Les trois faits du KYC : des cellules réglées ---- */
+.reglure__row {
+  display: grid; gap: .3rem;
+  padding: 1rem 0; border-top: 1.5px solid var(--ink-900); border-bottom: 1px solid var(--paper-rule);
+}
+.reglure__row h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; }
+.reglure__row p { font-size: .85rem; color: var(--ink-600); max-width: 40ch; }
+
+/* ---- La médiation : trois colonnes réglées ---- */
+.mediat { border-top: 1.5px solid var(--ink-900); }
+.mediat__row {
+  display: grid; grid-template-columns: 12rem 1fr; gap: 1.4rem;
+  padding: 1.3rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.mediat__row h4 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+.mediat__row p { font-size: .875rem; color: var(--ink-600); max-width: 68ch; }
+.mediat__row ol, .mediat__row ul { margin-top: .5rem; display: flex; flex-direction: column; gap: .45rem; }
+.mediat__row li { font-size: .875rem; color: var(--ink-600); position: relative; padding-left: 1.1rem; max-width: 68ch; }
+.mediat__row li::before {
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--seal-500);
+}
+.mediat__row li b { color: var(--ink-900); }
+@media (max-width: 780px) { .mediat__row { grid-template-columns: 1fr; gap: .5rem; } }
+
+/* ---- Les cas concrets ---- */
+.cas { border-top: 1px solid var(--paper-rule); margin-top: .6rem; }
+.cas__row { padding: .9rem 0; border-bottom: 1px solid var(--paper-rule); }
+.cas__row b { font-size: .85rem; color: var(--ink-900); display: block; }
+.cas__row p { font-size: .82rem; color: var(--ink-600); margin-top: .2rem; max-width: 72ch; }
+
+/* ---- La FAQ ---- */
+.details-list { border-top: 1.5px solid var(--ink-900); }
+.details-list__item { border-bottom: 1px solid var(--paper-rule); }
+.details-list__q { list-style: none; cursor: pointer; }
+.details-list__q::-webkit-details-marker { display: none; }
+.details-list__a { max-width: 74ch; }
+.details-list__a strong { color: var(--ink-900); }
+
+.section--reglure { border-top: 1px solid var(--paper-rule); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Puis-je payer en dehors du séquestre ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Non, et nous le déconseillons fortement. Un paiement hors plateforme n'ouvre aucun droit : ni séquestre, ni médiation, ni recours, et cela contre nos conditions générales de vente. Chez MaisonVide, tout passe par le compte séquestre Mangopay, enregistré auprès de l'ACPR." }
+    },
+    {
+      "@type": "Question",
+      "name": "Combien de temps ai-je pour vérifier l'objet que je reçois ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "48 heures après réception. Passé ce délai, le paiement est libéré au vendeur. Si l'objet ne correspond pas à l'annonce, signalez-le dans la fenêtre : un médiateur tranche sous 24 heures et vous choisissez entre le remboursement intégral et le retour." }
+    },
+    {
+      "@type": "Question",
+      "name": "L'assurance AXA couvre-t-elle un objet qui ne correspond pas à l'annonce ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Oui : la non-conformité à l'annonce, la non-livraison, le vice caché signalé sous 48 heures et la casse pendant le transport sont couverts, avec une franchise de 0 euro et sans déclaration préalable. La couverture de base est de 2 500 euros, incluse dans chaque transaction." }
+    },
+    {
+      "@type": "Question",
+      "name": "Que se passe-t-il si l'acheteur ne répond pas ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Un rappel automatique est envoyé à 24 heures. À 48 heures, la fenêtre d'inspection est close et l'argent est libéré au vendeur. Si le vendeur signale une non-réception, la médiation est ouverte automatiquement et le séquestre reste gelé." }
+    },
+    {
+      "@type": "Question",
+      "name": "L'assurance AXA est-elle comprise dans la commission ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "La formule de base à 2 500 euros est incluse dans la commission de 8 %. Les formules 5 000 et 10 000 euros sont réservées aux vendeurs Pro et Premium, ou aux transactions de plus de 5 000 euros validées par notre équipe." }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je annuler une vente ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Avant le paiement, oui : l'annonce est retirée sans frais. Après paiement, l'annulation passe par la médiation, qui vérifie que les deux parties sont d'accord et restitue l'intégralité du montant si l'acheteur a bien annulé de bonne foi." }
+    }
+  ]
+}
+</script>
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="vendre.html">Estimer</a>
+      <a href="annonces.html">Annonces</a>
+      <a href="confiance.html" class="is-active">Confiance</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TÊTE DE PAGE ================= -->
+<section class="page-head">
+  <div class="container page-head__grid">
+    <div>
+      <span class="label">Séquestre · AXA · KYC · médiation</span>
+      <h1 class="page-head__title">Votre argent attend<br/><em>la bonne signature.</em></h1>
+      <p class="page-head__lede">
+        Voici exactement ce qui se passe entre le moment où vous payez et celui où le vendeur
+        reçoit son argent. Pas de magie, pas de zone d'ombre : cinq étapes, trois formules
+        d'assurance, et des gens joignables.
+      </p>
+      <div class="page-head__actions">
+        <a href="#sequestre" class="btn btn--primary">
+          <svg class="ic" aria-hidden="true"><use href="#i-lock"></use></svg>
+          Voir le parcours de l'argent
+        </a>
+        <a href="confiance.html" class="btn btn--ghost">Les 7 barrières</a>
+      </div>
+    </div>
+
+    <nav class="sommaire" aria-label="Sommaire de la page">
+      <a href="#sequestre"><b>01</b> Le séquestre, étape par étape</a>
+      <a href="#assurance"><b>02</b> Les 3 formules AXA</a>
+      <a href="#kyc"><b>03</b> La vérification d'identité</a>
+      <a href="#mediation"><b>04</b> La médiation humaine</a>
+      <a href="#faq"><b>05</b> Vos questions</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ================= LE SÉQUESTRE ================= -->
+<section class="section" id="sequestre">
+  <div class="container">
+    <span class="label">Le parcours de l'argent</span>
+    <h2 class="display" style="max-width:16ch;margin:.6rem 0 1.2rem">Cinq étapes. Zéro risque pour les deux.</h2>
+    <p style="max-width:56ch">
+      L'acheteur paie, l'argent s'arrête, l'objet circule, l'acheteur vérifie, le vendeur est payé.
+      Tant que l'acheteur n'a pas confirmé la réception, personne ne peut toucher au montant.
+    </p>
+
+    <div class="escrow-flow">
+      <article class="escrow-step" data-rise>
+        <div class="escrow-step__num">1</div>
+        <div class="escrow-step__body">
+          <h3 class="escrow-step__title">Accord trouvé</h3>
+          <p class="escrow-step__desc">L'acheteur et le vendeur se mettent d'accord sur une annonce.</p>
+          <div class="escrow-step__meta">0 seconde</div>
+        </div>
+      </article>
+
+      <article class="escrow-step escrow-step--active" data-rise>
+        <div class="escrow-step__num">2</div>
+        <div class="escrow-step__body">
+          <h3 class="escrow-step__title">Paiement sécurisé</h3>
+          <p class="escrow-step__desc">L'acheteur paie. L'argent est bloqué sur le compte séquestre Mangopay, agréé ACPR.</p>
+          <div class="escrow-step__amount">280 € bloqués</div>
+          <div class="escrow-step__state">Séquestre activé</div>
+        </div>
+      </article>
+
+      <article class="escrow-step" data-rise>
+        <div class="escrow-step__num">3</div>
+        <div class="escrow-step__body">
+          <h3 class="escrow-step__title">Envoi ou enlèvement</h3>
+          <p class="escrow-step__desc">Le vendeur remet l'objet, en main propre ou via nos transporteurs partenaires.</p>
+          <div class="escrow-step__meta">24 – 72 h</div>
+        </div>
+      </article>
+
+      <article class="escrow-step" data-rise>
+        <div class="escrow-step__num">4</div>
+        <div class="escrow-step__body">
+          <h3 class="escrow-step__title">Inspection acheteur</h3>
+          <p class="escrow-step__desc">L'acheteur a 48 h pour vérifier que tout correspond. Sinon : remboursement intégral.</p>
+          <div class="escrow-step__meta">48 h</div>
+        </div>
+      </article>
+
+      <article class="escrow-step" data-rise>
+        <div class="escrow-step__num">5</div>
+        <div class="escrow-step__body">
+          <h3 class="escrow-step__title">Vendeur payé</h3>
+          <p class="escrow-step__desc">L'argent est libéré sur le compte du vendeur, moins notre commission de 8 %.</p>
+          <div class="escrow-step__amount">257,60 € versés</div>
+          <div class="escrow-step__state">Terminé</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="encart">
+      <svg class="ic" aria-hidden="true"><use href="#i-alert"></use></svg>
+      <p>
+        <strong>Vous voulez payer hors séquestre ?</strong> On vous le déconseille fortement.
+        Aucune protection, aucune médiation, aucun recours. Et c'est contre nos conditions générales
+        de vente.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= L'ASSURANCE ================= -->
+<section class="section section--kraft" id="assurance">
+  <div class="container">
+    <span class="label">Couverture financière</span>
+    <h2 class="display" style="max-width:16ch;margin:.6rem 0 1.2rem">L'assurance AXA, en clair.</h2>
+    <p style="max-width:58ch">
+      Non livré, non conforme, vice caché : trois formules, un seul contrat. Ce qui est couvert,
+      ce qui ne l'est pas, et en combien de temps l'argent revient.
+    </p>
+
+    <p class="table-hint" style="margin-top:1.4rem">Tableau à faire glisser horizontalement.</p>
+    <div class="table-scroll">
+      <table class="data-table">
+        <caption class="sr-only">Les trois formules d'assurance AXA : plafond, couverture, exclusions et délai de traitement</caption>
+        <thead>
+          <tr>
+            <th scope="col">Formule</th>
+            <th scope="col">Plafond</th>
+            <th scope="col">Couvert</th>
+            <th scope="col">Non couvert</th>
+            <th scope="col">Délai</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Base</td>
+            <td class="num">2 500 €</td>
+            <td>Objet non livré · objet non conforme à l'annonce · vice caché signalé sous 48 h · casse pendant le transport.</td>
+            <td>Usure normale et défauts annoncés dans l'annonce · transactions hors plateforme · valeur supérieure au plafond.</td>
+            <td>Remboursement sous 5 jours ouvrés.</td>
+          </tr>
+          <tr>
+            <td>Premium</td>
+            <td class="num">5 000 €</td>
+            <td>Tout ce que couvre la formule Base, y compris les vices cachés déclarés après la réception. Réservée aux vendeurs Pro et Premium.</td>
+            <td>Usure normale · objet dont la valeur réelle dépasse le plafond sans estimation validée.</td>
+            <td>5 jours ouvrés après validation du dossier.</td>
+          </tr>
+          <tr>
+            <td>Premium+</td>
+            <td class="num">10 000 €</td>
+            <td>Transactions sur des objets de plus de 5 000 €, après validation humaine de notre équipe. Même garanties que Premium.</td>
+            <td>Objets non déclarés à la vente · transaction sans passage par le séquestre.</td>
+            <td>Décision sous 24 h, remboursement sous 7 jours.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="contrat">
+      <strong>Contrat n° AXA-FRA-2026-487263</strong>, souscrit auprès d'AXA France.
+      Franchise : 0 €. Sans condition de déclaration préalable. La formule Base est incluse
+      automatiquement dans chaque transaction ; elle ne coûte rien de plus à l'acheteur.
+    </p>
+  </div>
+</section>
+
+<!-- ================= LE KYC ================= -->
+<section class="section section--reglure" id="kyc">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.2fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <span class="label">Vérification d'identité</span>
+        <h2 class="display" style="max-width:12ch;margin:.6rem 0 1.2rem">On sait qui vous êtes.</h2>
+        <p style="max-width:42ch">
+          Pour publier une annonce, chaque vendeur passe par KYC en 4 minutes.
+          Le compte ne peut pas vendre avant.
+        </p>
+        <p class="hand mt-8">→ 4 minutes, dont 90 secondes d'attente</p>
+      </div>
+
+      <div class="etapes">
+        <div class="etapes__row" data-rise>
+          <div class="etapes__num">K.01</div>
+          <svg class="ic etapes__ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+          <div>
+            <h4>Photo de la pièce d'identité</h4>
+            <p>Carte nationale d'identité, passeport ou permis de conduire, recto et verso. Lecture automatique par OCR et reconnaissance des hologrammes.</p>
+          </div>
+        </div>
+
+        <div class="etapes__row" data-rise>
+          <div class="etapes__num">K.02</div>
+          <svg class="ic etapes__ic" aria-hidden="true"><use href="#i-user"></use></svg>
+          <div>
+            <h4>Selfie vidéo</h4>
+            <p>Dix secondes de vidéo avec un mouvement aléatoire demandé au moment de l'enregistrement. C'est ce qui empêche d'utiliser une photo volée.</p>
+          </div>
+        </div>
+
+        <div class="etapes__row" data-rise>
+          <div class="etapes__num">K.03</div>
+          <svg class="ic etapes__ic" aria-hidden="true"><use href="#i-banknote"></use></svg>
+          <div>
+            <h4>Vérification de l'IBAN</h4>
+            <p>On vérifie que le compte bancaire est bien au nom du titulaire de la pièce d'identité. C'est le premier frein au blanchiment.</p>
+          </div>
+        </div>
+
+        <div class="etapes__row" data-rise>
+          <div class="etapes__num">K.04</div>
+          <svg class="ic etapes__ic" aria-hidden="true"><use href="#i-check-circle"></use></svg>
+          <div>
+            <h4>Validation et badge</h4>
+            <p>Le badge « Vérifié » est attribué. Une revue humaine prend le relais sur 4 % des dossiers, sous 24 h.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-3 mt-12">
+      <div class="reglure__row">
+        <h4>Combien de temps ?</h4>
+        <p>4 minutes en moyenne, dont 90 secondes d'attente pour la validation automatique.</p>
+      </div>
+      <div class="reglure__row">
+        <h4>Mes données sont protégées ?</h4>
+        <p>Pièces d'identité chiffrées en AES-256, stockées en France, supprimées 30 jours après la conformité réglementaire.</p>
+      </div>
+      <div class="reglure__row">
+        <h4>Taux de réussite ?</h4>
+        <p>94 % des dossiers validés automatiquement en moins de 4 minutes. Les 6 % restants passent en revue humaine sous 24 h.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LA MÉDIATION ================= -->
+<section class="section" id="mediation">
+  <div class="container">
+    <span class="label">Médiation humaine</span>
+    <h2 class="display" style="max-width:16ch;margin:.6rem 0 1.2rem">Quand ça coince, on est là.</h2>
+    <p style="max-width:58ch">
+      Huit médiateurs, basés à Paris, reprennent votre dossier. Une décision écrite, argumentée,
+      et gratuite : elle est incluse dans la commission.
+    </p>
+
+    <div class="mediat mt-12">
+      <div class="mediat__row">
+        <h4>Le délai</h4>
+        <ul>
+          <li><b>Réponse à la première prise de contact :</b> moins de 2 minutes sur WhatsApp, 7 jours sur 7.</li>
+          <li><b>Décision sur le fond :</b> sous 24 h ouvrées.</li>
+          <li><b>Remboursement :</b> sous 5 jours ouvrés quand la décision est favorable à l'acheteur.</li>
+          <li><b>Appel téléphonique :</b> possible une fois, si le dossier écrit ne suffit pas.</li>
+        </ul>
+      </div>
+
+      <div class="mediat__row">
+        <h4>Le processus</h4>
+        <ol>
+          <li>Vous déclarez le litige depuis l'annonce, la commande ou la messagerie. Un numéro de dossier est ouvert.</li>
+          <li>Nous demandons les pièces : photos de l'objet, de l'emballage, de la conversation, du suivi d'expédition.</li>
+          <li>Les deux parties sont entendues. Le vendeur comme l'acheteur ont cinq jours pour répondre.</li>
+          <li>Un médiateur rédige une décision écrite et argumentée, avec la pièce qu'il retient et pourquoi.</li>
+          <li>La décision est exécutée : remboursement, restitution ou retour, et le dossier est clos.</li>
+        </ol>
+      </div>
+
+      <div class="mediat__row">
+        <h4>Si l'acheteur ne répond pas</h4>
+        <ul>
+          <li><b>À 24 h :</b> un rappel automatique est envoyé à l'acheteur. Le séquestre reste gelé.</li>
+          <li><b>À 48 h :</b> la fenêtre d'inspection est close. L'argent est libéré au vendeur, comme prévu dans nos conditions.</li>
+          <li><b>Si le vendeur signale une non-réception :</b> la médiation est ouverte automatiquement, le montant reste gelé et un médiateur tranche.</li>
+          <li><b>Après la restitution :</b> l'acheteur conserve 7 jours pour contester par son numéro de dossier. Au-delà, le dossier est clos.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid grid-2 mt-12" style="align-items:start">
+      <div>
+        <span class="label">Quelques cas concrets</span>
+        <div class="cas">
+          <div class="cas__row">
+            <b>Cas n° 2847 — litige résolu en 18 h</b>
+            <p>Le vendeur refusait l'envoi. Nous avons identifié un problème logistique côté acheteur. Solution amiable : enlèvement par notre partenaire, transport remboursé à l'acheteur.</p>
+          </div>
+          <div class="cas__row">
+            <b>Cas n° 2921 — remboursement intégral</b>
+            <p>Objet reçu non conforme à l'annonce. Remboursement intégral sous 5 jours. Le vendeur est notifié et formé à la photo produit.</p>
+          </div>
+          <div class="cas__row">
+            <b>Cas n° 3012 — pré-vente bloquée</b>
+            <p>Photos suspectes, recyclées sur d'autres sites. Détection automatique, confirmation humaine, annonce retirée. Signalement transmis aux autorités.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span class="label">Ce qui est couvert, en une phrase</span>
+        <p class="mt-6" style="max-width:52ch">
+          Tout ce qui est passé par le séquestre, dans les 48 heures qui suivent la réception, avec
+          des pièces. Le reste — hors plateforme, hors délai, sans justificatif — n'entre pas dans le
+          périmètre. C'est dit noir sur blanc dans nos conditions générales de vente.
+        </p>
+        <a href="cgu.html" class="btn btn--quiet mt-6">Lire les conditions générales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section section--kraft" id="faq">
+  <div class="container container--narrow">
+    <span class="label">Questions fréquentes</span>
+    <h2 class="display" style="max-width:16ch;margin:.6rem 0 2rem">Ce qu'on nous demande le plus.</h2>
+
+    <div class="details-list">
+      <details class="details-list__item" open>
+        <summary class="details-list__q">
+          Puis-je payer en dehors du séquestre ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Non, et nous le déconseillons fortement. Un paiement hors plateforme n'ouvre aucun droit :
+          ni séquestre, ni médiation, ni recours. Et c'est contre nos conditions générales de vente.
+          Chez MaisonVide, tout passe par Mangopay, enregistré auprès de l'ACPR.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Combien de temps ai-je pour vérifier l'objet que je reçois ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          <strong>48 heures après réception.</strong> Passé ce délai, le paiement est libéré au
+          vendeur. Si l'objet ne correspond pas à l'annonce, signalez-le dans la fenêtre : un
+          médiateur tranche sous 24 h et vous choisissez entre le remboursement intégral et le retour.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          L'assurance AXA couvre-t-elle un objet qui ne correspond pas à l'annonce ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Oui : la non-conformité à l'annonce, la non-livraison, le vice caché signalé sous 48 h et
+          la casse pendant le transport. Franchise de 0 €, sans déclaration préalable. Formule de
+          base à 2 500 €, incluse dans chaque transaction.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Que se passe-t-il si l'acheteur ne répond pas ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Un rappel automatique est envoyé à 24 h. À 48 h, la fenêtre d'inspection est close et
+          l'argent est libéré au vendeur. Si le vendeur signale une non-réception, la médiation est
+          ouverte automatiquement et le séquestre reste gelé.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          L'assurance AXA est-elle comprise dans la commission ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          La formule de base à 2 500 € est incluse dans la commission de 8 %. Les formules 5 000 € et
+          10 000 € sont réservées aux vendeurs Pro et Premium, ou aux transactions de plus de 5 000 €
+          validées par notre équipe.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Puis-je annuler une vente ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Avant le paiement, oui : l'annonce est retirée sans frais. Après paiement, l'annulation
+          passe par la médiation, qui vérifie que les deux parties sont d'accord et restitue
+          l'intégralité du montant si l'acheteur a bien annulé de bonne foi.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section section--ink">
+  <div class="container container--narrow text-center">
+    <h2 class="display" style="max-width:18ch;margin-inline:auto">D'autres questions sur nos garanties ?</h2>
+    <p class="lead mt-8" style="max-width:50ch;margin-inline:auto;color:var(--ink-300)">
+      Nos médiateurs sont joignables en moins de deux minutes sur WhatsApp. La médiation est gratuite.
+    </p>
+    <div class="flex mt-12" style="justify-content:center;flex-wrap:wrap;gap:.75rem">
+      <a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!%20J'ai%20une%20question%20sur%20les%20garanties." class="btn btn--kraft btn--lg">
+        <svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+        Contacter un médiateur
+      </a>
+      <a href="confiance.html" class="btn btn--ghost btn--lg" style="color:var(--paper-sheet);border-color:var(--ink-400)">Voir toutes nos protections</a>
+    </div>
+    <p style="margin-top:2rem;font-size:.8rem;color:var(--ink-400)">
+      Séquestre obligatoire · 8 % uniquement à la vente · Médiation incluse
+    </p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Annonces du vide-grenier — MaisonVide</title>
+<meta name="description" content="Le relevé des objets d'occasion : 12 fiches photographiées, prix au juste marché, vendeurs scellés et paiement en séquestre. Le catalogue MaisonVide.">
+<link rel="canonical" href="https://maisonvide.fr/annonces.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+/* ---- La tête du catalogue : un relevé, pas un bandeau ---- */
+.cat-head { padding-block: clamp(2.5rem, 6vw, 4.5rem) 1.5rem; }
+.cat-head__title { font-size: clamp(2.4rem, 5.2vw, 4.2rem); max-width: 15ch; margin-top: .7rem; }
+.cat-head__lead { max-width: 54ch; margin-top: 1rem; }
+.cat-head__bar {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1.5px solid var(--ink-900);
+  display: flex; flex-wrap: wrap; gap: .3rem 1.6rem;
+  font-family: var(--font-mono); font-size: .76rem; color: var(--ink-500);
+}
+.cat-head__bar b { color: var(--ink-900); font-weight: 700; }
+
+/* ---- Filtres : une fiche cartonnée ---- */
+.cat-filters { margin-bottom: var(--space-5); }
+.cat-filters .form-label { display: flex; align-items: center; gap: .4rem; }
+.cat-filters .form-label .ic { color: var(--kraft-700); }
+.cat-chips { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: var(--space-5); }
+
+/* ---- La barre de tri et le compteur ---- */
+.cat-bar {
+  display: flex; flex-wrap: wrap; gap: var(--space-4);
+  align-items: center; justify-content: space-between;
+  padding: .85rem 1rem; margin-bottom: var(--space-5);
+  background: var(--paper-sheet);
+  border-top: 1.5px solid var(--ink-900);
+  border-bottom: 1px solid var(--paper-rule);
+}
+.cat-bar__count { font-size: var(--fs-sm); color: var(--ink-600); }
+.cat-bar__count .count {
+  font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; color: var(--ink-900);
+}
+.cat-bar__sort { display: flex; align-items: center; gap: .55rem; }
+.cat-bar__sort .select { width: auto; padding: .4rem 2rem .4rem .65rem; font-size: var(--fs-sm); }
+
+/* ---- Le catalogue réglé : une ligne par fiche ---- */
+.cat-list { border-top: 1.5px solid var(--ink-900); }
+.cat-row {
+  display: grid;
+  grid-template-columns: 92px 1fr 40px;
+  grid-template-areas:
+    "media main fav"
+    "media price fav";
+  gap: .85rem 1rem;
+  align-items: start;
+  padding: 1rem .4rem;
+  border-bottom: 1px solid var(--paper-rule);
+  transition: background var(--t-fast);
+}
+.cat-row:hover { background: rgba(255, 255, 255, .42); }
+.cat-row__media {
+  grid-area: media; align-self: start;
+  display: block; aspect-ratio: 4/3;
+  background: var(--paper-edge); border-radius: var(--radius-sm); overflow: hidden;
+}
+.cat-row__media img { width: 100%; height: 100%; object-fit: cover; }
+.cat-row__main { grid-area: main; min-width: 0; }
+.cat-row__head { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: .4rem; }
+.cat-row__title { font-size: 1.08rem; letter-spacing: -.02em; }
+.cat-row__title a { color: var(--ink-900); }
+.cat-row__title a:hover { color: var(--stamp-600); }
+.cat-row__meta { display: flex; flex-wrap: wrap; gap: .15rem .6rem; font-size: .78rem; color: var(--ink-500); margin-top: .3rem; }
+.cat-row__meta span + span::before { content: "·"; margin-right: .6rem; color: var(--ink-300); }
+.cat-row__tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .55rem; }
+.cat-row__price { grid-area: price; display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.cat-row__price .stamp-price { font-size: 1rem; padding: .28rem .7rem; }
+.cat-row__was { font-family: var(--font-mono); font-size: .72rem; color: var(--ink-400); }
+.cat-row__was s { text-decoration: line-through; }
+.cat-row__fav {
+  grid-area: fav; align-self: start; justify-self: end;
+  width: 36px; height: 36px; display: grid; place-items: center;
+  background: var(--paper-sheet); border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-xs); color: var(--ink-500);
+  transition: color var(--t-fast), border-color var(--t-fast);
+}
+.cat-row__fav:hover { color: var(--stamp-600); border-color: var(--ink-300); }
+.cat-row__fav.is-active { color: var(--stamp-500); border-color: var(--stamp-300); }
+.cat-row__fav.is-active .ic { fill: currentColor; }
+
+@media (min-width: 760px) {
+  .cat-row {
+    grid-template-columns: 132px 1fr auto 44px;
+    grid-template-areas: "media main price fav";
+    gap: 1.4rem; align-items: center;
+    padding: 1.1rem .6rem;
+  }
+  .cat-row__price { flex-direction: column; align-items: flex-end; gap: .35rem; }
+}
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Catalogue des annonces MaisonVide",
+  "description": "Le relevé des objets d'occasion : fiches photographiées, prix au juste marché, vendeurs scellés et paiement en séquestre.",
+  "numberOfItems": 12,
+  "itemListOrder": "https://schema.org/ItemListOrderDescending",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"Canapé 3 places IKEA KIVIK","url":"https://maisonvide.fr/annonce.html?slug=canape-ikea-kivik","image":"https://maisonvide.fr/assets/img/listing-canape.jpg","category":"Mobilier","offers":{"@type":"Offer","price":"280","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=canape-ikea-kivik"}},
+    {"@type":"ListItem","position":2,"name":"Table à manger chêne massif","url":"https://maisonvide.fr/annonce.html?slug=table-chene-massif","image":"https://maisonvide.fr/assets/img/listing-table.jpg","category":"Mobilier","offers":{"@type":"Offer","price":"340","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=table-chene-massif"}},
+    {"@type":"ListItem","position":3,"name":"Lampe sur pied Articulée vintage","url":"https://maisonvide.fr/annonce.html?slug=lampe-articulo","image":"https://maisonvide.fr/assets/img/listing-lampe.jpg","category":"Décoration","offers":{"@type":"Offer","price":"85","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=lampe-articulo"}},
+    {"@type":"ListItem","position":4,"name":"MacBook Pro 13 pouces M1 2020","url":"https://maisonvide.fr/annonce.html?slug=macbook-pro-m1","image":"https://maisonvide.fr/assets/img/listing-macbook.jpg","category":"Électronique","offers":{"@type":"Offer","price":"720","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=macbook-pro-m1"}},
+    {"@type":"ListItem","position":5,"name":"Commode années 60","url":"https://maisonvide.fr/annonce.html?slug=commode-laque-p60","image":"https://maisonvide.fr/assets/img/listing-commode.jpg","category":"Mobilier","offers":{"@type":"Offer","price":"145","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=commode-laque-p60"}},
+    {"@type":"ListItem","position":6,"name":"Vélo de ville Peugeot","url":"https://maisonvide.fr/annonce.html?slug=velo-ville-peugeot","image":"https://maisonvide.fr/assets/img/listing-velo.jpg","category":"Bricolage","offers":{"@type":"Offer","price":"95","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=velo-ville-peugeot"}},
+    {"@type":"ListItem","position":7,"name":"Collection complète Astérix (34 tomes)","url":"https://maisonvide.fr/annonce.html?slug=livre-honestpreface","image":"https://maisonvide.fr/assets/img/listing-asterix.jpg","category":"Livres & BD","offers":{"@type":"Offer","price":"110","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=livre-honestpreface"}},
+    {"@type":"ListItem","position":8,"name":"Thermomix TM6","url":"https://maisonvide.fr/annonce.html?slug=robot-cuiseur-thermomix","image":"https://maisonvide.fr/assets/img/listing-thermomix.jpg","category":"Électroménager","offers":{"@type":"Offer","price":"680","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=robot-cuiseur-thermomix"}},
+    {"@type":"ListItem","position":9,"name":"Manteau cuir Le Vrai Breton","url":"https://maisonvide.fr/annonce.html?slug=manteau-cuir-le-vrai","image":"https://maisonvide.fr/assets/img/listing-manteau.jpg","category":"Vêtements","offers":{"@type":"Offer","price":"145","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=manteau-cuir-le-vrai"}},
+    {"@type":"ListItem","position":10,"name":"PlayStation 5 + 2 manettes","url":"https://maisonvide.fr/annonce.html?slug=console-ps5","image":"https://maisonvide.fr/assets/img/listing-ps5.jpg","category":"Électronique","offers":{"@type":"Offer","price":"380","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=console-ps5"}},
+    {"@type":"ListItem","position":11,"name":"Vase Murano signé","url":"https://maisonvide.fr/annonce.html?slug=vase-murano","image":"https://maisonvide.fr/assets/img/listing-murano.jpg","category":"Art & antiquités","offers":{"@type":"Offer","price":"320","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=vase-murano"}},
+    {"@type":"ListItem","position":12,"name":"Sèche-cheveux Dyson Supersonic","url":"https://maisonvide.fr/annonce.html?slug=seche-cheveux-dyson","image":"https://maisonvide.fr/assets/img/listing-dyson.jpg","category":"Électroménager","offers":{"@type":"Offer","price":"175","priceCurrency":"EUR","availability":"https://schema.org/InStock","itemCondition":"https://schema.org/UsedCondition","url":"https://maisonvide.fr/annonce.html?slug=seche-cheveux-dyson"}}
+  ]
+}
+</script>
+</head>
+
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="vendre.html">Estimer</a>
+      <a href="annonces.html" class="is-active">Annonces</a>
+      <a href="confiance.html">Confiance</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= LA TÊTE DU CARNET ================= -->
+<section class="cat-head">
+  <div class="container">
+    <p class="label">Catalogue du jour · <span class="count" data-count="12">12</span> fiches au carnet</p>
+    <h1 class="display cat-head__title" data-rise>Le relevé du moment.</h1>
+    <p class="lead cat-head__lead" data-rise>
+      Douze objets photographiés, estimés et déposés dans le carnet. Chaque ligne est une
+      fiche complète : l'état, le vendeur, le prix au juste marché.
+    </p>
+    <div class="cat-head__bar" data-rise>
+      <span><b id="stat-sellers">12</b> vendeurs</span>
+      <span><b id="stat-cities">9</b> villes</span>
+      <span><b id="stat-trust">87 %</b> de confiance moyenne</span>
+      <span><b id="stat-value">3 475 €</b> exposés</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LE CATALOGUE ================= -->
+<section class="section section--tight">
+  <div class="container">
+
+    <div class="filters cat-filters">
+      <div class="filters__group">
+        <label class="form-label" for="search-input">
+          <svg class="ic" aria-hidden="true"><use href="#i-search"></use></svg>
+          Recherche
+        </label>
+        <input type="search" class="input" id="search-input" placeholder="canapé, vélo, Astérix…">
+      </div>
+      <div class="filters__group">
+        <label class="form-label" for="filter-cat">Catégorie</label>
+        <select class="select" id="filter-cat">
+          <option value="">Toutes catégories</option>
+        </select>
+      </div>
+      <div class="filters__group">
+        <label class="form-label" for="filter-loc">Localisation</label>
+        <select class="select" id="filter-loc">
+          <option value="">Partout</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cat-chips" role="group" aria-label="Filtres rapides">
+      <button type="button" class="chip is-active" data-quick="all" aria-pressed="true">Tout</button>
+      <button type="button" class="chip" data-quick="lt-100" aria-pressed="false">− 100 €</button>
+      <button type="button" class="chip" data-quick="lt-300" aria-pressed="false">− 300 €</button>
+      <button type="button" class="chip" data-quick="big" aria-pressed="false">Gros objets</button>
+      <button type="button" class="chip" data-quick="luxury" aria-pressed="false">Luxe / Premium</button>
+      <button type="button" class="chip" data-quick="verified" aria-pressed="false">Vendeurs vérifiés</button>
+    </div>
+
+    <div class="cat-bar">
+      <p class="cat-bar__count">
+        <span class="count" id="result-count">12</span>
+        <span id="result-total">fiches affichées sur 12</span>
+      </p>
+      <div class="cat-bar__sort">
+        <label class="form-label" for="filter-sort">Trier</label>
+        <select class="select" id="filter-sort">
+          <option value="recent">Ordre du carnet</option>
+          <option value="price-asc">Prix croissant</option>
+          <option value="price-desc">Prix décroissant</option>
+          <option value="distance">Plus proches</option>
+          <option value="trust">Confiance vendeur</option>
+        </select>
+        <button type="button" class="btn btn--quiet btn--sm" id="reset-filters">
+          <svg class="ic" aria-hidden="true"><use href="#i-refresh"></use></svg>
+          Réinitialiser
+        </button>
+      </div>
+    </div>
+
+    <div class="cat-list" id="listings-grid"></div>
+
+    <div class="hidden" id="empty-state" style="padding-block:3.5rem;text-align:center">
+      <div style="color:var(--ink-400);margin-bottom:1rem">
+        <svg class="ic ic--xl" aria-hidden="true"><use href="#i-search"></use></svg>
+      </div>
+      <h2 class="display" style="font-size:1.7rem">Aucune fiche ne correspond.</h2>
+      <p class="lead mt-6" style="margin-inline:auto">Élargissez le critère, ou repartez du carnet entier.</p>
+      <button type="button" class="btn btn--ghost mt-8" id="empty-reset">Réinitialiser les filtres</button>
+    </div>
+
+    <div class="mt-12" style="text-align:center">
+      <button type="button" class="btn btn--ghost btn--sm hidden" id="load-more">Voir les fiches suivantes</button>
+    </div>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/listings.js"></script>
+<script>
+(function () {
+  'use strict';
+  const MVD = window.MaisonVideData;
+  const DATA = MVD.DATA;
+
+  const grid = document.getElementById('listings-grid');
+  const countEl = document.getElementById('result-count');
+  const totalEl = document.getElementById('result-total');
+  const empty = document.getElementById('empty-state');
+  const loadMore = document.getElementById('load-more');
+  const catSelect = document.getElementById('filter-cat');
+  const locSelect = document.getElementById('filter-loc');
+  const sortSelect = document.getElementById('filter-sort');
+  const searchInput = document.getElementById('search-input');
+  const chips = Array.from(document.querySelectorAll('.chip'));
+
+  const state = { cat: '', search: '', loc: '', sort: 'recent', quick: 'all', limit: 12 };
+
+  /* ---------- Le relevé de tête, calculé sur les données ---------- */
+  (function stats() {
+    const sellers = new Set(DATA.listings.map(l => l.seller.name)).size;
+    const cities = new Set(DATA.listings.map(l => MVD.cityOf(l.location))).size;
+    const trust = Math.round(DATA.listings.reduce((s, l) => s + (l.seller.trustScore || 80), 0) / DATA.listings.length);
+    const value = DATA.listings.reduce((s, l) => s + l.price, 0);
+    document.getElementById('stat-sellers').textContent = sellers;
+    document.getElementById('stat-cities').textContent = cities;
+    document.getElementById('stat-trust').textContent = trust + ' %';
+    document.getElementById('stat-value').textContent = MVD.fmtPrice(value);
+  })();
+
+  /* ---------- Les listes de filtres, dérivées des fiches ---------- */
+  Object.keys(DATA.categories).forEach(key => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = DATA.categories[key].label;
+    catSelect.appendChild(opt);
+  });
+  Array.from(new Set(DATA.listings.map(l => MVD.cityOf(l.location))))
+    .sort((a, b) => a.localeCompare(b, 'fr'))
+    .forEach(city => {
+      const opt = document.createElement('option');
+      opt.value = city;
+      opt.textContent = city;
+      locSelect.appendChild(opt);
+    });
+
+  /* ---------- Rendu ---------- */
+  function render() {
+    let list = DATA.listings.slice();
+
+    if (state.cat) list = list.filter(l => l.category === state.cat);
+    if (state.loc) list = list.filter(l => MVD.cityOf(l.location) === state.loc);
+    if (state.search) {
+      const s = state.search.toLowerCase();
+      list = list.filter(l =>
+        l.title.toLowerCase().includes(s) ||
+        l.description.toLowerCase().includes(s) ||
+        l.brand.toLowerCase().includes(s) ||
+        l.location.toLowerCase().includes(s)
+      );
+    }
+    if (state.quick === 'lt-100') list = list.filter(l => l.price < 100);
+    if (state.quick === 'lt-300') list = list.filter(l => l.price < 300);
+    if (state.quick === 'big') list = list.filter(l => ['mobilier', 'electromenager', 'jardin'].includes(l.category));
+    if (state.quick === 'luxury') list = list.filter(l => l.originalPrice > 500);
+    if (state.quick === 'verified') list = list.filter(l => l.seller.verified);
+
+    if (state.sort === 'price-asc') list.sort((a, b) => a.price - b.price);
+    if (state.sort === 'price-desc') list.sort((a, b) => b.price - a.price);
+    if (state.sort === 'distance') list.sort((a, b) => a.distance - b.distance);
+    if (state.sort === 'trust') list.sort((a, b) => (b.seller.trustScore || 80) - (a.seller.trustScore || 80));
+
+    const slice = list.slice(0, state.limit);
+
+    countEl.textContent = String(slice.length);
+    totalEl.textContent = 'fiches affichées sur ' + list.length;
+
+    grid.innerHTML = slice.map(MVD.listingRow).join('');
+
+    const vide = slice.length === 0;
+    empty.classList.toggle('hidden', !vide);
+    grid.classList.toggle('hidden', vide);
+    loadMore.classList.toggle('hidden', vide || list.length <= state.limit);
+    if (!vide) loadMore.textContent = 'Voir ' + Math.min(8, list.length - state.limit) + ' fiches suivantes';
+  }
+
+  /* ---------- Filtres ---------- */
+  catSelect.addEventListener('change', e => { state.cat = e.target.value; render(); });
+  locSelect.addEventListener('change', e => { state.loc = e.target.value; render(); });
+  sortSelect.addEventListener('change', e => { state.sort = e.target.value; render(); });
+  searchInput.addEventListener('input', e => { state.search = e.target.value.trim(); render(); });
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => {
+        c.classList.toggle('is-active', c === chip);
+        c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
+      });
+      state.quick = chip.dataset.quick;
+      render();
+    });
+  });
+
+  function reset() {
+    state.cat = ''; state.search = ''; state.loc = ''; state.sort = 'recent'; state.quick = 'all'; state.limit = 12;
+    catSelect.value = '';
+    locSelect.value = '';
+    sortSelect.value = 'recent';
+    searchInput.value = '';
+    chips.forEach(c => {
+      const on = c.dataset.quick === 'all';
+      c.classList.toggle('is-active', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    render();
+  }
+
+  document.getElementById('reset-filters').addEventListener('click', reset);
+  document.getElementById('empty-reset').addEventListener('click', reset);
+  loadMore.addEventListener('click', () => { state.limit += 8; render(); });
+
+  render();
+})();
+</script>
+
+</body>
+</html>

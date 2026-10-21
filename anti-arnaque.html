@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Guide anti-arnaque : 12 pièges — MaisonVide</title>
+<meta name="description" content="Les 12 arnaques les plus courantes entre particuliers, et ce que MaisonVide bloque pour chacune. Photos volées, faux paiement, deepfakes, preuve que non.">
+<link rel="canonical" href="https://maisonvide.fr/anti-arnaque.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+/* ---- Tête de page ---- */
+.page-head { padding-block: clamp(2.6rem, 6vw, 5rem) clamp(2rem, 4vw, 3.4rem); border-bottom: 1px solid var(--paper-rule); }
+.page-head__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem, 5vw, 4rem); align-items: end; }
+.page-head__title {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(2.3rem, 5.4vw, 4.3rem); line-height: 1.02; letter-spacing: -.04em;
+  margin: .7rem 0 1.1rem;
+}
+.page-head__title em { font-style: italic; color: var(--kraft-700); }
+.page-head__lede { font-size: 1.05rem; color: var(--ink-700); max-width: 48ch; }
+.page-head__actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.8rem; }
+.sommaire { border-top: 1.5px solid var(--ink-900); }
+.sommaire a {
+  display: flex; align-items: baseline; gap: 1rem;
+  padding: .72rem 0; border-bottom: 1px solid var(--paper-rule);
+  font-size: .9rem; color: var(--ink-700); transition: color var(--t-fast);
+}
+.sommaire a:hover { color: var(--ink-900); }
+.sommaire b { font-family: var(--font-mono); font-weight: 500; color: var(--ink-400); font-size: .78rem; }
+.live-counter {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .32rem .75rem; background: var(--paper-sheet);
+  border: 1px solid var(--paper-rule); border-radius: var(--radius-xs);
+  font-size: .76rem; color: var(--ink-700); margin-bottom: .8rem;
+}
+.live-counter__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--stamp-500); flex-shrink: 0; }
+@media (max-width: 900px) { .page-head__grid { grid-template-columns: 1fr; align-items: start; } }
+
+/* ---- Les trois gestes : des lignes réglées ---- */
+.gestes { border-top: 1.5px solid var(--ink-900); }
+.gestes__row {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.2rem;
+  padding: 1.35rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.gestes__num { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-400); }
+.gestes__row h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; }
+.gestes__row p { font-size: .9rem; color: var(--ink-600); max-width: 70ch; margin-top: .35rem; }
+.gestes__row a { color: var(--seal-600); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---- Les 12 patterns : deux colonnes, la parade ---- */
+.patterns { border-top: 1.5px solid var(--ink-900); }
+.scam-pattern {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0 2.4rem;
+  padding: 1.7rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.scam-pattern__head { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 1rem; margin-bottom: .9rem; }
+.scam-pattern__num { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-400); letter-spacing: .06em; }
+.scam-pattern__head h3 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; }
+.scam-pattern__label {
+  display: block; font-size: .7rem; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-500); margin-bottom: .45rem;
+}
+.scam-pattern__tactic .scam-pattern__label { color: var(--stamp-600); }
+.scam-pattern__guard .scam-pattern__label { color: var(--seal-600); }
+.scam-pattern__col p { font-size: .875rem; color: var(--ink-600); max-width: 52ch; }
+.scam-pattern__quote {
+  margin-top: .7rem; padding-top: .6rem; border-top: 1px solid var(--paper-rule);
+  font-family: var(--font-display); font-size: .98rem; line-height: 1.4; color: var(--ink-900);
+}
+@media (max-width: 780px) {
+  .scam-pattern { grid-template-columns: 1fr; gap: 1.1rem; }
+}
+
+/* ---- Les signaux d'alerte : la FAQ ---- */
+.details-list { border-top: 1.5px solid var(--ink-900); }
+.details-list__item { border-bottom: 1px solid var(--paper-rule); }
+.details-list__q { list-style: none; cursor: pointer; }
+.details-list__q::-webkit-details-marker { display: none; }
+.details-list__a { max-width: 76ch; }
+.details-list__a strong { color: var(--ink-900); }
+
+/* ---- Les protections et les ressources : des lignes ---- */
+.reglure { border-top: 1.5px solid var(--ink-900); }
+.reglure__row {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.1rem;
+  padding: 1.15rem 0; border-bottom: 1px solid var(--paper-rule);
+}
+.reglure__ic { color: var(--seal-500); width: 1.35em; height: 1.35em; }
+.reglure__row h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+.reglure__row p { font-size: .875rem; color: var(--ink-600); max-width: 72ch; margin-top: .2rem; }
+.reglure__row a { color: var(--seal-600); text-decoration: underline; text-underline-offset: 3px; }
+
+.section--reglure { border-top: 1px solid var(--paper-rule); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "J'ai déjà payé, que faire maintenant ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "N'envoyez plus d'argent et ne validez plus aucun paiement. Gardez toutes les preuves : captures d'écran des messages, de l'annonce, du lien reçu et relevé bancaire. Signalez sur la plateforme et écrivez à securite@maisonvide.fr. Si l'argent est parti, contactez votre banque pour faire opposition le plus vite possible." }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment signaler une arnaque ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Le bouton Signaler est présent sur chaque annonce et chaque profil. Vous pouvez aussi écrire à securite@maisonvide.fr : l'équipe sécurité agit sous 1 heure. Pour une arnaque hors plateforme, signalez également sur PHAROS." }
+    },
+    {
+      "@type": "Question",
+      "name": "Une arnaque a-t-elle déjà été commise via MaisonVide ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Les 487 blocages de ce mois montrent que les filtres tiennent. Aucune vente ne se fait sans vérification d'identité, sans séquestre et sans authentification bancaire. Lorsqu'un cas passe malgré tout, la médiation et l'assurance AXA prennent le relais : l'acheteur est remboursé sous 5 jours ouvrés." }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment vérifier qu'un vendeur est fiable ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Regardez son niveau de vérification, son score de confiance et son historique de ventes, public et complet. Un compte créé la veille, sans avis et qui refuse de passer par la messagerie de la plateforme ne correspond pas à un profil fiable." }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je récupérer mon argent si je suis victime d'une arnaque hors plateforme ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nous ne pouvons pas intervenir sur un paiement que nous n'avons pas reçu : ni l'argent, ni les identités bancaires ne passent par nos systèmes. Nous pouvons en revanche bloquer les comptes impliqués, transmettre le dossier à PHAROS et vous aider à constituer un dossier auprès de la DGCCRF ou de Cybermalveillance.gouv.fr." }
+    }
+  ]
+}
+</script>
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="vendre.html">Estimer</a>
+      <a href="annonces.html">Annonces</a>
+      <a href="confiance.html" class="is-active">Confiance</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="flex">
+      <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
+      <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
+      <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TÊTE DE PAGE ================= -->
+<section class="page-head">
+  <div class="container page-head__grid">
+    <div>
+      <span class="label">12 patterns · 487 blocages ce mois</span>
+      <h1 class="page-head__title">Douze pièges,<br/><em>une parade pour chacun.</em></h1>
+      <p class="page-head__lede">
+        Les escrocs sont patients et bien renseignés. Voici ce qu'ils font, dans leurs mots —
+        et ce que MaisonVide fait pour l'arrêter. Rien n'est caché : chaque parade est
+        une règle écrite, appliquée automatiquement.
+      </p>
+      <div class="page-head__actions">
+        <a href="#patterns" class="btn btn--primary">
+          <svg class="ic" aria-hidden="true"><use href="#i-bookmark"></use></svg>
+          Voir les 12 patterns
+        </a>
+        <a href="confiance.html" class="btn btn--ghost">La charte complète</a>
+      </div>
+    </div>
+
+    <nav class="sommaire" aria-label="Sommaire de la page">
+      <a href="#urgence"><b>01</b> Si vous êtes déjà en cours d'arnaque</a>
+      <a href="#patterns"><b>02</b> Les 12 patterns d'arnaque</a>
+      <a href="#signaux"><b>03</b> Les signaux d'alerte</a>
+      <a href="#protection"><b>04</b> Ce qui nous protège</a>
+      <a href="#ressources"><b>05</b> Où signaler</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ================= LES 3 GESTES ================= -->
+<section class="section" id="urgence">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <span class="label">À faire tout de suite</span>
+        <h2 class="display" style="max-width:14ch;margin:.6rem 0 1.2rem">Trois gestes, dans cet ordre.</h2>
+        <p style="max-width:40ch">
+          Si vous êtes au milieu d'une discussion suspecte, ce que vous faites dans les dix
+          prochaines minutes compte plus que tout le reste.
+        </p>
+        <span class="live-counter" style="margin-top:1.4rem">
+          <span class="live-counter__dot" aria-hidden="true"></span>
+          487 arnaques bloquées ce mois
+        </span>
+      </div>
+
+      <div class="gestes">
+        <div class="gestes__row" data-rise>
+          <div class="gestes__num">01</div>
+          <div>
+            <h3>Coupez</h3>
+            <p>
+              N'envoyez plus d'argent et ne validez plus aucun paiement. Sur MaisonVide, tout passe
+              par le séquestre : si on vous demande de payer autrement, c'est une arnaque, quel que
+              soit le ton de la personne.
+            </p>
+          </div>
+        </div>
+
+        <div class="gestes__row" data-rise>
+          <div class="gestes__num">02</div>
+          <div>
+            <h3>Gardez la trace</h3>
+            <p>
+              Captures d'écran des messages, de l'annonce, du lien reçu, et le relevé de votre
+              compte bancaire. Ne supprimez rien et ne vides pas votre messagerie : c'est ce qui
+              permet de faire bloquer un compte et de reimburse un litige.
+            </p>
+          </div>
+        </div>
+
+        <div class="gestes__row" data-rise>
+          <div class="gestes__num">03</div>
+          <div>
+            <h3>Prévenez</h3>
+            <p>
+              Signalez depuis le bouton <strong>Signaler</strong> de l'annonce ou du profil, et
+              écrivez à <a href="mailto:securite@maisonvide.fr">securite@maisonvide.fr</a> : l'équipe
+              sécurité agit sous 1 h. Si l'argent est déjà parti, contactez votre banque pour faire
+              opposition. Vous pouvez aussi appeler Cybermalveillance au
+              <strong>0 805 805 817</strong> (gratuit).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LES 12 PATTERNS ================= -->
+<section class="section section--kraft" id="patterns">
+  <div class="container">
+    <span class="label">Catalogue des arnaques</span>
+    <h2 class="display" style="max-width:18ch;margin:.6rem 0 1.2rem">Ce qu'il fait, ce qu'on fait.</h2>
+    <p style="max-width:58ch">
+      À gauche, la manœuvre de l'escroc, avec la formulation qu'on reçoit vraiment.
+      À droite, la règle MaisonVide qui l'arrête.
+    </p>
+
+    <div class="patterns mt-12">
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">01</span>
+          <h3>Photos volées d'autres sites</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il récupère des photos sur Leboncoin, eBay ou Vinted et les reposte. L'objet n'existe pas, ou a déjà été livré ailleurs.</p>
+          <p class="scam-pattern__quote">« Table en chêne massif, état neuf, 120 € au lieu de 400 €. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>Chaque photo est analysée par notre IA avec recherche inversée sur plus de 100 millions d'images. Au-delà de 80 % de correspondance, l'annonce est bloquée automatiquement.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">02</span>
+          <h3>Faux dépôt-vente et paiement hors plateforme</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il vous pousse à quitter la messagerie officielle, sous prétexte que c'est plus simple. Puis il disparaît une fois l'argent envoyé.</p>
+          <p class="scam-pattern__quote">« Payez-moi par Lydia ou Paylib, c'est plus rapide et je vous l'expédie ce soir. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>Les messages contenant « Lydia », « Paylib », « virement direct » ou « Western Union » sont bloqués automatiquement, et le compte est banni définitivement.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">03</span>
+          <h3>Fausse preuve de paiement</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il envoie une capture d'écran falsifiée d'un virement, puis presse le vendeur d'expédier tout de suite.</p>
+          <p class="scam-pattern__quote">« Voilà la preuve, c'est payé de mon côté, tu peux expédier. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>Tous les paiements passent par le séquestre Mangopay. Le vendeur est notifié quand l'argent est réellement reçu, jamais quand quelqu'un prétend l'avoir envoyé.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">04</span>
+          <h3>Surpaiement puis demande de remboursement</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il paie un montant trop élevé pour un objet bon marché, puis réclame la différence. Le paiement initial est annulé, l'objet est déjà parti.</p>
+          <p class="scam-pattern__quote">« Oups, j'ai mis 1 000 € au lieu de 200. Rembourse-moi vite la différence. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>Le séquestre bloque tout mouvement non sollicité. Aucun remboursement partiel n'est possible sans l'accord des deux parties et la validation d'un médiateur.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">05</span>
+          <h3>Objet volé revendu</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il revend une marchandise issue d'un cambriolage. L'acheteur devient receleur sans le savoir.</p>
+          <p class="scam-pattern__quote">« Prix imbattable, je ne peux pas me déplacer, j'en ai cinq comme ça à vendre. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>Base de données partagée avec la Gendarmerie nationale et la Police, et scan du numéro de série pour les objets à risque : électronique, vélo, instruments de musique.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">06</span>
+          <h3>Deepfake et photos générées par IA</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il propose des images d'objets qui n'existent pas. Il n'y a rien à expédier, et il refuse toujours la visio.</p>
+          <p class="scam-pattern__quote">« Je suis à l'étranger pour le travail, pas de video possible, mais les photos sont vraies. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>Détecteur de deepfake intégré, à la recherche des patterns GAN, et selfie vidéo du vendeur en possession de l'objet avant la mise en ligne.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">07</span>
+          <h3>Usurpation d'identité</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il crée un profil avec les photos et l'identité d'une personne réelle. Difficile à repérer à l'œil nu.</p>
+          <p class="scam-pattern__quote">« Membre depuis 2021, vendeur sérieux, beaucoup de matériel à écouler. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>KYC obligatoire, pièce d'identité et selfie vidéo, score de confiance minimum pour publier, et détection automatique des doublons de photos de profil.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">08</span>
+          <h3>Fausse annonce de location</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il ajoute une offre de location à une annonce de vente. Le locataire paie, l'objet part, plus jamais de nouvelles.</p>
+          <p class="scam-pattern__quote">« Urgent, besoin rapide : cet objet est aussi en location à 50 €/jour, paiement d'avance. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>La location est interdite sur la plateforme : seules les ventes définitives sont autorisées. Les mots-clés sont détectés au moment de la publication.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">09</span>
+          <h3>Vente d'objets contrefaits</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Vêtements, sacs ou sneakers contrefaits vendus comme authentiques. L'acheteur paie le prix fort pour du faux.</p>
+          <p class="scam-pattern__quote">« 100 % authentique, jamais porté, photos sur fond neutre. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>Vérification des marques de luxe, notamment Hermès et Chanel, et authentification par un humain pour tout achat de plus de 300 € sur une marque sensible.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">10</span>
+          <h3>Paiement annulé après l'envoi</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il reçoit l'objet, puis conteste le paiement auprès de sa banque. L'argent part en chargeback et le vendeur ne le voit jamais.</p>
+          <p class="scam-pattern__quote">« Je n'ai jamais reçu le colis, je conteste auprès de ma banque. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>Confirmation de réception par suivi et signature électronique, et contestation automatique des chargebacks par notre équipe juridique.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">11</span>
+          <h3>Faux e-mails et hameçonnage</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il envoie un message qui imite notre site, avec un lien vers une fausse page de connexion. Le but est de voler vos identifiants.</p>
+          <p class="scam-pattern__quote">« Votre annonce a été suspendue, cliquez ici pour la réactiver avant ce soir. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>E-mails signés DKIM, SPF et DMARC, avertissement dans l'application pour tout lien externe, et détection automatique des expéditeurs usurpés.</p>
+        </div>
+      </article>
+
+      <article class="scam-pattern" data-rise>
+        <div class="scam-pattern__head">
+          <span class="scam-pattern__num">12</span>
+          <h3>Extorsion après publication</h3>
+        </div>
+        <div class="scam-pattern__col scam-pattern__tactic">
+          <span class="scam-pattern__label">Il fait ça</span>
+          <p>Il harcèle et fait du chantage à la réputation pour obtenir un retrait d'annonce ou une remise.</p>
+          <p class="scam-pattern__quote">« Retire ton annonce ou je te note une étoile partout. »</p>
+        </div>
+        <div class="scam-pattern__col scam-pattern__guard">
+          <span class="scam-pattern__label">On fait ça</span>
+          <p>Le retrait d'avis est fait uniquement par notre équipe, jamais par d'autres utilisateurs. Les patterns de harcèlement sont détectés, et une plainte est déposée à la Police au-delà de 3 signalements.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= LES SIGNAUX D'ALERTE ================= -->
+<section class="section" id="signaux">
+  <div class="container container--narrow">
+    <span class="label">Signaux d'alerte</span>
+    <h2 class="display" style="max-width:16ch;margin:.6rem 0 1.2rem">Ce qui doit vous mettre la puce à l'oreille.</h2>
+    <p style="max-width:58ch">
+      Un seul de ces signaux ne prouve rien. Deux ou trois ensemble, c'est une arnaque jusqu'à preuve
+      du contraire.
+    </p>
+
+    <div class="details-list mt-12">
+      <details class="details-list__item" open>
+        <summary class="details-list__q">
+          « Payez-moi par Lydia, c'est plus simple »
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          <strong>Le signal le plus fiable.</strong> Toute demande de paiement hors plateforme est
+          disqualifiante. Sur MaisonVide, le paiement passe par le séquestre : personne n'a jamais
+          besoin de votre RIB pour acheter un meuble.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Un compte créé la veille, sans avis
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Un profil sans historique n'est pas forcément malhonnête, mais il n'a rien à montrer.
+          Vérifiez son niveau de vérification : seul le niveau « Vérifié » autorise la vente.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Un prix 60 % sous le marché
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Le juste prix existe : notre modèle le donne en 30 secondes à partir d'une photo. Un prix
+          très bas n'est pas une affaire, c'est un appât.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Des photos trop propres, trop professionnelles
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Photos de catalogue, images tout en retard, ou annonces qui refusent une photo supplémentaire
+          : tout cela sent la reprise. Cherchez l'objet dans un moteur de recherche d'images inversé.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          « Il faut que j'aie l'argent ce soir »
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          L'urgence artificielle est la technique la plus ancienne et la plus efficace. Un vendeur
+          pressé n'est pas un vendeur fiable.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Un lien dans un SMS ou un e-mail
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Aucun lien de notre part ne demande vos identifiants. Si un message vous y invite, ouvrez
+          le site en tapant l'adresse à la main, et signalez l'expéditeur.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          On vous demande votre RIB ou votre IBAN
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Votre IBAN est vérifié par nous, à partir de la pièce d'identité, et n'est jamais demandé
+          par message. Un IBAN demandé en conversation est une tentative d'usurpation de paiement.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          La conversation se déplace hors de la plateforme
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Passer sur une messagerie personnelle, un numéro direct ou un appel WhatsApp, c'est couper
+          la trace et sortir de la médiation. Restez dans la messagerie de MaisonVide.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CE QUI NOUS PROTÈGE ================= -->
+<section class="section section--kraft" id="protection">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1.2fr;gap:clamp(2rem,5vw,4rem);align-items:start">
+      <div>
+        <span class="label">Notre technologie</span>
+        <h2 class="display" style="max-width:12ch;margin:.6rem 0 1.2rem">Comment on vous protège.</h2>
+        <p style="max-width:40ch">
+          Aucune parade n'est parfaite seule. Elles se recoupent : c'est leur nombre qui fait la
+          différence.
+        </p>
+      </div>
+
+      <div class="reglure">
+        <div class="reglure__row" data-rise>
+          <svg class="ic reglure__ic" aria-hidden="true"><use href="#i-ai"></use></svg>
+          <div>
+            <h3>Une IA entraînée 24 h sur 24</h3>
+            <p>Notre modèle détecte 14 catégories d'arnaques en temps réel, et se met à jour chaque semaine avec les nouveaux patterns.</p>
+          </div>
+        </div>
+        <div class="reglure__row" data-rise>
+          <svg class="ic reglure__ic" aria-hidden="true"><use href="#i-users"></use></svg>
+          <div>
+            <h3>Huit médiateurs humains</h3>
+            <p>Les cas ambigus passent en revue manuelle. Décision en moins de 24 h, et gratuite pour les deux parties.</p>
+          </div>
+        </div>
+        <div class="reglure__row" data-rise>
+          <svg class="ic reglure__ic" aria-hidden="true"><use href="#i-flag"></use></svg>
+          <div>
+            <h3>Un partenariat avec les forces de l'ordre</h3>
+            <p>Transmission automatique à PHAROS pour les cas graves, c'est-à-dire les arnaques de plus de 1 000 €.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESSOURCES ================= -->
+<section class="section" id="ressources">
+  <div class="container container--narrow">
+    <span class="label">Où aller ensuite</span>
+    <h2 class="display" style="max-width:16ch;margin:.6rem 0 1.2rem">Allez plus loin que nous.</h2>
+
+    <div class="reglure">
+      <div class="reglure__row" data-rise>
+        <svg class="ic reglure__ic" aria-hidden="true"><use href="#i-phone"></use></svg>
+        <div>
+          <h3>Cybermalveillance.gouv.fr</h3>
+          <p>Numéro national d'assistance aux victimes d'arnaque : <strong>0 805 805 817</strong>, gratuit. Ils aident à déclarer et à constituent le dossier.</p>
+          <p class="mt-6"><a href="https://www.cybermalveillance.gouv.fr" class="btn btn--ghost btn--sm">Site officiel</a></p>
+        </div>
+      </div>
+
+      <div class="reglure__row" data-rise>
+        <svg class="ic reglure__ic" aria-hidden="true"><use href="#i-flag"></use></svg>
+        <div>
+          <h3>PHAROS</h3>
+          <p>Plateforme d'harmonisation, d'analyse, de recoupement et d'orientation des signalements. On y déclare une arnaque, en quelques minutes.</p>
+          <p class="mt-6"><a href="https://www.internet-signalement.gouv.fr" class="btn btn--ghost btn--sm">Signaler sur PHAROS</a></p>
+        </div>
+      </div>
+
+      <div class="reglure__row" data-rise>
+        <svg class="ic reglure__ic" aria-hidden="true"><use href="#i-scale"></use></svg>
+        <div>
+          <h3>DGCCRF — SignalConso</h3>
+          <p>Direction générale de la concurrence, de la consommation et de la répression des fraudes. Dépôt de plainte en ligne pour les litiges de plus de 100 €.</p>
+          <p class="mt-6"><a href="https://signal.conso.gouv.fr" class="btn btn--ghost btn--sm">Déposer une plainte</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section section--kraft" id="faq">
+  <div class="container container--narrow">
+    <span class="label">Questions fréquentes</span>
+    <h2 class="display" style="max-width:16ch;margin:.6rem 0 2rem">Ce qu'on nous demande le plus.</h2>
+
+    <div class="details-list">
+      <details class="details-list__item" open>
+        <summary class="details-list__q">
+          J'ai déjà payé, que faire maintenant ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          N'envoyez plus d'argent et ne validez plus aucun paiement. Gardez toutes les preuves :
+          captures des messages, de l'annonce, du lien reçu et relevé bancaire. Signalez sur la
+          plateforme et écrivez à <strong>securite@maisonvide.fr</strong>. Si l'argent est parti,
+          contactez votre banque pour faire opposition le plus vite possible.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Comment signaler une arnaque ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Le bouton <strong>Signaler</strong> est présent sur chaque annonce et chaque profil. Vous
+          pouvez aussi écrire à <strong>securite@maisonvide.fr</strong> : l'équipe sécurité agit sous
+          1 h. Pour une arnaque hors plateforme, signalez également sur PHAROS.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Une arnaque a-t-elle déjà été commise via MaisonVide ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Les 487 blocages de ce mois montrent que les filtres tiennent. Aucune vente ne se fait sans
+          vérification d'identité, sans séquestre et sans authentification bancaire. Lorsqu'un cas passe
+          malgré tout, la médiation et l'assurance AXA prennent le relais : l'acheteur est remboursé
+          sous 5 jours ouvrés.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Comment vérifier qu'un vendeur est fiable ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Regardez son niveau de vérification, son score de confiance et son historique de ventes, public
+          et complet. Un compte créé la veille, sans avis, et qui refuse de passer par la messagerie de
+          la plateforme ne correspond pas à un profil fiable.
+        </div>
+      </details>
+
+      <details class="details-list__item">
+        <summary class="details-list__q">
+          Puis-je récupérer mon argent si je suis victime d'une arnaque hors plateforme ?
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        </summary>
+        <div class="details-list__a">
+          Nous ne pouvons pas intervenir sur un paiement que nous n'avons pas reçu : ni l'argent, ni les
+          identités bancaires ne passent par nos systèmes. Nous pouvons en revanche bloquer les comptes
+          impliqués, transmettre le dossier à PHAROS et vous aider à constituer un dossier auprès de la
+          DGCCRF ou de Cybermalveillance.gouv.fr.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section section--ink">
+  <div class="container container--narrow text-center">
+    <h2 class="display" style="max-width:16ch;margin-inline:auto">Vous avez repéré<br/>une arnaque ?</h2>
+    <p class="lead mt-8" style="max-width:48ch;margin-inline:auto;color:var(--ink-300)">
+      Signalez-la. Une annonce bloquée, un compte banni et un dossier transmis : c'est comme ça que
+      les autres sont protégés.
+    </p>
+    <div class="flex mt-12" style="justify-content:center;flex-wrap:wrap;gap:.75rem">
+      <a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!%20Je%20pense%20avoir%20rep%C3%A9r%C3%A9%20une%20arnaque." class="btn btn--kraft btn--lg">
+        <svg class="ic" aria-hidden="true"><use href="#i-flag"></use></svg>
+        Signaler une arnaque
+      </a>
+      <a href="garanties.html" class="btn btn--ghost btn--lg" style="color:var(--paper-sheet);border-color:var(--ink-400)">Voir les garanties</a>
+    </div>
+    <p style="margin-top:2rem;font-size:.8rem;color:var(--ink-400)">
+      Réponse de l'équipe sécurité sous 1 h · Signalement anonyme possible · PHAROS en cas de cas grave
+    </p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="logo" style="color:var(--paper-sheet)">
+          <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+          MaisonVide
+        </div>
+        <p>Videz votre maison. Gardez vos soirées.</p>
+      </div>
+      <div>
+        <h4>Service</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="vendre.html">Estimer un objet</a></li>
+          <li><a href="annonces.html">Annonces</a></li>
+          <li><a href="services.html">Services pro</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Confiance</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="confiance.html">Charte de sécurité</a></li>
+          <li><a href="garanties.html">Garanties</a></li>
+          <li><a href="anti-arnaque.html">Anti-arnaque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Compte</h4>
+        <ul class="flex-col" style="gap:.4rem">
+          <li><a href="auth.html">Connexion</a></li>
+          <li><a href="profil.html">Mon compte</a></li>
+          <li><a href="favoris.html">Mes favoris</a></li>
+          <li><a href="admin/">Espace pro</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 MaisonVide · SIRET 000 000 000 00000</span>
+      <span>Hébergement France · RGPD · ACPR</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="whatsapp-fab" aria-label="Écrire sur WhatsApp">
+  <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
+</a>
+
+<div class="cookie hidden" id="cookie-banner" role="dialog" aria-label="Cookies">
+  <p>On dépose des cookies de mesure d'audience, anonymisés, sans publicité. C'est tout.</p>
+  <div class="cookie__actions">
+    <button class="btn btn--ghost btn--sm" data-cookie="refuse">Refuser</button>
+    <button class="btn btn--primary btn--sm" data-cookie="accept">Accepter</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

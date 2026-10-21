@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Chatbot — Espace pro | MaisonVide</title>
+<meta name="description" content="Le flow du chatbot WhatsApp MaisonVide : nœuds, conditions, branchements et journal des conversations, avec passage du bot au conseiller.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="chatbot">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Chatbot WhatsApp</h1>
+          <p class="admin-header__sub">Les scénarios automatisés et la main tendue au conseiller</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <span class="badge badge--seal"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check-circle"></use></svg> En production</span>
+        <button class="btn btn--ghost btn--sm"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-bookmark"></use></svg> Dupliquer le flow</button>
+        <button class="btn btn--primary btn--sm" type="button" data-action="save" data-label="Flow publié">Publier</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <section class="metric-band metric-band--4" aria-label="Activité du chatbot">
+        <div class="metric">
+          <span class="metric__ref">B.01</span>
+          <span class="metric__k">12</span>
+          <span class="metric__l">Flows actifs</span>
+          <span class="metric__d metric__d--flat">+1 ce mois</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">B.02</span>
+          <span class="metric__k">73 %</span>
+          <span class="metric__l">Résolu sans conseiller</span>
+          <span class="metric__d metric__d--up">+4 pts</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">B.03</span>
+          <span class="metric__k">487</span>
+          <span class="metric__l">Messages par jour</span>
+          <span class="metric__d metric__d--up">+9 %</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">B.04</span>
+          <span class="metric__k">21 %</span>
+          <span class="metric__l">Transferts vers un humain</span>
+          <span class="metric__d metric__d--flat">stable</span>
+        </div>
+      </section>
+
+      <div class="flow-layout">
+
+        <aside class="panel">
+          <div class="panel__head">
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-grid"></use></svg> Composants</h2>
+          </div>
+          <div class="panel__body">
+            <div class="tool-list">
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg> Message texte</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-list"></use></svg> Question / choix</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg> Demande de photo</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg> Estimation IA</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg> Délai / attente</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-filter"></use></svg> Condition</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-user"></use></svg> Transfert humain</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-mail"></use></svg> Envoi d’e-mail</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-tag"></use></svg> Étiquette utilisateur</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-flag"></use></svg> Fin du flow</button>
+            </div>
+            <hr class="divider">
+            <p class="label" style="margin-bottom:var(--space-3)">Modèles prêts</p>
+            <div class="tool-list">
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg> Bienvenue au nouvel arrivant</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg> Estimation guidée</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg> Suivi de vente</button>
+              <button class="tool" type="button"><svg class="ic" aria-hidden="true"><use href="#i-truck"></use></svg> Enlèvement</button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Le canvas : nœuds et arêtes en SVG inline -->
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <h2><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg> Flow principal · premier contact</h2>
+              <p>9 nœuds · 12 branches · déclenché par tout message WhatsApp entrant</p>
+            </div>
+            <span class="badge badge--seal">Actif</span>
+          </div>
+          <div class="panel__body--flush">
+            <div class="flow-canvas">
+              <svg class="flow-canvas__svg" viewBox="0 0 900 620" role="img" aria-label="Schéma du flow de premier contact : démarrage, message de bienvenue, choix de l’utilisateur, cinq branches, demande de photo, condition, appel de l’estimation et fin du flow.">
+                <defs>
+                  <pattern id="fc-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <path d="M20 0H0V20" fill="none" stroke="var(--paper-rule)" stroke-width="1"/>
+                  </pattern>
+                  <marker id="fc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0 0 10 5 0 10z" fill="var(--ink-400)"/>
+                  </marker>
+                  <marker id="fc-arrow-dash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0 0 10 5 0 10z" fill="var(--kraft-700)"/>
+                  </marker>
+                </defs>
+
+                <rect width="900" height="620" fill="url(#fc-grid)"/>
+
+                <!-- Arêtes -->
+                <g>
+                  <path class="fedge" d="M450 58 L450 88" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M450 150 L450 180" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M450 248 C450 280 94 268 94 296" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M450 248 C450 280 274 268 274 296" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M450 248 C450 280 454 268 454 296" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M450 248 C450 280 634 268 634 296" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M450 248 C450 280 814 268 814 296" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M94 354 L94 394" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M94 452 C94 470 104 468 104 482" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M194 512 C226 512 226 425 250 425" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge" d="M349 452 L349 482" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge fedge--dashed" d="M104 542 C104 578 474 578 474 546" marker-end="url(#fc-arrow-dash)"/>
+                  <path class="fedge" d="M814 354 L814 394" marker-end="url(#fc-arrow)"/>
+                  <path class="fedge fedge--dashed" d="M444 514 L814 514 L814 456" marker-end="url(#fc-arrow-dash)"/>
+                </g>
+
+                <!-- Étiquettes d’arêtes -->
+                <text class="flabel" x="462" y="276">selon le choix</text>
+                <text class="flabel" x="206" y="502">oui</text>
+                <text class="flabel" x="196" y="572">non</text>
+                <text class="flabel" x="560" y="508">estimation publiée</text>
+
+                <!-- Nœud 1 -->
+                <g class="fnode fnode--bot">
+                  <rect x="360" y="14" width="180" height="44" rx="4"/>
+                  <text class="fnum" x="528" y="27">N.01</text>
+                  <text class="ftitle" x="372" y="34">Démarrage</text>
+                  <text class="fsub" x="372" y="49">Message WhatsApp entrant</text>
+                </g>
+
+                <!-- Nœud 2 -->
+                <g class="fnode fnode--bot">
+                  <rect x="330" y="92" width="240" height="58" rx="4"/>
+                  <text class="fnum" x="558" y="105">N.02</text>
+                  <text class="ftitle" x="342" y="116">Message de bienvenue</text>
+                  <text class="fsub" x="342" y="133">« Bonjour, je suis l’assistant MaisonVide »</text>
+                </g>
+
+                <!-- Nœud 3 -->
+                <g class="fnode fnode--user">
+                  <rect x="330" y="184" width="240" height="64" rx="4"/>
+                  <text class="fnum" x="558" y="197">N.03</text>
+                  <text class="ftitle" x="342" y="208">Choix de l’utilisateur</text>
+                  <text class="fsub" x="342" y="225">Estimer · Vendre · Acheter · Pro · Humain</text>
+                  <text class="fsub" x="342" y="239">Réponse attendue en 4 h</text>
+                </g>
+
+                <!-- Branches -->
+                <g class="fnode fnode--user">
+                  <rect x="14" y="300" width="160" height="54" rx="4"/>
+                  <text class="fnum" x="162" y="313">N.04</text>
+                  <text class="ftitle" x="26" y="324">Estimer</text>
+                  <text class="fsub" x="26" y="340">photo + état</text>
+                </g>
+                <g class="fnode fnode--user">
+                  <rect x="194" y="300" width="160" height="54" rx="4"/>
+                  <text class="fnum" x="342" y="313">N.05</text>
+                  <text class="ftitle" x="206" y="324">Vendre</text>
+                  <text class="fsub" x="206" y="340">formulaire guidé</text>
+                </g>
+                <g class="fnode fnode--user">
+                  <rect x="374" y="300" width="160" height="54" rx="4"/>
+                  <text class="fnum" x="522" y="313">N.06</text>
+                  <text class="ftitle" x="386" y="324">Acheter</text>
+                  <text class="fsub" x="386" y="340">lien vers les annonces</text>
+                </g>
+                <g class="fnode fnode--act">
+                  <rect x="554" y="300" width="160" height="54" rx="4"/>
+                  <text class="fnum" x="702" y="313">N.07</text>
+                  <text class="ftitle" x="566" y="324">Professionnel</text>
+                  <text class="fsub" x="566" y="340">lead qualifié</text>
+                </g>
+                <g class="fnode fnode--act">
+                  <rect x="734" y="300" width="160" height="54" rx="4"/>
+                  <text class="fnum" x="882" y="313">N.08</text>
+                  <text class="ftitle" x="746" y="324">Humain</text>
+                  <text class="fsub" x="746" y="340">conseiller en poste</text>
+                </g>
+
+                <!-- Branche estimation -->
+                <g class="fnode fnode--bot">
+                  <rect x="14" y="398" width="160" height="54" rx="4"/>
+                  <text class="fnum" x="162" y="411">N.09</text>
+                  <text class="ftitle" x="26" y="422">Demande de photo</text>
+                  <text class="fsub" x="26" y="438">3 à 5 angles</text>
+                </g>
+
+                <g class="fnode fnode--cond">
+                  <rect x="14" y="486" width="180" height="56" rx="4"/>
+                  <text class="fnum" x="182" y="499">N.10</text>
+                  <text class="ftitle" x="26" y="510">Photo reçue ?</text>
+                  <text class="fsub" x="26" y="526">attente 45 min</text>
+                  <text class="fsub" x="26" y="538">confiance &gt; 65 %</text>
+                </g>
+
+                <g class="fnode fnode--bot">
+                  <rect x="254" y="398" width="190" height="54" rx="4"/>
+                  <text class="fnum" x="432" y="411">N.11</text>
+                  <text class="ftitle" x="266" y="422">Appel API estimation</text>
+                  <text class="fsub" x="266" y="438">POST /api/estimate</text>
+                </g>
+
+                <g class="fnode fnode--bot">
+                  <rect x="254" y="486" width="190" height="56" rx="4"/>
+                  <text class="fnum" x="432" y="499">N.12</text>
+                  <text class="ftitle" x="266" y="510">Résultat fourchette</text>
+                  <text class="fsub" x="266" y="526">260 — 320 € · 92 %</text>
+                  <text class="fsub" x="266" y="538">proposition de dépôt</text>
+                </g>
+
+                <g class="fnode fnode--act">
+                  <rect x="374" y="486" width="200" height="56" rx="4"/>
+                  <text class="fnum" x="562" y="499">N.13</text>
+                  <text class="ftitle" x="386" y="510">Relance puis conseiller</text>
+                  <text class="fsub" x="386" y="526">le bot rend la main</text>
+                  <text class="fsub" x="386" y="538">délai de reprise 15 min</text>
+                </g>
+
+                <g class="fnode fnode--act">
+                  <rect x="734" y="398" width="160" height="54" rx="4"/>
+                  <text class="fnum" x="882" y="411">N.14</text>
+                  <text class="ftitle" x="746" y="422">Fin du flow</text>
+                  <text class="fsub" x="746" y="438">tag + analytics</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel__head">
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg> Nœud sélectionné</h2>
+          </div>
+          <div class="panel__body">
+            <div class="form-group" style="margin-bottom:var(--space-4)">
+              <label class="form-label" for="node-name">Nom du nœud</label>
+              <input type="text" class="input" id="node-name" value="Demande de photo">
+            </div>
+            <div class="form-group" style="margin-bottom:var(--space-4)">
+              <label class="form-label" for="node-content">Contenu envoyé</label>
+              <textarea class="textarea" id="node-content" rows="4">Envoyez-moi 3 à 5 photos sous différents angles, avec la marque visible si possible.</textarea>
+              <span class="form-help">Les variables entre accolades sont remplacées par le script.</span>
+            </div>
+            <div class="form-group" style="margin-bottom:var(--space-4)">
+              <label class="form-label" for="node-delay">Délai d’attente</label>
+              <select class="select" id="node-delay">
+                <option>15 minutes</option>
+                <option selected>45 minutes</option>
+                <option>2 heures</option>
+                <option>24 heures</option>
+              </select>
+            </div>
+
+            <p class="label" style="margin:var(--space-4) 0 var(--space-3)">Conditions de sortie</p>
+            <div class="form-row" style="padding-top:0">
+              <span>
+                <span class="form-row__k">Photo reçue</span>
+                <span class="form-row__h">Au moins une image exploitable</span>
+              </span>
+              <span class="form-row__ctl">
+                <span class="field-inline">
+                  <input type="number" class="input" value="1" aria-label="Nombre minimum de photos">
+                  <span class="field-inline__unit">photo</span>
+                </span>
+              </span>
+            </div>
+            <div class="form-row">
+              <span>
+                <span class="form-row__k">Confiance minimale</span>
+                <span class="form-row__h">En dessous, le conseiller reprend</span>
+              </span>
+              <span class="form-row__ctl">
+                <span class="field-inline">
+                  <input type="number" class="input" value="65" aria-label="Confiance minimale en pourcentage">
+                  <span class="field-inline__unit">%</span>
+                </span>
+              </span>
+            </div>
+
+            <p class="label" style="margin:var(--space-4) 0 var(--space-3)">Activations</p>
+            <div class="signals">
+              <div class="signal" style="grid-template-columns:minmax(0,1fr) auto">
+                <span class="switch-row__k">Nœud actif</span>
+                <span class="toggle is-on"></span>
+              </div>
+              <div class="signal" style="grid-template-columns:minmax(0,1fr) auto">
+                <span class="switch-row__k">Suivi analytics</span>
+                <span class="toggle is-on"></span>
+              </div>
+              <div class="signal" style="grid-template-columns:minmax(0,1fr) auto">
+                <span class="switch-row__k">Test A/B</span>
+                <span class="toggle"></span>
+              </div>
+              <div class="signal" style="grid-template-columns:minmax(0,1fr) auto">
+                <span class="switch-row__k">Reprise par un conseiller</span>
+                <span class="toggle is-on"></span>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top:var(--space-4)">
+              <label class="form-label" for="node-tag">Étiquette appliquée</label>
+              <input type="text" class="input" id="node-tag" value="estimation_demandee">
+            </div>
+
+            <button class="btn btn--primary btn--sm btn--block" type="button" data-action="save" data-label="Nœud enregistré">Enregistrer le nœud</button>
+            <button class="btn btn--ghost btn--sm btn--block" type="button" style="margin-top:var(--space-2)"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-play"></use></svg> Tester ce nœud</button>
+          </div>
+        </aside>
+      </div>
+
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg> Journal des conversations</h2>
+            <p>Les passages récents dans le flow, nœud par nœud</p>
+          </div>
+          <span class="badge badge--kraft">487 messages / jour</span>
+        </div>
+        <div class="panel__body--flush table-wrap">
+          <table class="data-table data-table--dense">
+            <thead>
+              <tr><th>Heure</th><th>Vendeur</th><th>Nœud atteint</th><th>Action</th><th>Issue</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>14:23:42</td><td>+33 6 12 34 56 78</td><td>Appel API estimation</td><td>Réponse reçue · confiance 92 %</td><td><span class="status status--seal"><span class="status__dot"></span>Estimation envoyée</span></td></tr>
+              <tr><td>14:21:15</td><td>+33 6 12 34 56 78</td><td>Demande de photo</td><td>3 photos reçues</td><td><span class="status status--seal"><span class="status__dot"></span>Condition vraie</span></td></tr>
+              <tr><td>14:18:09</td><td>+33 6 78 90 12 34</td><td>Choix de l’utilisateur</td><td>Réponse : « Vendre »</td><td><span class="status status--seal"><span class="status__dot"></span>Formulaire guidé</span></td></tr>
+              <tr><td>14:15:38</td><td>+33 6 11 22 33 44</td><td>Photo reçue ?</td><td>Aucune photo après 45 min</td><td><span class="status status--warn"><span class="status__dot"></span>Relance envoyée</span></td></tr>
+              <tr><td>14:12:01</td><td>+33 6 55 66 77 88</td><td>Transfert humain</td><td>Conseiller : Sophie M.</td><td><span class="status status--ink"><span class="status__dot"></span>En poste</span></td></tr>
+              <tr><td>14:09:47</td><td>+33 6 45 67 89 01</td><td>Fin du flow</td><td>Étiquette « estimation_demandee »</td><td><span class="status status--seal"><span class="status__dot"></span>Clos</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>
