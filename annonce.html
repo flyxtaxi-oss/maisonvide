@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#e8e5db">
 <title>Fiche annonce : état, prix et sceau — MaisonVide</title>
 <meta name="description" content="Photos, état, marque, dimensions et prix au juste marché : la fiche complète d'un objet d'occasion, avec le sceau du vendeur et le paiement en séquestre.">
-<link rel="canonical" href="https://maisonvide.fr/annonce.html">
+<link rel="canonical" href="https://maisonvide.vercel.app/annonce.html">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
@@ -167,7 +167,7 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Canapé 3 places IKEA KIVIK",
-  "image": ["https://maisonvide.fr/assets/img/listing-canape.jpg", "https://maisonvide.fr/assets/img/storytelling.jpg", "https://maisonvide.fr/assets/img/lifestyle-2.jpg"],
+  "image": ["https://maisonvide.vercel.app/assets/img/listing-canape.jpg", "https://maisonvide.vercel.app/assets/img/storytelling.jpg", "https://maisonvide.vercel.app/assets/img/lifestyle-2.jpg"],
   "description": "Canapé 3 places IKEA modèle KIVIK, 5 ans d'usage, non-fumeur. Tissu gris clair en très bon état, assise ferme, housse lavable.",
   "sku": "L.01",
   "category": "Mobilier",
@@ -179,7 +179,7 @@
     "priceCurrency": "EUR",
     "availability": "https://schema.org/InStock",
     "itemCondition": "https://schema.org/UsedCondition",
-    "url": "https://maisonvide.fr/annonce.html?slug=canape-ikea-kivik",
+    "url": "https://maisonvide.vercel.app/annonce.html?slug=canape-ikea-kivik",
     "seller": {"@type": "Organization", "name": "Sophie M."}
   }
 }
@@ -508,7 +508,7 @@
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: l.title,
-    image: l.images.map(src => 'https://maisonvide.fr/' + src),
+    image: l.images.map(src => 'https://maisonvide.vercel.app/' + src),
     description: l.description,
     sku: l.ref,
     category: cat.label,
@@ -520,7 +520,7 @@
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
       itemCondition: 'https://schema.org/UsedCondition',
-      url: 'https://maisonvide.fr/annonce.html?slug=' + l.slug,
+      url: 'https://maisonvide.vercel.app/annonce.html?slug=' + l.slug,
       seller: { '@type': 'Organization', name: l.seller.name }
     }
   };

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://maisonvide.fr/sitemap.xml
+Sitemap: https://maisonvide.vercel.app/sitemap.xml

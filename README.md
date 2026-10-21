@@ -9,6 +9,17 @@ séquestre jusqu'à la réception.
 Site statique (HTML/CSS/JS vanilla, zéro build) + base PostgreSQL Neon +
 fonctions serverless Vercel.
 
+| | |
+|---|---|
+| **En ligne** | https://maisonvide.vercel.app |
+| **Dépôt** | https://github.com/flyxtaxi-oss/maisonvide |
+| **API live** | https://maisonvide.vercel.app/api/listings · `/api/stats` (source : `neon`) |
+| **Compte démo** | `demo@maisonvide.fr` / `maisonvide` |
+
+> Le domaine de référence est `maisonvide.vercel.app`. Brancher `maisonvide.fr` ne
+> demande qu'un remplacement de chaîne dans les pages, `robots.txt` et
+> `sitemap.xml` : `grep -rl 'maisonvide.vercel.app' . | xargs sed -i '' 's/maisonvide.vercel.app/maisonvide.fr/g'`.
+
 ---
 
 ## Le monde visuel
