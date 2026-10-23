@@ -115,19 +115,10 @@
 
 /* ---- Les preuves : la charte ---- */
 .charte { border-top: 1.5px solid var(--ink-900); }
-.charte__row {
-  display: grid; grid-template-columns: 3rem 1fr 1fr;
-  gap: 1.5rem; align-items: start;
-  padding: 1.3rem 0; border-bottom: 1px solid var(--paper-rule);
-}
 .charte__row h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
 .charte__row p { font-size: .875rem; color: var(--ink-600); max-width: 46ch; }
-.charte__proof { font-size: .78rem; color: var(--seal-600); font-weight: 600; }
-.charte__ic { color: var(--seal-500); width: 1.4em; height: 1.4em; }
 @media (max-width: 780px) {
-  .charte__row { grid-template-columns: 2rem 1fr; }
   .charte__row p { grid-column: 2; }
-  .charte__proof { grid-column: 2; }
 }
 
 /* ---- Les tableaux : défilement horizontal sur mobile ---- */

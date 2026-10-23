@@ -65,26 +65,14 @@
 
 /* ---- La charte : sept règles, pas sept cartes ---- */
 .charte { border-top: 1.5px solid var(--ink-900); }
-.charte__row {
-  display: grid; grid-template-columns: 4rem 2rem 1fr 1.25fr;
-  gap: 1.2rem; align-items: start;
-  padding: 1.35rem 0; border-bottom: 1px solid var(--paper-rule);
-  transition: background var(--t-fast);
-}
-.charte__row:hover { background: rgba(255,255,255,.35); }
 .charte__num { font-family: var(--font-mono); font-size: .78rem; color: var(--ink-400); letter-spacing: .08em; }
-.charte__ic { color: var(--seal-500); width: 1.4em; height: 1.4em; }
 .charte__row h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
 .charte__row p { font-size: .875rem; color: var(--ink-600); max-width: 46ch; }
-.charte__proof { font-size: .76rem; color: var(--seal-600); font-weight: 600; margin-top: .35rem; }
 .charte__row .charte__ic { grid-column: 2; }
 @media (max-width: 860px) {
-  .charte__row { grid-template-columns: 3.2rem 1.6rem 1fr; }
   .charte__row > div:last-child { grid-column: 3; }
 }
-@media (max-width: 560px) {
-  .charte__row { grid-template-columns: 2.8rem 1.4rem 1fr; gap: .8rem; }
-}
+
 
 /* ---- L'audit : hors charte ---- */
 .hors-charte {
