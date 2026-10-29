@@ -7,6 +7,8 @@
    Les mots de passe sont stockés hachés (scrypt) dans users.password_hash.
    ========================================================================== */
 const { neon } = require('@neondatabase/serverless');
+const rowsOf = r => (Array.isArray(r) ? r : (r && r.rows) || []);
+
 const { hashPassword, verifyPassword, signToken, verifyToken, bearer, cors, readBody, publicUser, TOKEN_TTL } = require('./_auth');
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -28,7 +30,7 @@ module.exports = async function handler(req, res) {
       const rows = await sql.query(
         `SELECT id, email, phone, display_name, city, tier, trust_score, rating, kyc_status, sales_count
          FROM users WHERE id = $1`, [payload.sub]);
-      const u = rows.rows[0];
+      const u = rowsOf(rows)[0];
       if (!u) return fail(404, 'Compte introuvable.');
       return res.status(200).json({ ok: true, user: publicUser(u) });
     }
@@ -49,8 +51,8 @@ module.exports = async function handler(req, res) {
       if (!EMAIL_RE.test(email)) return fail(400, 'Adresse e-mail invalide.');
       if (password.length < 8) return fail(400, 'Le mot de passe doit contenir au moins 8 caractères.');
 
-      const existing = await sql.query(`SELECT id FROM users WHERE lower(email) = $1`, [email]);
-      if (existing.rows.length) return fail(409, 'Un compte existe déjà avec cet e-mail.');
+      const existing = rowsOf(await sql.query(`SELECT id FROM users WHERE lower(email) = $1`, [email]));
+      if (existing.length) return fail(409, 'Un compte existe déjà avec cet e-mail.');
 
       const inserted = await sql.query(
         `INSERT INTO users (email, phone, display_name, tier, kyc_status, trust_score, rating, city)
@@ -58,7 +60,7 @@ module.exports = async function handler(req, res) {
          RETURNING id, email, phone, display_name, city, tier, trust_score, rating, kyc_status, sales_count`,
         [email, phone || null, name, String(body.city || '').trim() || null]);
 
-      const u = inserted.rows[0];
+      const u = rowsOf(inserted)[0];
       const token = signToken({ sub: u.id, email: u.email, exp: Math.floor(Date.now() / 1000) + TOKEN_TTL });
       return res.status(201).json({ ok: true, token, user: publicUser(u) });
     }
@@ -73,7 +75,7 @@ module.exports = async function handler(req, res) {
         `SELECT id, email, phone, display_name, city, tier, trust_score, rating, kyc_status, sales_count,
                 password_hash, is_banned, ban_reason
          FROM users WHERE lower(email) = $1`, [email]);
-      const u = rows.rows[0];
+      const u = rowsOf(rows)[0];
 
       // Message identique dans tous les cas : pas d'énumération de comptes.
       const generic = fail(401, 'E-mail ou mot de passe incorrect.');

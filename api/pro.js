@@ -5,6 +5,8 @@
    rendez-vous, créneaux, séries mensuelles. Données réelles lues dans Neon.
    ========================================================================== */
 const { neon } = require('@neondatabase/serverless');
+const rowsOf = r => (Array.isArray(r) ? r : (r && r.rows) || []);
+
 const { verifyToken, bearer, cors, publicUser } = require('./_auth');
 
 module.exports = async function handler(req, res) {
@@ -23,7 +25,7 @@ module.exports = async function handler(req, res) {
       `SELECT id, email, phone, display_name, city, tier, trust_score, rating,
               kyc_status, sales_count, pro_plan, pro_activated_at, response_time_min, created_at
        FROM users WHERE id = $1`, [payload.sub]);
-    const user = me.rows[0];
+    const user = rowsOf(me)[0];
     if (!user) return res.status(404).json({ error: 'Compte introuvable.' });
 
     const [kpi, listings, leads, appts, txs, slots, series] = await Promise.all([
@@ -71,7 +73,7 @@ module.exports = async function handler(req, res) {
          GROUP BY 1 ORDER BY 1`, [payload.sub]),
     ]);
 
-    const k = kpi.rows[0] || {};
+    const k = rowsOf(kpi)[0] || {};
     const revenueSeries = await sql.query(
       `SELECT to_char(date_trunc('month', t.created_at), 'YYYY-MM') AS month,
               COALESCE(sum(t.amount), 0)::numeric AS amount,
@@ -79,7 +81,7 @@ module.exports = async function handler(req, res) {
        FROM transactions t WHERE t.seller_id = $1 AND t.created_at > now() - interval '8 months'
        GROUP BY 1 ORDER BY 1`, [payload.sub]);
 
-    const esc = txs.rows.filter(t => t.status === 'escrow');
+    const esc = rowsOf(txs).filter(t => t.status === 'escrow');
     const escrowAmount = esc.reduce((a, t) => a + Number(t.amount || 0), 0);
 
     return res.status(200).json({
@@ -112,34 +114,34 @@ module.exports = async function handler(req, res) {
         responseTimeMin: user.response_time_min || 0,
         slots: k.slots || 0,
       },
-      listings: listings.rows.map(r => ({
+      listings: rowsOf(listings).map(r => ({
         id: r.id, title: r.title, slug: r.slug, price: Number(r.price),
         status: r.status, views: r.views, contacts: r.contacts,
         publishedAt: r.published_at, category: r.category, featured: r.is_featured, photo: r.photo,
       })),
-      leads: leads.rows.map(r => ({
+      leads: rowsOf(leads).map(r => ({
         id: r.id, channel: r.channel, status: r.status, handledBy: r.handled_by,
         lastMessageAt: r.last_message_at, createdAt: r.created_at,
         listingTitle: r.listing_title, listingSlug: r.listing_slug,
         buyerName: r.buyer_name, lastBody: r.last_body,
       })),
-      appointments: appts.rows.map(r => ({
+      appointments: rowsOf(appts).map(r => ({
         id: r.id, startsAt: r.starts_at, endsAt: r.ends_at, status: r.status, mode: r.mode,
         place: r.meeting_place, note: r.meeting_note, durationMinutes: r.duration_minutes,
         createdAt: r.created_at, listingTitle: r.listing_title, listingSlug: r.listing_slug,
         buyerName: r.buyer_name,
       })),
-      transactions: txs.rows.map(r => ({
+      transactions: rowsOf(txs).map(r => ({
         id: r.id, amount: Number(r.amount), commission: Number(r.commission),
         commissionPct: Number(r.commission_pct), status: r.status, createdAt: r.created_at,
         paidAt: r.paid_at, escrowRef: r.escrow_ref,
         listingTitle: r.listing_title, listingSlug: r.listing_slug,
       })),
-      slots: slots.rows.map(r => ({
+      slots: rowsOf(slots).map(r => ({
         id: r.id, weekday: r.weekday, startMinute: r.start_minute,
         endMinute: r.end_minute, slotMinutes: r.slot_minutes, active: r.is_active,
       })),
-      series: mergeSeries(series.rows, revenueSeries.rows),
+      series: mergeSeries(rowsOf(series), rowsOf(revenueSeries)),
     });
   } catch (e) {
     return res.status(500).json({ error: 'Lecture impossible', detail: e.message });

@@ -9,6 +9,8 @@
    stockés en UTC. Le fuseau est calculé sans dépendance externe.
    ========================================================================== */
 const { neon } = require('@neondatabase/serverless');
+const rowsOf = r => (Array.isArray(r) ? r : (r && r.rows) || []);
+
 const { verifyToken, bearer, cors, readBody } = require('./_auth');
 
 const TZ = 'Europe/Paris';
@@ -114,7 +116,7 @@ module.exports = async function handler(req, res) {
                   u.id AS seller_id, u.display_name AS seller_name, u.trust_score
            FROM listings l JOIN users u ON u.id = l.seller_id
            WHERE l.id = $1 AND l.status = 'active'`, [listingId]);
-        const listing = l.rows[0];
+        const listing = rowsOf(l)[0];
         if (!listing) return fail(404, 'Annonce introuvable.');
 
         const slots = await sql.query(
@@ -134,7 +136,7 @@ module.exports = async function handler(req, res) {
             city: listing.city, deliveryMode: listing.delivery_mode,
             seller: { name: listing.seller_name, trustScore: listing.trust_score },
           },
-          slots: buildSlots(slots.rows, booked.rows, from),
+          slots: buildSlots(rowsOf(slots), rowsOf(booked), from),
           timezone: TZ,
         });
       }
@@ -153,7 +155,7 @@ module.exports = async function handler(req, res) {
          JOIN users bu  ON bu.id = a.buyer_id
          WHERE a.buyer_id = $1 OR a.seller_id = $1
          ORDER BY a.starts_at DESC LIMIT 100`, [payload.sub]);
-      return res.status(200).json({ ok: true, appointments: mine.rows.map(shape) });
+      return res.status(200).json({ ok: true, appointments: rowsOf(mine).map(shape) });
     }
 
     /* ---------------- POST : demander un rendez-vous ---------------- */
@@ -176,7 +178,7 @@ module.exports = async function handler(req, res) {
         `SELECT l.id, l.title, l.slug, l.city, l.seller_id, u.display_name AS seller_name
          FROM listings l JOIN users u ON u.id = l.seller_id
          WHERE l.id = $1 AND l.status = 'active'`, [listingId]);
-      const listing = l.rows[0];
+      const listing = rowsOf(l)[0];
       if (!listing) return fail(404, 'Annonce introuvable ou déjà vendue.');
 
       /* Vendeur authentifié = action légitime sur sa propre annonce */
@@ -188,15 +190,15 @@ module.exports = async function handler(req, res) {
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
           return fail(400, 'Indiquez un e-mail valide pour confirmer le rendez-vous.');
         }
-        const found = await sql.query(`SELECT id FROM users WHERE lower(email) = $1`, [email]);
-        if (found.rows.length) {
-          buyerId = found.rows[0].id;
+        const found = rowsOf(await sql.query(`SELECT id FROM users WHERE lower(email) = $1`, [email]));
+        if (found.length) {
+          buyerId = found[0].id;
         } else {
           const created = await sql.query(
             `INSERT INTO users (email, phone, display_name, tier, kyc_status, trust_score, rating)
              VALUES ($1, $2, $3, 'basic', 'pending', 50, 0) RETURNING id`,
             [email, phone || null, name || email.split('@')[0]]);
-          buyerId = created.rows[0].id;
+          buyerId = rowsOf(created)[0].id;
         }
       }
 
@@ -207,7 +209,7 @@ module.exports = async function handler(req, res) {
       const booked = await sql.query(
         `SELECT starts_at, ends_at FROM appointments
          WHERE listing_id = $1 AND status NOT IN ('declined','cancelled')`, [listingId]);
-      const available = buildSlots(slots.rows, booked.rows, parisNow());
+      const available = buildSlots(rowsOf(slots), rowsOf(booked), parisNow());
       const ok = available.some(s => new Date(s.start).getTime() === start.getTime());
       if (!ok && !isSeller) return fail(409, 'Ce créneau vient d’être pris. Choisissez-en un autre.');
 
@@ -229,7 +231,7 @@ module.exports = async function handler(req, res) {
       await sql.query(
         `INSERT INTO messages (conversation_id, sender, body, intent)
          VALUES ($1,'user',$2,'pro')`,
-        [cv.rows[0].id,
+        [rowsOf(cv)[0].id,
          `Demande de rendez-vous — ${mode} le ${fmtFr(start)}. ${note || ''}`.trim()]);
       await sql.query(`UPDATE listings SET contacts = contacts + 1 WHERE id = $1`, [listingId]);
 
@@ -242,11 +244,11 @@ module.exports = async function handler(req, res) {
          JOIN listings l ON l.id = a.listing_id
          JOIN users su  ON su.id = a.seller_id
          JOIN users bu  ON bu.id = a.buyer_id
-         WHERE a.id = $1`, [inserted.rows[0].id]);
+         WHERE a.id = $1`, [rowsOf(inserted)[0].id]);
 
       return res.status(201).json({
         ok: true,
-        appointment: shape(full.rows[0]),
+        appointment: shape(rowsOf(full)[0]),
         message: 'Demande envoyée. Le vendeur confirme sous 2 h.',
       });
     }
@@ -262,17 +264,15 @@ module.exports = async function handler(req, res) {
 
       const cur = await sql.query(
         `SELECT id, seller_id, buyer_id, status FROM appointments WHERE id = $1`, [id]);
-      const appt = cur.rows[0];
+      const appt = rowsOf(cur)[0];
       if (!appt) return fail(404, 'Rendez-vous introuvable.');
 
       const isSeller = appt.seller_id === payload.sub;
       const isBuyer = appt.buyer_id === payload.sub;
       if (!isSeller && !isBuyer) return fail(403, 'Ce rendez-vous ne vous appartient pas.');
-      if (isBuyer && !['cancelled'].includes(status)) {
+      // L'acheteur ne fait qu'annuler. Le vendeur, lui, refuse ou libère.
+      if (isBuyer && !isSeller && status !== 'cancelled') {
         return fail(403, 'L’acheteur peut uniquement annuler son rendez-vous.');
-      }
-      if (isSeller && !isBuyer && status === 'cancelled') {
-        return fail(403, 'L’annulation vendeur passe par « refusé ».');
       }
 
       const updated = await sql.query(
@@ -280,7 +280,7 @@ module.exports = async function handler(req, res) {
          RETURNING id, starts_at, ends_at, status, mode, meeting_place, meeting_note,
                    duration_minutes, created_at`,
         [status, body.reason || null, id]);
-      return res.status(200).json({ ok: true, appointment: updated.rows[0] });
+      return res.status(200).json({ ok: true, appointment: rowsOf(updated)[0] });
     }
 
     return fail(405, 'Méthode non autorisée');
