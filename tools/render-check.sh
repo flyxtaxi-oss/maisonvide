@@ -16,7 +16,10 @@ for p in $PAGES; do
     --enable-logging=stderr --v=0 \
     --screenshot="$OUT/$name.png" "$BASE/$p" > "$log" 2>&1
   size=$(stat -f%z "$OUT/$name.png" 2>/dev/null || echo 0)
-  errs=$(grep -ciE "ERROR:CONSOLE|Uncaught|SyntaxError|ReferenceError|TypeError" "$log" 2>/dev/null || echo 0)
+  # grep -c renvoie 0 ET sort en erreur quand il ne trouve rien :
+  # sans `|| true`, la sortie devenait "0\n0" et le test plantait.
+  errs=$(grep -ciE "ERROR:CONSOLE|Uncaught|SyntaxError|ReferenceError|TypeError" "$log" 2>/dev/null || true)
+  errs=${errs:-0}
   if [ "$size" -lt 12000 ]; then
     echo "  ⚠ $p  (image $size o — page quasi vide)"; FAIL=1
   elif [ "$errs" -gt 0 ]; then

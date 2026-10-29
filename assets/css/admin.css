@@ -1001,6 +1001,33 @@ body.is-locked { overflow: hidden; }
 .note-band--seal .ic { color: var(--seal-500); }
 
 /* ==========================================================================
+   Rendez-vous (espace pro)
+   ========================================================================== */
+
+.rendez-vous__session {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.rendez-vous__session .input { width: auto; min-width: 210px; }
+.rendez-vous__who { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.rendez-vous__who b { font-size: .86rem; color: var(--ink-900); }
+.rendez-vous__who span { font-family: var(--font-mono); font-size: .74rem; color: var(--ink-500); }
+.rendez-vous__note { font-size: .74rem; color: var(--ink-500); margin-top: .6rem; }
+.rendez-vous__count { font-family: var(--font-mono); font-size: .74rem; color: var(--ink-500); }
+.rendez-vous__state {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  color: var(--ink-500);
+  font-size: .82rem;
+}
+.rendez-vous__state .ic { width: 17px; height: 17px; color: var(--kraft-700); flex-shrink: 0; }
+.rendez-vous__state p { margin: 0; }
+
+/* ==========================================================================
    Réactif — sous 900px la sidebar devient un tiroir
    ========================================================================== */
 

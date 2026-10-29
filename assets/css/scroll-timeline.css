@@ -1,0 +1,169 @@
+/* ==========================================================================
+   MaisonVide — Animations scroll-driven natives
+   ZÉRO octet de JavaScript : tout ce fichier est du CSS natif (2026).
+
+   Ce que le navigateur sait faire, mesuré sur mdn/browser-compat-data
+   (relevé du 2026-10-29) :
+     • animation-timeline / animation-range → Chrome 115, Firefox 159, Safari 26
+     • view-transition-name                  → Chrome 111, Firefox 144, Safari 18
+     • @view-transition (navigation: auto)   → Chrome 126, Firefox ∅, Safari 18.2
+
+   Règles du projet, non négociables :
+     1. le CSS natif est la PREMIÈRE couche, le JS maison est le REPLI ;
+     2. rien n'est déclaré hors de @media (prefers-reduced-motion: no-preference) ;
+     3. le contenu est visible par défaut : sans JS, aucun bloc ne reste
+        masqué (le filet `html:not(.js) [data-motion]` est neutralisé ici) ;
+     4. un seul easing : cubic-bezier(.16, 1, .3, 1). Jamais de bounce,
+        jamais d'elastic, jamais de spring.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ======================================================================
+     1. LA RÉVÉLATION DES BLOCS — `view()`
+     Remplace la transition IntersectionObserver quand le navigateur sait
+     faire : la révélation devient liée au scroll, donc parfaitement
+     synchronisée avec la position de lecture.
+     ====================================================================== */
+  @supports (animation-timeline: view()) {
+
+    [data-motion] {
+      animation: mvh-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 28%;
+    }
+
+    /* Les variantes conservent leur sens : glissé, fondu, léger grossissement. */
+    [data-motion="fade"]  { animation-name: mvh-fade; }
+    [data-motion="left"]  { animation-name: mvh-slide; }
+    [data-motion="scale"] { animation-name: mvh-grow; }
+
+    /* Filet de sécurité : sans JS, la page reste entièrement lisible.
+       (Spécificité 0-2-1 : elle l'emporte sur `[data-motion]` et sur les
+       variantes, donc l'animation native est bien coupée.) */
+    html:not(.js) [data-motion] { animation: none; }
+
+    @keyframes mvh-rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes mvh-fade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes mvh-slide {
+      from { opacity: 0; transform: translateX(-18px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes mvh-grow {
+      from { opacity: 0; transform: scale(.985); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ------------------------------------------------------------------
+       2. LE PARALLAXE — deux visuels, deux amplitudes faibles
+       On anime la propriété `translate` (et non `transform`) : elle se
+       compose avec les `transform` existants (rotation de la fiche,
+       soulèvement au survol) au lieu de les écraser.
+       Jamais de tilt, jamais de bounce : 10 à 18 px, c'est tout.
+       ------------------------------------------------------------------ */
+
+    /* La fiche relevée du hero : elle glisse de 12 px pendant la lecture. */
+    .releve-card {
+      animation: mvh-drift linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    @keyframes mvh-drift {
+      from { translate: 0 12px; }
+      to   { translate: 0 -12px; }
+    }
+
+    /* La photo des fiches annonces : elle dérive DANS son cadre (le cadre,
+       lui, ne bouge pas — la grille reste alignée). */
+    .listing-card__img img {
+      height: calc(100% + 24px);
+      margin-top: -12px;
+      animation: mvh-drift-photo linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    @keyframes mvh-drift-photo {
+      from { translate: 0 10px; }
+      to   { translate: 0 -10px; }
+    }
+  }
+
+  /* ======================================================================
+     3. LE RAIL DE PROGRESSION — `scroll()`
+     La hauteur du remplissage et la position du curseur sont désormais
+     dimensionnées par le navigateur. Le JS maison (assets/js/scroll.js)
+     reste le repli sur Safari < 26 et Firefox < 159.
+
+     Les déclarations ci-dessous (« animation ») priment sur les styles
+     inline écrits par le JS : il n'y a donc jamais de double écriture
+     visible — la cascade tranche, toujours dans le même sens.
+     ====================================================================== */
+  @supports (animation-timeline: scroll()) {
+
+    /* La barre de progression (2 px, en tête de page). */
+    .scroll-progress__bar {
+      animation: mvh-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes mvh-progress {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    /* Le remplissage du rail : la hauteur est neutralisée (!important) et
+       c'est l'échelle qui porte la progression — donc aucune mise en page
+       n'est recalculée pendant le scroll. */
+    .scroll-rail__fill {
+      height: 100% !important;
+      transform: scaleY(0);
+      transform-origin: 50% 0;
+      animation: mvh-rail linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes mvh-rail {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+
+    /* Le curseur du rail : il voyage du haut du filet (14vh) à son bas
+       (86vh), exactement sur le trajet du remplissage. La marge de
+       14vh est posée dans assets/css/motion.css — ici, `top` ne fait que
+       la part qui reste (0 → 72vh). */
+    .scroll-rail__dot {
+      animation: mvh-rail-dot linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes mvh-rail-dot {
+      from { top: 0; }
+      to   { top: 72vh; }
+    }
+  }
+
+  /* ======================================================================
+     4. LA TRANSITION ENTRE PAGES — View Transitions
+     Cross-document : le rendu initial est identique, donc aucun risque
+     SEO (contrairement à Barba/Swup/Turbo, qui transforment le site
+     multi-pages en SPA).
+
+     Firefox ne sait pas encore lire la règle @view-transition → il ignore
+     simplement l'at-rule et navigue normalement. Aucune dégradation
+     visible, aucune erreur console.
+     ====================================================================== */
+  @view-transition {
+    navigation: auto;
+  }
+
+  /* Le logo traverse proprement d'une page à l'autre. Le nom est posé
+     sur le logo DU HEADER seulement : le pied de page porte un second
+     `.logo`, et deux éléments portant le même `view-transition-name`
+     annulerait la transition. */
+  .site-header .logo {
+    view-transition-name: mv-logo;
+  }
+}

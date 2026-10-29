@@ -1,0 +1,712 @@
+/* ==========================================================================
+   MaisonVide — Espace pro (vendeur)
+   La page d'un carnet de brocante : papier, kraft, tampon vermillon,
+   sceau vert. Filets pointillés (.trait), données entre crochets (.data),
+   compositions variées — jamais une grille de cartes identiques.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* Le corps : la fiche de travail                                      */
+/* ------------------------------------------------------------------ */
+/* L'attribut hidden doit gagner contre les display: flex de nos blocs. */
+[hidden] { display: none !important; }
+
+.pro-dash {
+  padding-block: var(--space-8) var(--space-16);
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. L'ÉCRAN DE CONNEXION                                             */
+/* ------------------------------------------------------------------ */
+.pro-auth {
+  padding-block: clamp(var(--space-8), 6vw, var(--space-16));
+  width: 100%;
+  max-width: var(--container-base);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.pro-auth__grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: clamp(var(--space-6), 4vw, var(--space-12));
+  align-items: start;
+}
+
+.pro-auth__plaque {
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-top: 3px solid var(--ink-900);
+  border-radius: var(--radius-md);
+  padding: clamp(var(--space-5), 3vw, var(--space-8));
+  box-shadow: var(--shadow-lg);
+}
+
+.pro-auth__plaque .lede {
+  margin-block: var(--space-2) var(--space-3);
+}
+
+.pro-auth__intro {
+  max-width: 46ch;
+  margin-block: 0 var(--space-5);
+}
+
+.pro-auth__plaque .trait {
+  margin-block: var(--space-5);
+}
+
+.pro-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.pro-form .btn {
+  margin-top: var(--space-2);
+}
+
+.pro-bascule {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: 0;
+  padding: var(--space-2) 0;
+  color: var(--ink-700);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.pro-bascule:hover { color: var(--stamp-600); }
+.pro-bascule:focus-visible { outline: 2px solid var(--seal-500); outline-offset: 3px; }
+
+/* Le carnet de démonstration : deux fiches cliquables */
+.pro-auth__carnet {
+  background: var(--kraft-50);
+  border: 1px solid var(--kraft-300);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.pro-auth__carnet .trait { margin-block: var(--space-2); }
+
+.pro-demo {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-left: 3px solid var(--seal-500);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: transform var(--t-press), border-color var(--t-base), box-shadow var(--t-base);
+}
+
+.pro-demo b { display: block; color: var(--ink-900); font-size: var(--fs-base); }
+.pro-demo span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+  margin-top: .15rem;
+}
+
+.pro-demo:hover {
+  border-left-color: var(--stamp-500);
+  box-shadow: var(--shadow-sm);
+  transform: translateX(2px);
+}
+
+.pro-demo:focus-visible { outline: 2px solid var(--seal-500); outline-offset: 3px; }
+
+/* ------------------------------------------------------------------ */
+/* 2. LES ÉTATS : chargement, erreur, vide                             */
+/* ------------------------------------------------------------------ */
+.pro-etat { padding-block: var(--space-10); }
+
+.pro-etat__box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  max-width: 60ch;
+}
+
+.pro-etat__box .spinner {
+  border-color: var(--paper-edge);
+  border-top-color: var(--stamp-500);
+}
+
+.pro-etat__box--erreur {
+  border-color: var(--stamp-300);
+  border-left: 3px solid var(--stamp-500);
+  color: var(--stamp-700);
+}
+
+.pro-etat__box--erreur .btn { margin-top: var(--space-2); }
+
+.pro-message {
+  background: var(--warn-50);
+  border: 1px solid var(--warn-500);
+  border-radius: var(--radius-sm);
+  color: var(--warn-500);
+  font-size: var(--fs-sm);
+  padding: var(--space-3) var(--space-4);
+  margin-block: 0 var(--space-4);
+}
+
+.pro-message--erreur {
+  background: #fbeceb;
+  border-color: var(--stamp-500);
+  color: var(--stamp-700);
+}
+
+.pro-vide {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+  background: var(--paper-sheet);
+  border: 1px dashed var(--paper-rule);
+  border-radius: var(--radius-sm);
+  padding: var(--space-5);
+  margin-block: var(--space-4) 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. L'EN-TÊTE VENDEUR                                                 */
+/* ------------------------------------------------------------------ */
+.pro-identite {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: clamp(var(--space-5), 3vw, var(--space-8));
+  align-items: end;
+  padding-bottom: var(--space-5);
+  border-bottom: 1.5px solid var(--ink-900);
+}
+
+.pro-identite__titre {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  line-height: 1.05;
+  letter-spacing: var(--track-display);
+  color: var(--ink-900);
+  margin-block: .15rem;
+}
+
+.pro-identite__lieu {
+  color: var(--ink-600);
+  font-size: var(--fs-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pro-identite__fiche {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: var(--space-4) var(--space-5);
+  margin: 0;
+}
+
+.pro-identite__fiche div { min-width: 0; }
+
+.pro-identite__fiche dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--ink-500);
+}
+
+.pro-identite__fiche dd {
+  margin: .2rem 0 0;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  color: var(--ink-900);
+}
+
+.pro-identite__fiche dd .data {
+  font-size: var(--fs-md);
+  color: var(--ink-900);
+  font-weight: var(--fw-semibold);
+}
+
+.pro-identite__fiche dd .data::before,
+.pro-identite__fiche dd .data::after { color: var(--ink-400); }
+
+.pro-header__who {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-600);
+  max-width: 20ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+/* 4. LE BANDEAU KPI — compositions variées                            */
+/* ------------------------------------------------------------------ */
+.pro-kpi {
+  padding-block: var(--space-8);
+}
+
+.pro-kpi__grille {
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: clamp(var(--space-5), 2.5vw, var(--space-8));
+  gap: 0;
+}
+
+/* La colonne principale : le CA, en grand, avec sa variation */
+.pro-kpi__principal {
+  padding-right: clamp(var(--space-5), 2vw, var(--space-8));
+  border-right: 1px dashed var(--paper-rule);
+}
+
+.pro-kpi__intitule {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pro-kpi__intitule .ic { color: var(--stamp-500); }
+
+.pro-kpi__chiffre {
+  font-family: var(--font-mono);
+  font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+  font-weight: var(--fw-bold);
+  letter-spacing: -.04em;
+  color: var(--ink-900);
+  margin-block: .1rem .15rem;
+  line-height: 1;
+}
+
+.pro-kpi__chiffre::before { content: "[ "; color: var(--ink-300); }
+.pro-kpi__chiffre::after  { content: " ]"; color: var(--ink-300); }
+
+.pro-kpi__second {
+  font-family: var(--font-mono);
+  font-size: var(--fs-lg);
+  color: var(--stamp-600);
+  margin-block: .1rem 0;
+}
+
+.pro-kpi__delta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .04em;
+  color: var(--ink-500);
+  min-height: 1.2em;
+}
+
+.pro-kpi__delta--hausse { color: var(--seal-600); }
+.pro-kpi__delta--baisse { color: var(--stamp-600); }
+
+/* La colonne médiane : une fiche de lignes */
+.pro-kpi__colonne {
+  padding-inline: clamp(var(--space-4), 1.6vw, var(--space-6));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pro-kpi__ligne {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: .15rem;
+  flex-wrap: wrap;
+}
+
+.pro-kpi__cle {
+  font-size: var(--fs-sm);
+  color: var(--ink-600);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pro-kpi__colonne .micro { margin: 0; font-size: var(--fs-xs); }
+
+/* Le côté : un triptyque large, aligné en bas */
+.pro-kpi__cote {
+  padding-left: clamp(var(--space-5), 2vw, var(--space-8));
+  border-left: 1px dashed var(--paper-rule);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.pro-kpi__triplet {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.pro-kpi__triplet .data--lg {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--ink-900);
+  display: inline-block;
+  margin-block: .1rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* 5. LES PANNEAUX ET LES GRAPHIQUES                                   */
+/* ------------------------------------------------------------------ */
+.pro-section {
+  padding-block: var(--space-8);
+  border-top: 1.5px solid var(--ink-900);
+}
+
+.pro-section__tete,
+.pro-panneau__tete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.pro-section__tete { margin-bottom: var(--space-3); }
+.pro-panneau__tete { margin-bottom: var(--space-2); }
+
+.pro-panneau {
+  background: var(--paper-sheet);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-xs);
+  height: 100%;
+}
+
+.pro-graphique {
+  padding-block: var(--space-4) var(--space-2);
+  min-height: 210px;
+}
+
+.pro-graphique svg { width: 100%; height: auto; display: block; }
+
+.pro-graphique .grid-line { stroke: var(--paper-rule); stroke-width: 1; }
+.pro-graphique .axis-line { stroke: var(--ink-900); stroke-width: 1.2; }
+.pro-graphique .tick {
+  font-family: var(--font-body);
+  font-size: 11px;
+  fill: var(--ink-500);
+}
+.pro-graphique .tick--mono {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  fill: var(--ink-400);
+}
+.pro-graphique .series-line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.pro-graphique .series-line--dashed { stroke-dasharray: 5 4; }
+.pro-graphique .series-dot { stroke: var(--paper-sheet); stroke-width: 1.2; }
+
+.pro-legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+}
+
+.pro-legende span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-600);
+}
+
+.pro-legende i {
+  width: 18px;
+  height: 2px;
+  background: var(--ink-900);
+  display: inline-block;
+}
+
+.pro-legende i[data-tone="contacts"] { background: var(--stamp-500); }
+.pro-legende i[data-tone="vues"] { background: var(--seal-500); }
+
+/* ------------------------------------------------------------------ */
+/* 6. LES TABLEAUX                                                     */
+/* ------------------------------------------------------------------ */
+.pro-table__cadre {
+  overflow-x: auto;
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius-md);
+  background: var(--paper-sheet);
+}
+
+.pro-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  min-width: 620px;
+}
+
+.pro-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--ink-500);
+  font-weight: var(--fw-regular);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--paper-rule);
+  white-space: nowrap;
+}
+
+.pro-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px dashed var(--paper-rule);
+  color: var(--ink-700);
+  vertical-align: middle;
+}
+
+.pro-table tr:last-child td { border-bottom: 0; }
+.pro-table tbody tr:hover { background: var(--kraft-50); }
+
+.pro-table__titre {
+  color: var(--ink-900);
+  font-weight: var(--fw-semibold);
+  max-width: 34ch;
+}
+
+.pro-table__photo { width: 64px; }
+
+.pro-table__photo img {
+  width: 56px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--paper-edge);
+  display: block;
+}
+
+.pro-table__sans-photo {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 42px;
+  border: 1px dashed var(--paper-rule);
+  border-radius: var(--radius-xs);
+  color: var(--ink-400);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+
+/* ------------------------------------------------------------------ */
+/* 7. LES LEADS                                                        */
+/* ------------------------------------------------------------------ */
+.pro-leads {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--paper-rule);
+}
+
+.pro-lead {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) minmax(0, 1.4fr) 150px;
+  gap: var(--space-4);
+  align-items: center;
+  padding-block: var(--space-4);
+  border-bottom: 1px dashed var(--paper-rule);
+}
+
+.pro-lead__qui b {
+  display: block;
+  color: var(--ink-900);
+  font-size: var(--fs-base);
+}
+
+.pro-lead__qui span,
+.pro-lead__date {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+}
+
+.pro-lead__msg {
+  color: var(--ink-600);
+  font-size: var(--fs-sm);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pro-lead__fin {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .25rem;
+  text-align: right;
+}
+
+.pro-lead__canal {
+  justify-self: start;
+}
+
+/* ------------------------------------------------------------------ */
+/* 8. LES RENDEZ-VOUS                                                  */
+/* ------------------------------------------------------------------ */
+.pro-rdv {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pro-rdv__item {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding-block: var(--space-4);
+  border-bottom: 1px dashed var(--paper-rule);
+}
+
+.pro-rdv__quand b {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-base);
+  color: var(--ink-900);
+}
+
+.pro-rdv__quand span,
+.pro-rdv__quoi span {
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+}
+
+.pro-rdv__quoi b {
+  display: block;
+  color: var(--ink-900);
+  font-size: var(--fs-base);
+  margin-bottom: .15rem;
+}
+
+.pro-rdv__actes {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.pro-rdv__item--attente .pro-rdv__quand b { color: var(--stamp-600); }
+
+/* ------------------------------------------------------------------ */
+/* 9. LES CRENEAUX                                                     */
+/* ------------------------------------------------------------------ */
+.pro-creneaux__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-4);
+  align-items: end;
+  background: var(--kraft-50);
+  border: 1px solid var(--kraft-300);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-block: var(--space-4);
+}
+
+.pro-creneaux__form .btn { height: 42px; }
+
+.pro-creneaux {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--paper-rule);
+}
+
+.pro-creneau {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding-block: var(--space-4);
+  border-bottom: 1px dashed var(--paper-rule);
+}
+
+.pro-creneau__texte b {
+  display: block;
+  color: var(--ink-900);
+  font-size: var(--fs-md);
+}
+
+.pro-creneau__texte span {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+}
+
+.pro-creneau--inactif .pro-creneau__texte b { color: var(--ink-400); text-decoration: line-through; }
+
+.pro-creneau__actes { display: flex; gap: var(--space-2); }
+
+/* ------------------------------------------------------------------ */
+/* 10. LES ÉTATS D'ADAPTATION                                          */
+/* ------------------------------------------------------------------ */
+@media (max-width: 1080px) {
+  .pro-kpi__grille { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pro-kpi__principal {
+    grid-column: 1 / -1;
+    padding-right: 0;
+    border-right: 0;
+    border-bottom: 1px dashed var(--paper-rule);
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .pro-kpi__cote {
+    padding-left: 0;
+    border-left: 0;
+    padding-top: var(--space-4);
+  }
+  .pro-kpi__colonne { padding-right: 0; }
+}
+
+@media (max-width: 860px) {
+  .pro-auth__grille { grid-template-columns: minmax(0, 1fr); }
+  .pro-identite { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .pro-lead { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+  .pro-lead__fin { align-items: flex-start; text-align: left; flex-direction: row; gap: var(--space-3); }
+  .pro-rdv__item { grid-template-columns: minmax(0, 1fr); }
+  .pro-rdv__actes { justify-content: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .pro-kpi__grille { grid-template-columns: minmax(0, 1fr); }
+  .pro-kpi__colonne { padding-inline: 0; }
+  .pro-kpi__triplet { grid-template-columns: minmax(0, 1fr); }
+  .pro-creneau { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+  .pro-creneau__actes { justify-content: flex-start; }
+}

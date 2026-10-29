@@ -4,6 +4,8 @@
    ========================================================================== */
 
 @import url('tokens.css');
+@import url('lenis.css');
+@import url('scroll-timeline.css');
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }

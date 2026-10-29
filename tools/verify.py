@@ -95,6 +95,106 @@ def read(p):
         return f.read()
 
 
+# --------------------------------------------------------------------------
+# Doublons CSS : une règle présente à la fois dans le <style> inline d'une
+# page ET dans une feuille partagée. L'inline arrive après le <link>, donc
+# il gagne — et la feuille partagée devient une source de vérité qui ment.
+# C'est le bug qui a fait recouvrir le pied de la fiche « Le relevé ».
+# --------------------------------------------------------------------------
+SHARED_CSS = ['assets/css/main.css', 'assets/css/motion.css', 'assets/css/blocks.css',
+              'assets/css/trust.css', 'assets/css/oryzo.css', 'assets/css/scroll.css',
+              'assets/css/legal.css', 'assets/css/pro.css', 'assets/css/admin.css']
+
+
+def css_rules(text):
+    """Règles {sélecteur: déclarations normalisées} d'un texte CSS.
+
+    Seuls les blocs de premier niveau sont retenus : les @media sont
+    ignorés (une règle peut légitimement différer selon le contexte).
+    """
+    text = re.sub(r'/\*.*?\*/', '', text, flags=re.S)
+    # On retire les blocs conditionnels pour n'examiner que le niveau racine.
+    text = re.sub(r'@(media|supports)[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}', '', text, flags=re.S)
+    out = {}
+    for block in re.finditer(r'([^{}]+)\{([^{}]*)\}', text):
+        sel = block.group(1).strip()
+        body = ' '.join(block.group(2).split())
+        if not sel or sel.startswith('@') or sel.startswith(('from', 'to')):
+            continue
+        for part in sel.split(','):
+            part = part.strip()
+            if part and body:
+                out.setdefault(part, body)
+    return out
+
+
+def inline_styles(src):
+    """Les blocs <style> inline d'une page."""
+    return re.findall(r'<style[^>]*>(.*?)</style>', src, flags=re.S | re.I)
+
+
+def check_css_duplication(page, src):
+    """Sélecteurs dont le corps de déclarations est identique dans la page
+    ET dans une feuille partagée — une copie, donc une règle qui peut
+    diverger."""
+    shared = {}
+    for css in SHARED_CSS:
+        path = os.path.join(ROOT, css)
+        if os.path.exists(path):
+            for sel, body in css_rules(read(css)).items():
+                shared.setdefault(sel, body)
+    dup = set()
+    for block in inline_styles(src):
+        for sel, body in css_rules(block).items():
+            if shared.get(sel) == body:
+                dup.add(sel)
+    return dup
+
+
+# --------------------------------------------------------------------------
+# Équilibre des balises : une balise laissée ouverte décale tout le
+# reste de la page. Le contenu de <style>, <script> et les commentaires
+# sont neutralisés (un <summary> écrit dans un commentaire CSS n'est pas
+# une balise).
+# --------------------------------------------------------------------------
+VOID_TAGS = {'br', 'hr', 'img', 'input', 'meta', 'link', 'source', 'area',
+             'base', 'col', 'embed', 'param', 'track', 'wbr'}
+
+
+def check_html_balance(src):
+    clean = re.sub(r'<!--.*?-->', '', src, flags=re.S)
+    clean = re.sub(r'<style\b[^>]*>.*?</style>', '', clean, flags=re.S | re.I)
+    clean = re.sub(r'<script\b[^>]*>.*?</script>', '', clean, flags=re.S | re.I)
+
+    problems = []
+    stack = []
+    for m in re.finditer(r'<(/?)([a-zA-Z][a-zA-Z0-9]*)([^>]*?)(/?)>', clean):
+        closing, tag, selfclose = m.group(1), m.group(2).lower(), m.group(4)
+        ln = src[:m.start()].count('\n') + 1
+        if tag in VOID_TAGS or selfclose:
+            continue
+        if closing:
+            if stack and stack[-1][0] == tag:
+                stack.pop()
+            else:
+                expected = stack[-1][0] if stack else '?'
+                problems.append('ligne %d : </%s> fermée alors que <%s> attend sa fermeture'
+                                % (ln, tag, expected))
+                for i in range(len(stack) - 1, -1, -1):
+                    if stack[i][0] == tag:
+                        del stack[i:]
+                        break
+                else:
+                    stack = []
+        else:
+            stack.append((tag, ln))
+    for tag, ln in stack:
+        if tag in ('html', 'body'):
+            continue
+        problems.append('ligne %d : <%s> jamais fermée' % (ln, tag))
+    return problems
+
+
 def main():
     errors = []
     warnings = []
@@ -170,6 +270,22 @@ def main():
             target = os.path.normpath(os.path.join(os.path.dirname(page), s))
             if not os.path.exists(os.path.join(ROOT, target)):
                 page_errors.append('feuille de style introuvable: %s' % s)
+
+        # --- règles CSS dupliquées entre la page et les feuilles partagées ---
+        for sel in sorted(check_css_duplication(page, src)):
+            page_warnings.append('règle dupliquée (inline + feuille partagée): %s' % sel)
+
+        # --- CSS versé nu dans le <head> (hors <style> et <script>) ---
+        m_head = re.search(r'<head[^>]*>(.*?)</head>', src, flags=re.S | re.I)
+        if m_head:
+            naked = re.sub(r'<style[^>]*>.*?</style>', '', m_head.group(1), flags=re.S | re.I)
+            naked = re.sub(r'<script[^>]*>.*?</script>', '', naked, flags=re.S | re.I)
+            if '{' in naked or '}' in naked:
+                page_errors.append('CSS versé nu dans le <head> (bloc <style> cassé)')
+
+        # --- équilibre des balises ---
+        for problem in check_html_balance(src):
+            page_errors.append(problem)
 
         # --- liens internes ---
         for href in p.links:

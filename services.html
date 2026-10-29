@@ -14,8 +14,12 @@
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
 
-<link rel="stylesheet" href="assets/css/main.css">
-<link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/blocks.css">
+  <link rel="stylesheet" href="assets/css/trust.css">
+  <link rel="stylesheet" href="assets/css/oryzo.css">
+  <link rel="stylesheet" href="assets/css/scroll.css">
 <style>
 /* ======================================================================
    SERVICES — le carnet de formules
@@ -114,9 +118,7 @@
 }
 
 /* ---- Les preuves : la charte ---- */
-.charte { border-top: 1.5px solid var(--ink-900); }
-.charte__row h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
-.charte__row p { font-size: .875rem; color: var(--ink-600); max-width: 46ch; }
+
 @media (max-width: 780px) {
   .charte__row p { grid-column: 2; }
 }
@@ -152,7 +154,7 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
 <body class="grain">
 
 <header class="site-header">
-  <div class="container site-header__inner">
+  <div class="container site-header__inner" style="flex-wrap:wrap;height:auto;min-height:var(--header-height);padding-block:.55rem">
     <a href="index.html" class="logo">
       <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
       MaisonVide
@@ -161,49 +163,52 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
       <a href="index.html">Accueil</a>
       <a href="vendre.html">Estimer</a>
       <a href="annonces.html">Annonces</a>
+      <a href="pro.html">Espace pro</a>
       <a href="confiance.html">Confiance</a>
       <a href="services.html" class="is-active">Services</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <div class="flex">
+    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+    </button>
+    <div class="flex" style="flex-wrap:wrap;margin-left:auto">
       <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
       <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
       <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
-      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
-        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
-      </button>
     </div>
   </div>
 </header>
 
 <!-- ================= LE CARNET ================= -->
-<section class="section" style="padding-block:clamp(3rem,6vw,5rem) clamp(2.5rem,5vw,4rem)">
+<section class="section" style="padding-block:clamp(3rem,6vw,5rem) clamp(2.5rem,5vw,4rem)" data-section="Le carnet">
   <div class="container">
-    <div class="carnet-head">
-      <div>
-        <h1>
+    <hr class="trait">
+    <div class="grid-16" style="--grid-gap:clamp(1.5rem,3vw,2.75rem);margin-top:clamp(2rem,5vw,3.5rem)">
+      <div class="col-7" data-motion="left">
+        <p class="note">S.00 — Le carnet</p>
+        <hr class="trait trait--faint" style="margin-block:.9rem 1.5rem">
+        <h1 class="display" style="font-size:clamp(2.6rem,6vw,4.8rem)">
           Vider une maison,<br/>
           <em>sans y passer</em><br/>
           ses soirées.
         </h1>
       </div>
-      <div>
-        <div class="carnet-head__data">
-          <span class="etiquette">3 formules</span>
-          <span class="etiquette">8 % à la vente, pas avant</span>
-          <span class="etiquette">Sans abonnement</span>
+
+      <div class="col-9">
+        <p class="lede">Un carnet, trois formules. Vous choisissez le niveau d'aide, nous écrivons les annonces et nous sécurisons l'argent.</p>
+        <hr class="trait trait--faint" style="margin-block:1.5rem">
+        <p class="quote">Vous payez quand un objet est vendu, jamais pour le rester.</p>
+        <hr class="trait trait--faint" style="margin-block:1.5rem">
+        <div class="flex" style="gap:1.4rem;flex-wrap:wrap">
+          <span class="data">3 formules</span>
+          <span class="data">8 % à la vente</span>
+          <span class="data">0 € d'abonnement</span>
         </div>
-        <p class="lead">
-          Un carnet, trois formules. Vous choisissez le niveau d'aide, nous
-          écrivons les annonces et nous sécurisons l'argent. Vous payez quand
-          un objet est vendu, jamais pour le rester.
-        </p>
         <div class="flex mt-8" style="flex-wrap:wrap;gap:.75rem">
-          <a href="#formules" class="btn btn--primary btn--lg">
-            Ouvrir le carnet
-            <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          <a href="#formules" class="btn btn--primary btn--lg btn--flip">
+            <span>Ouvrir le carnet</span><span>Voir les 3 formules</span>
           </a>
-          <a href="vendre.html" class="btn btn--ghost btn--lg">Estimer un objet</a>
+          <a href="vendre.html" class="btn btn--glow btn--lg">Estimer un objet</a>
         </div>
       </div>
     </div>
@@ -211,114 +216,134 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
 </section>
 
 <!-- ================= LES FORMULES ================= -->
-<section class="section section--tight" id="formules">
+<section class="act section section--tight" id="formules" data-section="Les formules">
   <div class="container">
-    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(1.5rem,4vw,3rem);align-items:end;margin-bottom:2.2rem">
-      <h2 class="display" style="max-width:14ch">Le carnet<br/>de formules.</h2>
-      <p class="lead">
-        Une page, trois lignes, une ligne par formule. Le prix est en haut,
-        le reste est en dessous, et rien ne se cache derrière un « sur demande ».
-      </p>
-    </div>
-
-    <div class="formules">
-      <!-- F.01 -->
-      <article class="formule">
-        <div class="formule__num">F.01</div>
-        <div>
-          <h3 class="formule__title">Solo</h3>
-          <p class="formule__desc">
-            Vous publiez vous-même. Pour une à dix pièces, ou pour un objet
-            dont vous connaissez déjà le prix.
-          </p>
-          <ul class="formule__list">
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Estimation IA illimitée</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Publication d'annonces illimitée</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Messagerie avec l'acheteur</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Paiement bloqué en séquestre</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> 8 % à la vente, et rien d'autre</li>
-          </ul>
+    <div class="act__grid">
+      <div class="act__sticky">
+        <p class="note">Acte I</p>
+        <hr class="trait" style="margin-block:.9rem 1.5rem">
+        <h2 class="display" style="max-width:14ch">Le carnet<br/>de formules.</h2>
+        <p class="lede" style="margin-top:1.4rem">Une page, trois lignes, une ligne par formule.</p>
+        <p class="micro mt-6">Le prix est en haut, le reste est en dessous, et rien ne se cache derrière un « sur demande ».</p>
+        <div class="flex mt-8" style="gap:1.4rem;flex-wrap:wrap">
+          <span class="data">8 % au plus</span>
+          <span class="data">29 € par dossier</span>
+          <span class="data">Sur devis</span>
         </div>
-        <div class="formule__right">
-          <span class="stamp-price stamp-price--kraft">0 €</span>
-          <span class="etiquette">Immédiat</span>
-          <a href="vendre.html" class="btn btn--ghost btn--sm">Estimer un objet</a>
-        </div>
-      </article>
+      </div>
 
-      <!-- F.02 -->
-      <article class="formule formule--guide">
-        <div class="formule__num">F.02</div>
-        <div>
-          <div class="flex" style="gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:.4rem">
-            <h3 class="formule__title">Guidé</h3>
-            <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> Le plus choisi</span>
+      <div class="act__flow">
+        <!-- F.01 -->
+        <article class="act__step" data-step="1">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.7rem">
+            <div class="col-4">
+              <p class="note">F.01 — Solo</p>
+              <h3 class="display" style="font-size:clamp(1.4rem,2.5vw,1.9rem);margin-top:.5rem">Solo</h3>
+              <div class="stamp-price stamp-price--kraft" style="margin-top:.8rem;font-size:var(--fs-md)">0 €</div>
+              <p class="note" style="margin-top:.9rem">Immédiat</p>
+              <p class="data" style="margin-top:.4rem">8 % à la vente</p>
+            </div>
+            <div class="col-12">
+              <p class="micro">Vous publiez vous-même. Pour une à dix pièces, ou pour un objet dont vous connaissez déjà le prix.</p>
+              <ul class="formule__list">
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Estimation IA illimitée</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Publication d'annonces illimitée</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Messagerie avec l'acheteur</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Paiement bloqué en séquestre</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> 8 % à la vente, et rien d'autre</li>
+              </ul>
+              <div class="flex mt-8" style="flex-wrap:wrap;gap:.6rem">
+                <a href="vendre.html" class="btn btn--glow btn--sm">Estimer un objet</a>
+              </div>
+            </div>
           </div>
-          <p class="formule__desc">
-            Un conseiller relit vos annonces, répond aux acheteurs, et vous
-            rappelle quand une vente se présente. Vous ne traitez plus personne.
-          </p>
-          <ul class="formule__list">
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Tout ce que contient Solo</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Conseiller dédié, 7 j sur 7</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Coaching photo et description</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Prix revu à chaque vente</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Relance automatique des acheteurs</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Commission réduite à 5 %</li>
-          </ul>
-        </div>
-        <div class="formule__right">
-          <span class="stamp-price">29 €</span>
-          <span class="etiquette">2 à 5 jours</span>
-          <span style="font-size:.75rem;color:var(--ink-500)">par dossier</span>
-          <a href="contact.html?subject=guide" class="btn btn--primary btn--sm">Choisir la Guidé</a>
-        </div>
-      </article>
+        </article>
 
-      <!-- F.03 -->
-      <article class="formule formule--pro">
-        <div class="formule__num">F.03</div>
-        <div>
-          <h3 class="formule__title">Pro</h3>
-          <p class="formule__desc">
-            Pour les vidages de maison, les successions et les fins de bail.
-            Nous inventorions, photographions, vidons, payons. Vous n'êtes plus
-            dans le dossier, vous êtes chez vous.
-          </p>
-          <ul class="formule__list">
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Tout ce que contient Guidé</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Inventaire sur place sous 48 h</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Shooting photo professionnel</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Enlèvement et débarras</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Dons et certificat de recyclage</li>
-            <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Paiement sous 7 jours après réception</li>
-          </ul>
-        </div>
-        <div class="formule__right">
-          <span class="stamp-price stamp-price--seal">Sur devis</span>
-          <span class="etiquette">7 à 21 jours</span>
-          <span style="font-size:.75rem;color:var(--ink-700)">Commission 4 %</span>
-          <a href="contact.html?subject=devis" class="btn btn--kraft btn--sm">Demander un devis</a>
-        </div>
-      </article>
+        <!-- F.02 -->
+        <article class="act__step" data-step="2">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.7rem">
+            <div class="col-4">
+              <p class="note">F.02 — Guidé</p>
+              <h3 class="display" style="font-size:clamp(1.4rem,2.5vw,1.9rem);margin-top:.5rem">Guidé</h3>
+              <div class="stamp-price" style="margin-top:.8rem;font-size:var(--fs-md)">29 €</div>
+              <p class="note" style="margin-top:.9rem">2 à 5 jours</p>
+              <p class="data" style="margin-top:.4rem">5 % à la vente</p>
+              <span class="sceau" style="margin-top:.9rem"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> Le plus choisi</span>
+            </div>
+            <div class="col-12">
+              <p class="micro">Un conseiller relit vos annonces, répond aux acheteurs, et vous rappelle quand une vente se présente. Vous ne traitez plus personne.</p>
+              <ul class="formule__list">
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Tout ce que contient Solo</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Conseiller dédié, 7 j sur 7</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Coaching photo et description</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Prix revu à chaque vente</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Relance automatique des acheteurs</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Commission réduite à 5 %</li>
+              </ul>
+              <div class="flex mt-8" style="flex-wrap:wrap;gap:.6rem">
+                <a href="contact.html?subject=guide" class="btn btn--primary btn--sm btn--flip">
+                  <span>Choisir la Guidé</span><span>Ouvrir le dossier</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- F.03 -->
+        <article class="act__step" data-step="3">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.7rem">
+            <div class="col-4">
+              <p class="note">F.03 — Pro</p>
+              <h3 class="display" style="font-size:clamp(1.4rem,2.5vw,1.9rem);margin-top:.5rem">Pro</h3>
+              <div class="stamp-price stamp-price--seal" style="margin-top:.8rem;font-size:var(--fs-md)">Sur devis</div>
+              <p class="note" style="margin-top:.9rem">7 à 21 jours</p>
+              <p class="data" style="margin-top:.4rem">4 % à la vente</p>
+            </div>
+            <div class="col-12">
+              <p class="micro">Pour les vidages de maison, les successions et les fins de bail. Nous inventorions, photographions, vidons, payons. Vous n'êtes plus dans le dossier, vous êtes chez vous.</p>
+              <ul class="formule__list">
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Tout ce que contient Guidé</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Inventaire sur place sous 48 h</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Shooting photo professionnel</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Enlèvement et débarras</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Dons et certificat de recyclage</li>
+                <li><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg> Paiement sous 7 jours après réception</li>
+              </ul>
+              <div class="flex mt-8" style="flex-wrap:wrap;gap:.6rem">
+                <a href="contact.html?subject=devis" class="btn btn--kraft btn--sm">Demander un devis</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <hr class="trait">
+        <p class="hand mt-8">→ et dans les trois cas, l'argent dort en séquestre</p>
+      </div>
     </div>
-
-    <p class="hand mt-8">→ et dans les trois cas, l'argent dort en séquestre</p>
   </div>
 </section>
 
 <!-- ================= LE COMPARATIF ================= -->
-<section class="section">
+<section class="section" data-section="Le comparatif">
   <div class="container">
-    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(1.5rem,4vw,3rem);align-items:end;margin-bottom:2.2rem">
-      <h2 class="display" style="max-width:12ch">Le comparatif,<br/>ligne à ligne.</h2>
-      <p class="lead">
-        Trois colonnes, les mêmes critères. Si une ligne vous importe, lisez-la
-        avant de choisir — c'est elle qui décide du prix de votre soirée.
-      </p>
+    <hr class="trait">
+    <div class="grid-16" style="--grid-gap:clamp(1.5rem,3vw,2.75rem);margin-top:clamp(2rem,5vw,3.5rem);align-items:end;margin-bottom:2.2rem">
+      <div class="col-6" data-motion="left">
+        <p class="note">S.01 — Comparatif</p>
+        <hr class="trait trait--faint" style="margin-block:.9rem 1.5rem">
+        <h2 class="display" style="max-width:12ch">Le comparatif,<br/>ligne à ligne.</h2>
+      </div>
+      <div class="col-10">
+        <p class="lede">Trois colonnes, les mêmes critères. Si une ligne vous importe, lisez-la avant de choisir.</p>
+        <p class="micro mt-6">C'est elle qui décide du prix de votre soirée.</p>
+      </div>
     </div>
 
-    <div class="tab-scroll comp">
+    <hr class="trait">
+    <div class="tab-scroll comp" style="padding-top:1.2rem">
       <table class="data-table">
         <thead>
           <tr>
@@ -337,27 +362,27 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
           </tr>
           <tr>
             <td>Commission à la vente</td>
-            <td>8 %</td>
-            <td>5 %</td>
-            <td>4 %</td>
+            <td><span class="data">8 %</span></td>
+            <td><span class="data">5 %</span></td>
+            <td><span class="data">4 %</span></td>
           </tr>
           <tr>
             <td>Frais de dossier</td>
-            <td>0 €</td>
-            <td>29 €</td>
+            <td><span class="data">0 €</span></td>
+            <td><span class="data">29 €</span></td>
             <td>Sur devis</td>
           </tr>
           <tr>
             <td>Photos professionnelles</td>
             <td>—</td>
-            <td>5 par objet</td>
-            <td>Illimitées</td>
+            <td><span class="data">5 par objet</span></td>
+            <td><span class="data">Illimitées</span></td>
           </tr>
           <tr>
             <td>Inventaire sur place</td>
             <td>—</td>
             <td>—</td>
-            <td>Inclus, sous 48 h</td>
+            <td><span class="data">Inclus, sous 48 h</span></td>
           </tr>
           <tr>
             <td>Enlèvement et débarras</td>
@@ -368,8 +393,8 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
           <tr>
             <td>Délai avant le premier prix</td>
             <td>Immédiat</td>
-            <td>2 à 5 jours</td>
-            <td>7 à 21 jours</td>
+            <td><span class="data">2 à 5 jours</span></td>
+            <td><span class="data">7 à 21 jours</span></td>
           </tr>
           <tr>
             <td>Paiement à l'acheteur</td>
@@ -379,124 +404,228 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
           </tr>
           <tr>
             <td>Volume prévu</td>
-            <td>1 à 10 objets</td>
-            <td>10 à 40 objets</td>
-            <td>40 objets et plus</td>
+            <td><span class="data">1 à 10 objets</span></td>
+            <td><span class="data">10 à 40 objets</span></td>
+            <td><span class="data">40 objets et plus</span></td>
           </tr>
         </tbody>
       </table>
     </div>
+    <hr class="trait">
   </div>
 </section>
 
 <!-- ================= LES PRESTATIONS ================= -->
-<section class="section section--kraft">
+<section class="section section--kraft" data-section="Les prestations">
   <div class="container">
-    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
-      <div>
+    <hr class="trait trait--kraft">
+    <div class="grid-16" style="--grid-gap:clamp(1.5rem,3vw,2.75rem);margin-top:clamp(2rem,5vw,3.5rem)">
+      <div class="col-6" data-motion="left">
+        <p class="note">S.02 — Prestations</p>
+        <hr class="trait trait--kraft" style="margin-block:.9rem 1.5rem">
         <h2 class="display" style="max-width:16ch">Les prestations,<br/>au détail.</h2>
-        <p class="mt-6" style="max-width:40ch">
-          Ce que nos partenaires viennent faire chez vous, ligne par ligne,
-          avec le prix en regard. Les prestations Pro sont déduites de vos
-          commissions.
-        </p>
-        <a href="contact.html?subject=devis" class="btn btn--kraft mt-8">Demander un devis</a>
+        <p class="lede" style="margin-top:1.4rem">Ce que nos partenaires viennent faire chez vous, ligne par ligne, avec le prix en regard.</p>
+        <p class="micro mt-6">Les prestations Pro sont déduites de vos commissions.</p>
+        <div class="flex mt-8" style="flex-wrap:wrap;gap:.6rem">
+          <a href="contact.html?subject=devis" class="btn btn--kraft btn--flip">
+            <span>Demander un devis</span><span>Écrire au service Pro</span>
+          </a>
+          <a href="confiance.html" class="btn btn--glow btn--sm">Voir la charte</a>
+        </div>
       </div>
 
-      <div class="presta">
-        <div class="presta__row">
-          <h4>Estimation à domicile</h4>
-          <p>Un expert se déplace, inventorie pièce par pièce et chiffre l'ensemble. Rapport PDF sous 48 h.</p>
-          <div class="presta__price">99 €<small>déduit des commissions</small></div>
-        </div>
-        <div class="presta__row">
-          <h4>Shooting photo</h4>
-          <p>Photographe, lumière naturelle, mise en valeur. C'est le premier levier sur le prix de vente.</p>
-          <div class="presta__price">149 €<small>20 photos</small></div>
-        </div>
-        <div class="presta__row">
-          <h4>Enlèvement</h4>
-          <p>Transporteurs partenaires, créneau choisi, embargo ou cave : on vient chercher ce qui reste.</p>
-          <div class="presta__price">Sur devis<small>au volume</small></div>
-        </div>
-        <div class="presta__row">
-          <h4>Débarras et tri</h4>
-          <p>Don aux associations, revente des invendables, certificat de destruction. La cave vide reste une cave vide.</p>
-          <div class="presta__price">Sur devis<small>au volume</small></div>
-        </div>
-        <div class="presta__row">
-          <h4>Gestion administrative</h4>
-          <p>Factures, reçus, déclaration de revenus, justificatifs de donation. La paperasse part avec nous.</p>
-          <div class="presta__price">Inclus<small>formule Pro</small></div>
-        </div>
-        <div class="presta__row">
-          <h4>Succession et entreprises</h4>
-          <p>Vide-maison après décès, fin de bail, liquidation de stock : on intervient en discrétion, et on facture comme une entreprise.</p>
-          <div class="presta__price">Sur devis<small>partenariat notaire</small></div>
-        </div>
+      <div class="col-10">
+        <article>
+          <hr class="trait trait--kraft">
+          <div class="grid-16" style="padding-block:1.3rem">
+            <div class="col-5">
+              <h4 style="font-family:var(--font-display);font-size:1.05rem;font-weight:600">Estimation à domicile</h4>
+            </div>
+            <div class="col-8">
+              <p class="micro">Un expert se déplace, inventorie pièce par pièce et chiffre l'ensemble. Rapport PDF sous 48 h.</p>
+            </div>
+            <div class="col-3">
+              <p class="data">99 €</p>
+              <p class="note" style="margin-top:.3rem">déduit des commissions</p>
+            </div>
+          </div>
+        </article>
+
+        <article>
+          <hr class="trait trait--kraft">
+          <div class="grid-16" style="padding-block:1.3rem">
+            <div class="col-5">
+              <h4 style="font-family:var(--font-display);font-size:1.05rem;font-weight:600">Shooting photo</h4>
+            </div>
+            <div class="col-8">
+              <p class="micro">Photographe, lumière naturelle, mise en valeur. C'est le premier levier sur le prix de vente.</p>
+            </div>
+            <div class="col-3">
+              <p class="data">149 €</p>
+              <p class="note" style="margin-top:.3rem">20 photos</p>
+            </div>
+          </div>
+        </article>
+
+        <article>
+          <hr class="trait trait--kraft">
+          <div class="grid-16" style="padding-block:1.3rem">
+            <div class="col-5">
+              <h4 style="font-family:var(--font-display);font-size:1.05rem;font-weight:600">Enlèvement</h4>
+            </div>
+            <div class="col-8">
+              <p class="micro">Transporteurs partenaires, créneau choisi, embargo ou cave : on vient chercher ce qui reste.</p>
+            </div>
+            <div class="col-3">
+              <p class="data">Sur devis</p>
+              <p class="note" style="margin-top:.3rem">au volume</p>
+            </div>
+          </div>
+        </article>
+
+        <article>
+          <hr class="trait trait--kraft">
+          <div class="grid-16" style="padding-block:1.3rem">
+            <div class="col-5">
+              <h4 style="font-family:var(--font-display);font-size:1.05rem;font-weight:600">Débarras et tri</h4>
+            </div>
+            <div class="col-8">
+              <p class="micro">Don aux associations, revente des invendables, certificat de destruction. La cave vide reste une cave vide.</p>
+            </div>
+            <div class="col-3">
+              <p class="data">Sur devis</p>
+              <p class="note" style="margin-top:.3rem">au volume</p>
+            </div>
+          </div>
+        </article>
+
+        <article>
+          <hr class="trait trait--kraft">
+          <div class="grid-16" style="padding-block:1.3rem">
+            <div class="col-5">
+              <h4 style="font-family:var(--font-display);font-size:1.05rem;font-weight:600">Gestion administrative</h4>
+            </div>
+            <div class="col-8">
+              <p class="micro">Factures, reçus, déclaration de revenus, justificatifs de donation. La paperasse part avec nous.</p>
+            </div>
+            <div class="col-3">
+              <p class="data">Inclus</p>
+              <p class="note" style="margin-top:.3rem">formule Pro</p>
+            </div>
+          </div>
+        </article>
+
+        <article>
+          <hr class="trait trait--kraft">
+          <div class="grid-16" style="padding-block:1.3rem">
+            <div class="col-5">
+              <h4 style="font-family:var(--font-display);font-size:1.05rem;font-weight:600">Succession et entreprises</h4>
+            </div>
+            <div class="col-8">
+              <p class="micro">Vide-maison après décès, fin de bail, liquidation de stock : on intervient en discrétion, et on facture comme une entreprise.</p>
+            </div>
+            <div class="col-3">
+              <p class="data">Sur devis</p>
+              <p class="note" style="margin-top:.3rem">partenariat notaire</p>
+            </div>
+          </div>
+        </article>
+        <hr class="trait trait--kraft">
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= LES PREUVES ================= -->
-<section class="section">
+<section class="section" data-section="Les preuves">
   <div class="container">
-    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
-      <div>
+    <hr class="trait">
+    <div class="grid-16" style="--grid-gap:clamp(1.5rem,3vw,2.75rem);margin-top:clamp(2rem,5vw,3.5rem)">
+      <div class="col-6" data-motion="left">
+        <p class="note">S.03 — Preuves</p>
+        <hr class="trait trait--faint" style="margin-block:.9rem 1.5rem">
         <h2 class="display" style="max-width:12ch">Les preuves.</h2>
-        <p class="mt-6" style="max-width:38ch">
-          Trois murs, vérifiables, pas des mots de brochure. Vous n'avez pas à
-          nous croire sur parole.
-        </p>
-        <a href="confiance.html" class="btn btn--ghost mt-8">Voir la charte complète</a>
-        <a href="garanties.html" class="btn btn--quiet mt-2">Lire les garanties</a>
+        <p class="lede" style="margin-top:1.4rem">Trois murs, vérifiables, pas des mots de brochure.</p>
+        <p class="micro mt-6">Vous n'avez pas à nous croire sur parole.</p>
+        <div class="flex mt-8" style="flex-wrap:wrap;gap:.6rem">
+          <a href="confiance.html" class="btn btn--primary btn--flip">
+            <span>Voir la charte complète</span><span>Les 7 barrières</span>
+          </a>
+          <a href="garanties.html" class="btn btn--glow btn--sm">Lire les garanties</a>
+        </div>
       </div>
 
-      <div class="charte">
-        <div class="charte__row" data-rise>
-          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-lock"></use></svg>
-          <h4>Séquestre bancaire</h4>
-          <div>
-            <p>Votre argent dort sur un compte tiers. Il n'est libéré qu'après que vous avez confirmé la réception de l'objet.</p>
-            <div class="charte__proof">Mangopay · agréé ACPR</div>
+      <div class="col-10">
+        <article>
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.4rem">
+            <div class="col-5">
+              <svg class="ic charte__ic" aria-hidden="true"><use href="#i-lock"></use></svg>
+              <h4 style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-top:.5rem">Séquestre bancaire</h4>
+            </div>
+            <div class="col-11">
+              <p class="micro">Votre argent dort sur un compte tiers. Il n'est libéré qu'après que vous avez confirmé la réception de l'objet.</p>
+              <p class="note" style="margin-top:.6rem;color:var(--seal-600)">Mangopay · agréé ACPR</p>
+            </div>
           </div>
-        </div>
-        <div class="charte__row" data-rise>
-          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
-          <h4>Assurance AXA</h4>
-          <div>
-            <p>Non livré, non conforme, vice caché : vous êtes remboursé, sans aller discuter avec un particulier.</p>
-            <div class="charte__proof">Jusqu'à 10 000 €</div>
+        </article>
+
+        <article>
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.4rem">
+            <div class="col-5">
+              <svg class="ic charte__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+              <h4 style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-top:.5rem">Assurance AXA</h4>
+            </div>
+            <div class="col-11">
+              <p class="micro">Non livré, non conforme, vice caché : vous êtes remboursé, sans aller discuter avec un particulier.</p>
+              <p class="note" style="margin-top:.6rem;color:var(--seal-600)">Jusqu'à 10 000 €</p>
+            </div>
           </div>
-        </div>
-        <div class="charte__row" data-rise>
-          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-id"></use></svg>
-          <h4>Identité vérifiée</h4>
-          <div>
-            <p>Pièce d'identité et selfie vidéo avant la première annonce, côté vendeur comme côté acheteur.</p>
-            <div class="charte__proof">4 niveaux KYC · 4 min</div>
+        </article>
+
+        <article>
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.4rem">
+            <div class="col-5">
+              <svg class="ic charte__ic" aria-hidden="true"><use href="#i-id"></use></svg>
+              <h4 style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-top:.5rem">Identité vérifiée</h4>
+            </div>
+            <div class="col-11">
+              <p class="micro">Pièce d'identité et selfie vidéo avant la première annonce, côté vendeur comme côté acheteur.</p>
+              <p class="note" style="margin-top:.6rem;color:var(--seal-600)">4 niveaux KYC · 4 min</p>
+            </div>
           </div>
-        </div>
+        </article>
+        <hr class="trait">
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= LA FAQ ================= -->
-<section class="section section--kraft">
+<section class="section section--kraft" data-section="La FAQ">
   <div class="container">
-    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
-      <div>
+    <hr class="trait trait--kraft">
+    <div class="grid-16" style="--grid-gap:clamp(1.5rem,3vw,2.75rem);margin-top:clamp(2rem,5vw,3.5rem)">
+      <div class="col-6" data-motion="left">
+        <p class="note">S.04 — Questions</p>
+        <hr class="trait trait--kraft" style="margin-block:.9rem 1.5rem">
         <h2 class="display" style="max-width:12ch">Les questions<br/>qui reviennent.</h2>
-        <p class="mt-6" style="max-width:36ch">
-          Si la vôtre n'y est pas, on répond sur WhatsApp en moins de deux
-          minutes, de 8 h à 22 h.
-        </p>
-        <a href="contact.html" class="btn btn--kraft mt-8">Écrire à un conseiller</a>
+        <p class="lede" style="margin-top:1.4rem">Si la vôtre n'y est pas, on répond sur WhatsApp en moins de deux minutes, de 8 h à 22 h.</p>
+        <div class="flex mt-8" style="gap:1.4rem;flex-wrap:wrap">
+          <span class="data">8 h — 22 h</span>
+          <span class="data">&lt; 2 min</span>
+        </div>
+        <div class="flex mt-8" style="flex-wrap:wrap;gap:.6rem">
+          <a href="contact.html" class="btn btn--kraft btn--flip">
+            <span>Écrire à un conseiller</span><span>Parler maintenant</span>
+          </a>
+        </div>
       </div>
 
-      <div class="details-list">
+      <div class="col-10">
+        <hr class="trait trait--kraft">
         <details class="details-list__item" open>
           <summary class="details-list__q">
             Est-ce que je paie quelque chose si je ne vends rien ?
@@ -564,30 +693,34 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
             vendue ou retirée.
           </div>
         </details>
+        <hr class="trait trait--kraft">
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= CTA ================= -->
-<section class="section section--ink">
+<section class="section section--ink on-ink" data-section="Commencez">
   <div class="container container--narrow text-center">
+    <p class="note note--ink">S.05 — La suite</p>
+    <hr class="trait" style="margin-block:.9rem 1.6rem">
     <h2 class="display" style="max-width:18ch;margin-inline:auto">On commence par<br/>une photo.</h2>
-    <p class="lead mt-8" style="max-width:46ch;margin-inline:auto;color:var(--ink-300)">
+    <p class="lede lede--ink mt-8" style="max-width:46ch;margin-inline:auto">
       L'estimation est gratuite et sans inscription. La formule, on la choisit
       quand on sait ce qu'on a à vendre.
     </p>
+    <hr class="trait" style="margin-block:1.8rem">
     <div class="flex mt-12" style="justify-content:center;flex-wrap:wrap;gap:.75rem">
-      <a href="vendre.html" class="btn btn--primary btn--lg">
-        <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
-        Estimer un objet
+      <a href="vendre.html" class="btn btn--primary btn--lg btn--flip">
+        <span>Estimer un objet</span><span>Commencer le relevé</span>
       </a>
       <a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!%20Je%20souhaite%20un%20devis%20pour%20un%20vide-maison." class="btn btn--kraft btn--lg">
         <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
         Demander un devis
       </a>
+      <a href="annonces.html" class="btn btn--glow btn--lg">Voir les annonces</a>
     </div>
-    <p style="margin-top:2rem;font-size:.8rem;color:var(--ink-400)">
+    <p class="note note--ink" style="margin-top:2rem">
       Solo gratuit · Guidé 29 € par dossier · Pro sur devis
     </p>
   </div>
@@ -626,7 +759,8 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
           <li><a href="auth.html">Connexion</a></li>
           <li><a href="profil.html">Mon compte</a></li>
           <li><a href="favoris.html">Mes favoris</a></li>
-          <li><a href="admin/">Espace pro</a></li>
+          <li><a href="pro.html">Espace vendeur</a></li>
+          <li><a href="admin/">Administration</a></li>
         </ul>
       </div>
     </div>
@@ -712,5 +846,6 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
 <script src="assets/vendor/lenis.min.js"></script>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/site.js"></script>
+  <script src="assets/js/scroll.js" defer></script>
 </body>
 </html>

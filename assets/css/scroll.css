@@ -119,9 +119,10 @@
 }
 .act__flow { min-width: 0; }
 
-/* Les étapes d'un acte se marquent au passage de la lecture. */
+/* Les étapes d'un acte se marquent au passage de la lecture.
+   L'état non courant reste lisible : 55 %, pas plus. */
 .act__step {
-  opacity: .32;
+  opacity: .55;
   transition: opacity var(--t-arrive), transform var(--t-arrive);
   transform: translateY(6px);
 }
@@ -180,3 +181,4 @@
 
 /* Filet de sécurité : sans JS, rien ne reste invisible. */
 html:not(.js) [data-motion] { opacity: 1; transform: none; }
+html:not(.js) .act__step { opacity: 1; transform: none; }

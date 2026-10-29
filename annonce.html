@@ -14,8 +14,33 @@
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
 
-<link rel="stylesheet" href="assets/css/main.css">
-<link rel="stylesheet" href="assets/css/motion.css">
+<script type="application/ld+json" id="ld-product">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Canapé 3 places IKEA KIVIK",
+  "image": ["https://maisonvide.vercel.app/assets/img/listing-canape.jpg", "https://maisonvide.vercel.app/assets/img/storytelling.jpg", "https://maisonvide.vercel.app/assets/img/lifestyle-2.jpg"],
+  "description": "Canapé 3 places IKEA modèle KIVIK, 5 ans d'usage, non-fumeur. Tissu gris clair en très bon état, assise ferme, housse lavable.",
+  "sku": "L.01",
+  "category": "Mobilier",
+  "brand": {"@type": "Brand", "name": "IKEA"},
+  "itemCondition": "https://schema.org/UsedCondition",
+  "offers": {
+    "@type": "Offer",
+    "price": "280",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/UsedCondition",
+    "url": "https://maisonvide.vercel.app/annonce.html?slug=canape-ikea-kivik",
+    "seller": {"@type": "Organization", "name": "Sophie M."}
+</script>
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/blocks.css">
+  <link rel="stylesheet" href="assets/css/trust.css">
+  <link rel="stylesheet" href="assets/css/oryzo.css">
+  <link rel="stylesheet" href="assets/css/scroll.css">
 <style>
 /* ---- La fiche ---- */
 .fiche { padding-block: clamp(2rem, 5vw, 3.2rem) 0; }
@@ -92,9 +117,7 @@
 .seq__row p { font-size: .875rem; color: var(--ink-600); margin-top: .2rem; }
 
 /* ---- La mini-charte de sécurité ---- */
-.charte { border-top: 1.5px solid var(--ink-900); }
-.charte__row h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
-.charte__row p { font-size: .875rem; color: var(--ink-600); max-width: 46ch; }
+
 @media (max-width: 780px) {
   .charte__row p { grid-column: 2; }
 }
@@ -152,29 +175,6 @@
   .cat-row__price { flex-direction: column; align-items: flex-end; gap: .35rem; }
 }
 </style>
-
-<script type="application/ld+json" id="ld-product">
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Canapé 3 places IKEA KIVIK",
-  "image": ["https://maisonvide.vercel.app/assets/img/listing-canape.jpg", "https://maisonvide.vercel.app/assets/img/storytelling.jpg", "https://maisonvide.vercel.app/assets/img/lifestyle-2.jpg"],
-  "description": "Canapé 3 places IKEA modèle KIVIK, 5 ans d'usage, non-fumeur. Tissu gris clair en très bon état, assise ferme, housse lavable.",
-  "sku": "L.01",
-  "category": "Mobilier",
-  "brand": {"@type": "Brand", "name": "IKEA"},
-  "itemCondition": "https://schema.org/UsedCondition",
-  "offers": {
-    "@type": "Offer",
-    "price": "280",
-    "priceCurrency": "EUR",
-    "availability": "https://schema.org/InStock",
-    "itemCondition": "https://schema.org/UsedCondition",
-    "url": "https://maisonvide.vercel.app/annonce.html?slug=canape-ikea-kivik",
-    "seller": {"@type": "Organization", "name": "Sophie M."}
-  }
-}
-</script>
 </head>
 
 <body class="grain">
@@ -192,6 +192,7 @@
       <a href="confiance.html">Confiance</a>
       <a href="services.html">Services</a>
       <a href="contact.html">Contact</a>
+      <a href="pro.html">Espace pro</a>
     </nav>
     <div class="flex">
       <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
@@ -376,6 +377,96 @@
 
             <p class="hand" style="margin-top:1.4rem">→ remis en main propre, à voir avant de payer</p>
           </div>
+
+          <!-- ---------- Prendre rendez-vous ---------- -->
+          <section class="rdv" id="rdv" aria-labelledby="rdv-title">
+            <div class="rdv__head">
+              <h2 class="rdv__title" id="rdv-title">
+                <svg class="ic" aria-hidden="true"><use href="#i-calendar"></use></svg>
+                Prendre rendez-vous
+              </h2>
+              <span class="data" id="rdv-duration">[ 30 min ]</span>
+            </div>
+
+            <p class="note rdv__note">Choisissez un créneau, le vendeur confirme.</p>
+
+            <p class="rdv__status" id="rdv-status" role="status"></p>
+            <noscript>
+              <p class="rdv__status is-error">Les créneaux se chargent en JavaScript. Sans JavaScript, écrivez au vendeur sur WhatsApp pour fixer un rendez-vous.</p>
+            </noscript>
+
+            <form class="rdv__form hidden" id="rdv-form" novalidate>
+              <div class="rdv__group">
+                <p class="rdv__legend" id="rdv-slots-legend">Créneaux disponibles</p>
+                <div class="rdv__slots" id="rdv-slots" role="radiogroup" aria-labelledby="rdv-slots-legend"></div>
+              </div>
+
+              <div class="rdv__group">
+                <p class="rdv__legend" id="rdv-modes-legend">Type de rendez-vous</p>
+                <div class="rdv__modes" id="rdv-modes" role="radiogroup" aria-labelledby="rdv-modes-legend">
+                  <button type="button" class="btn btn--ghost" role="radio" aria-checked="true" tabindex="0" data-mode="visite">Visite</button>
+                  <button type="button" class="btn btn--ghost" role="radio" aria-checked="false" tabindex="-1" data-mode="remise">Remise</button>
+                  <button type="button" class="btn btn--ghost" role="radio" aria-checked="false" tabindex="-1" data-mode="livraison">Livraison</button>
+                </div>
+              </div>
+
+              <div class="rdv__fields">
+                <div class="form-group">
+                  <label class="form-label" for="rdv-name">Votre nom</label>
+                  <input class="input" id="rdv-name" name="name" type="text" autocomplete="name" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="rdv-email">Votre e-mail</label>
+                  <input class="input" id="rdv-email" name="email" type="email" autocomplete="email" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="rdv-phone">Votre téléphone</label>
+                  <input class="input" id="rdv-phone" name="phone" type="tel" autocomplete="tel">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="rdv-note">Un mot pour le vendeur <span class="rdv__optional">(facultatif)</span></label>
+                  <textarea class="textarea rdv__textarea" id="rdv-note" name="meeting_note" maxlength="800" placeholder="Ex. : je viens en voiture, il y a un ascenseur."></textarea>
+                </div>
+              </div>
+
+              <button class="btn btn--primary btn--block" type="submit" id="rdv-send">
+                <svg class="ic" aria-hidden="true"><use href="#i-calendar"></use></svg>
+                Demander ce rendez-vous
+              </button>
+              <p class="form-help rdv__help" id="rdv-account">Sans compte, indiquez vos coordonnées pour que le vendeur vous confirme.</p>
+            </form>
+
+            <a class="rdv__wa" id="rdv-wa" href="https://wa.me/33600000000" target="_blank" rel="noopener">
+              <svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+              Écrire au vendeur sur WhatsApp
+            </a>
+
+            <div class="rdv__done hidden" id="rdv-done">
+              <div class="rdv__seal">
+                <svg class="ic" aria-hidden="true"><use href="#i-check-circle"></use></svg>
+                <div>
+                  <b id="rdv-done-title">Demande envoyée au vendeur</b>
+                  <span id="rdv-done-when">—</span>
+                </div>
+              </div>
+              <dl class="rdv__recap">
+                <div><dt>Mode</dt><dd id="rdv-done-mode">—</dd></div>
+                <div><dt>Lieu</dt><dd id="rdv-done-place">—</dd></div>
+                <div><dt>Vendeur</dt><dd id="rdv-done-seller">—</dd></div>
+              </dl>
+              <div class="rdv__actions">
+                <button class="btn btn--seal btn--sm" type="button" id="rdv-ics">
+                  <svg class="ic ic--sm" aria-hidden="true"><use href="#i-calendar"></use></svg>
+                  Ajouter à mon agenda
+                </button>
+                <a class="btn btn--whatsapp btn--sm" id="rdv-done-wa" href="https://wa.me/33600000000" target="_blank" rel="noopener">
+                  <svg class="ic ic--sm" aria-hidden="true"><use href="#i-whatsapp"></use></svg>
+                  Contacter sur WhatsApp
+                </a>
+              </div>
+              <p class="form-help">Le vendeur confirme sous 2 h. Vous recevez la confirmation par e-mail.</p>
+            </div>
+          </section>
         </aside>
       </div>
 
@@ -432,7 +523,8 @@
           <li><a href="auth.html">Connexion</a></li>
           <li><a href="profil.html">Mon compte</a></li>
           <li><a href="favoris.html">Mes favoris</a></li>
-          <li><a href="admin/">Espace pro</a></li>
+          <li><a href="pro.html">Espace vendeur</a></li>
+          <li><a href="admin/">Administration</a></li>
         </ul>
       </div>
     </div>
@@ -480,6 +572,9 @@
     return;
   }
   content.classList.remove('hidden');
+
+  /* La fiche est chargée : le module de rendez-vous s'y branche (même source). */
+  window.MV_LISTING = { slug: l.slug, id: l.id || null };
 
   const cat = DATA.categories[l.category];
   const price = MVD.fmtPrice(l.price);
@@ -640,5 +735,7 @@
 })();
 </script>
 
+  <script src="assets/js/scroll.js" defer></script>
+  <script src="assets/js/booking.js" defer></script>
 </body>
 </html>

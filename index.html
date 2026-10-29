@@ -15,18 +15,14 @@
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
 
-<link rel="stylesheet" href="assets/css/main.css">
-<link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
   <link rel="stylesheet" href="assets/css/blocks.css">
   <link rel="stylesheet" href="assets/css/trust.css">
-
+  <link rel="stylesheet" href="assets/css/oryzo.css">
+  <link rel="stylesheet" href="assets/css/scroll.css">
 <style>
 /* ---- Hero : la page de carnet ---- */
-.releve-hero { position: relative; padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem); }
-.releve-hero__title em { font-style: italic; color: var(--kraft-700); }
-.releve-hero__note div { display: flex; flex-direction: column; gap: .15rem; }
-.releve-hero__note b { font-family: var(--font-mono); font-size: 1.45rem; font-weight: 700; letter-spacing: -.03em; }
-.releve-hero__note span { font-size: .75rem; color: var(--ink-500); }
 
 /* La fiche relevée : la photo + l'étiquette de prix posée dessus */
 .releve-card {
@@ -38,58 +34,26 @@
   box-shadow: var(--shadow-xl);
   transform: rotate(-1.1deg);
 }
-.releve-card__media img { width: 100%; height: 100%; object-fit: cover; }
 
 /* Le formulaire d'inventaire posé sur la fiche */
-.releve-card__form {
-  position: absolute;
-  left: 1.4rem; right: 1.4rem; bottom: -1.4rem;
-  background: var(--paper-sheet);
-  border: 1px solid var(--paper-edge);
-  border-radius: var(--radius-sm);
-  padding: .9rem 1rem;
-  box-shadow: var(--shadow-lg);
-  display: flex; align-items: center; gap: .7rem;
-}
-.releve-card__form .ic { color: var(--stamp-500); width: 1.4em; height: 1.4em; }
-.releve-card__form b { font-size: .82rem; }
-.releve-card__form span { font-size: .72rem; color: var(--ink-500); display: block; }
-
-
 
 /* ---- Le constat : pas de grille de cartes ---- */
-.constat { max-width: 30ch; font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -.03em; }
-.constat b { color: var(--stamp-600); font-weight: 600; }
 
 /* ---- Inventaire : une vraie feuille réglée ---- */
-.inventaire { border-top: 1.5px solid var(--ink-900); }
-.inventaire__step h3 { font-family: var(--font-display); font-size: 1.5rem; letter-spacing: -.02em; }
-.inventaire__step p { font-size: .9rem; color: var(--ink-600); max-width: 52ch; }
+
 @media (max-width: 640px) {
   .inventaire__row .etiquette { grid-column: 2; justify-self: start; }
 }
 
 /* ---- Charte sécurité : une liste à règles, pas des cartes ---- */
-.charte { border-top: 1.5px solid var(--ink-900); }
-.charte__row h4 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
-.charte__row p { font-size: .875rem; color: var(--ink-600); max-width: 46ch; }
+
 @media (max-width: 780px) {
   .charte__row p { grid-column: 2; }
 }
 
 /* ---- Témoignages : des fiches de client ---- */
-.carnet { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; border-top: 1.5px solid var(--ink-900); }
-.carnet__who b { font-size: .85rem; display: block; }
-.carnet__who small { font-size: .75rem; color: var(--ink-500); }
-
 
 /* ---- Bandeau kraft : un champ commité ---- */
-.bandeau {
-  background: var(--kraft-100);
-  border-top: 1px solid var(--kraft-300);
-  border-bottom: 1px solid var(--kraft-300);
-  padding-block: clamp(3rem, 7vw, 5rem);
-}
 
 </style>
 </head>
@@ -97,7 +61,7 @@
 <body class="grain">
 
 <header class="site-header">
-  <div class="container site-header__inner">
+  <div class="container site-header__inner" style="flex-wrap:wrap;height:auto;min-height:var(--header-height);padding-block:.55rem">
     <a href="index.html" class="logo">
       <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
       MaisonVide
@@ -106,23 +70,24 @@
       <a href="index.html" class="is-active">Accueil</a>
       <a href="vendre.html">Estimer</a>
       <a href="annonces.html">Annonces</a>
+      <a href="pro.html">Espace pro</a>
       <a href="confiance.html">Confiance</a>
       <a href="services.html">Services</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <div class="flex">
+    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+    </button>
+    <div class="flex" style="flex-wrap:wrap;margin-left:auto">
       <a href="vendre.html" class="btn btn--primary btn--sm">Estimer un objet</a>
       <a href="auth.html" class="btn btn--ghost btn--sm" data-auth-when="out">Connexion</a>
       <a href="profil.html" class="btn btn--kraft btn--sm" data-auth-when="in" data-user-name hidden>Mon compte</a>
-      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
-        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
-      </button>
     </div>
   </div>
 </header>
 
 <!-- ================= HERO : LE RELEVÉ ================= -->
-<section class="releve-hero releve">
+<section class="releve-hero releve" data-section="Le relevé">
   <div class="container releve-hero__grid">
     <div>
       <h1 class="releve-hero__title">
@@ -176,176 +141,296 @@
 </section>
 
 <!-- ================= LE CONSTAT ================= -->
-<section class="section">
+<section class="section" data-section="Le constat">
   <div class="container">
-    <div class="grid" style="grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:start">
-      <p class="constat">
-        Le vide-grenier suppose une <b>grille, un étau, un Saturday</b>.
-        On n'y va plus. On y reste pas.
-      </p>
-      <div>
-        <p>
+    <hr class="trait">
+    <div class="grid-16" style="margin-top:clamp(2rem,5vw,3.5rem)">
+      <div class="col-6" data-motion="left">
+        <p class="note">C.01 — Le constat</p>
+        <hr class="trait trait--faint" style="margin-block:.9rem 1.6rem">
+        <p class="constat">
+          Le vide-grenier suppose une <b>grille, un étau, un Saturday</b>.
+          On n'y va plus. On y reste pas.
+        </p>
+      </div>
+
+      <div class="col-10">
+        <p class="lede">Ici, on ne déplace rien : on lit l'objet, on pose un prix, et un acheteur vérifié vient le chercher.</p>
+        <hr class="trait trait--faint" style="margin-block:1.6rem">
+        <p class="micro">
           Une brocante, c'est 6 h du matin sous la pluie, 40 inconnus à négocier avec,
-          et un_checksum de 12 % du prix — si tout se passe bien et que personne
+          et une commission de 12 % du prix — si tout se passe bien et que personne
           ne s'est trompé de carton.
         </p>
-        <p class="mt-6">
+        <p class="micro mt-6">
           Ici, vous photographiez. Notre modèle lit l'objet, l'état, la marque, et
           l'année. Il sort une fourchette. Vous acceptez, on publie, et un acheteur
           vérifié vient. Le paiement ne bouge qu'après que vous avez reçu l'objet.
         </p>
-        <p class="mt-6" style="font-family:var(--font-display);font-size:1.15rem;color:var(--ink-900)">
-          Vous récupérez vos soirées. C'est le service.
-        </p>
+        <div class="flex mt-8" style="gap:1.5rem;flex-wrap:wrap">
+          <span class="data">40 ans de meubles</span>
+          <span class="data">3 semaines</span>
+          <span class="data">8 % à la vente</span>
+        </div>
+        <hr class="trait trait--faint" style="margin-block:1.6rem">
+        <p class="sub">Vous récupérez vos soirées. C'est le service.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= INVENTAIRE : 3 ÉTAPES ================= -->
-<section class="section section--kraft">
+<section class="act section section--kraft" id="inventaire" data-section="L'inventaire">
   <div class="container">
-    <h2 class="display" style="max-width:18ch;margin-bottom:2.5rem">L'inventaire,<br/>en trois lignes.</h2>
-
-    <div class="inventaire">
-      <div class="inventaire__row" data-rise>
-        <div class="inventaire__num">L.01</div>
-        <div class="inventaire__step">
-          <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-camera"></use></svg>
-          <div>
-            <h3>Vous photographiez</h3>
-            <p>Trois photos suffisent. Sous un coin de table, à la lumière du jour. Pas besoin d'un studio.</p>
-          </div>
+    <div class="act__grid">
+      <div class="act__sticky">
+        <p class="note">Acte I</p>
+        <hr class="trait trait--kraft" style="margin-block:.9rem 1.5rem">
+        <h2 class="display">L'inventaire,<br/>en trois lignes.</h2>
+        <p class="lede" style="margin-top:1.4rem">La photo, le prix, l'argent bloqué. Trois lignes, et la maison commence à se vider.</p>
+        <p class="micro mt-6">La ligne active est celle où vous êtes. Vous seez où on en est, à chaque instant.</p>
+        <div class="flex mt-8" style="flex-wrap:wrap;gap:.6rem">
+          <a href="vendre.html" class="btn btn--primary btn--flip">
+            <span>Estimer un objet</span><span>Ouvrir le relevé</span>
+          </a>
         </div>
-        <span class="etiquette">30 s</span>
       </div>
 
-      <div class="inventaire__row" data-rise>
-        <div class="inventaire__num">L.02</div>
-        <div class="inventaire__step">
-          <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-ai"></use></svg>
-          <div>
-            <h3>Le prix tombe</h3>
-            <p>Le modèle lit l'objet et son état, puis sort une fourchette et son indice de confiance. Vous corrigez si besoin.</p>
+      <div class="act__flow">
+        <article class="act__step" data-step="1">
+          <hr class="trait trait--kraft">
+          <div class="grid-16" style="padding-block:1.7rem">
+            <div class="col-6">
+              <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-camera"></use></svg>
+              <p class="note" style="margin-top:.7rem">L.01</p>
+              <h3 class="display" style="font-size:clamp(1.3rem,2.3vw,1.7rem);margin-top:.5rem">Vous photographiez</h3>
+              <p class="data" style="margin-top:.8rem">30 s</p>
+            </div>
+            <div class="col-10">
+              <p class="micro">Trois photos suffisent. Sous un coin de table, à la lumière du jour. Pas besoin d'un studio.</p>
+              <p class="sub mt-6">Le modèle lit l'objet et son état, puis sort une fourchette et son indice de confiance. Vous corrigez si besoin.</p>
+            </div>
           </div>
-        </div>
-        <span class="etiquette">2 M+ transactions</span>
-      </div>
+        </article>
 
-      <div class="inventaire__row" data-rise>
-        <div class="inventaire__num">L.03</div>
-        <div class="inventaire__step">
-          <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
-          <div>
-            <h3>L'argent est bloqué</h3>
-            <p>Le paiement part en séquestre. Il est libéré quand vous confirmez la réception. Personne ne peut filer avec l'argent.</p>
+        <article class="act__step" data-step="2">
+          <hr class="trait trait--kraft">
+          <div class="grid-16" style="padding-block:1.7rem">
+            <div class="col-6">
+              <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-ai"></use></svg>
+              <p class="note" style="margin-top:.7rem">L.02</p>
+              <h3 class="display" style="font-size:clamp(1.3rem,2.3vw,1.7rem);margin-top:.5rem">Le prix tombe</h3>
+              <p class="data" style="margin-top:.8rem">2 M+ transactions</p>
+            </div>
+            <div class="col-10">
+              <p class="micro">Il sort une fourchette de prix, et il dit quand il n'est pas sûr de lui. L'indice de confiance est affiché en clair.</p>
+              <p class="sub mt-6">Vous acceptez, on publie, et un acheteur vérifié vient. Le paiement ne bouge qu'après réception.</p>
+            </div>
           </div>
-        </div>
-        <span class="etiquette">AXA · 10 000 €</span>
+        </article>
+
+        <article class="act__step" data-step="3">
+          <hr class="trait trait--kraft">
+          <div class="grid-16" style="padding-block:1.7rem">
+            <div class="col-6">
+              <svg class="ic inventaire__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+              <p class="note" style="margin-top:.7rem">L.03</p>
+              <h3 class="display" style="font-size:clamp(1.3rem,2.3vw,1.7rem);margin-top:.5rem">L'argent est bloqué</h3>
+              <p class="data" style="margin-top:.8rem">AXA · 10 000 €</p>
+            </div>
+            <div class="col-10">
+              <p class="micro">Le paiement part en séquestre. Il est libéré quand vous confirmez la réception. Personne ne peut filer avec l'argent.</p>
+              <p class="sub mt-6">L'assurance AXA couvre la non-livraison, la non-conformité et le vice caché.</p>
+            </div>
+          </div>
+        </article>
+
+        <hr class="trait trait--kraft">
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= BANDEAU KRAFT : LA PREUVE ================= -->
-<section class="bandeau">
-  <div class="container bandeau__grid">
-    <div>
+<section class="bandeau" data-section="Le juste prix">
+  <div class="container grid-16" style="--grid-gap:clamp(1.5rem,3vw,2.75rem)">
+    <div class="col-9">
+      <p class="note">C.02 — La preuve</p>
+      <hr class="trait trait--kraft" style="margin-block:.9rem 1.5rem">
       <h2 class="display" style="max-width:16ch">Le juste prix,<br/>sans l'intuition.</h2>
-      <p class="mt-6" style="max-width:46ch">
-        Un particulier qui devine le prix de son canapé se trompe de 40 %.
+      <p class="lede" style="margin-top:1.4rem">Un particulier qui devine le prix de son canapé se trompe de 40 %.</p>
+      <p class="micro mt-6">
         Notre modèle, lui, s'appuie sur deux millions de ventes réelles.
         Il vous dit aussi quand il n'est pas sûr de lui.
       </p>
-      <a href="vendre.html" class="btn btn--kraft mt-8">
-        <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
-        Essayer l'estimation
-      </a>
+      <div class="flex mt-8" style="gap:1.5rem;flex-wrap:wrap">
+        <span class="data">40 % d'erreur</span>
+        <span class="data">2 M+ ventes</span>
+        <span class="data">1 089 ms</span>
+      </div>
+      <div class="flex mt-8" style="flex-wrap:wrap;gap:.6rem">
+        <a href="vendre.html" class="btn btn--kraft btn--flip">
+          <span>Essayer l'estimation</span><span>Photographier un objet</span>
+        </a>
+      </div>
     </div>
 
-    <div style="background:var(--paper-sheet);border:1px solid var(--kraft-300);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-lg);transform:rotate(.6deg)">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;padding-bottom:1rem;border-bottom:1px solid var(--paper-rule)">
-        <div>
-          <div class="label">Estimation</div>
-          <div style="font-family:var(--font-display);font-size:1.35rem;font-weight:600;margin-top:.2rem">Canapé 3 places</div>
-          <div style="font-size:.8rem;color:var(--ink-500)">IKEA KIVIK · 5 ans · gris clair</div>
+    <div class="col-7" data-motion="scale">
+      <div style="background:var(--paper-sheet);border:1px solid var(--kraft-300);border-radius:var(--radius-md);padding:1.6rem;box-shadow:var(--shadow-lg);transform:rotate(.6deg)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem">
+          <div>
+            <p class="label">Estimation</p>
+            <p style="font-family:var(--font-display);font-size:1.35rem;font-weight:600;margin-top:.2rem">Canapé 3 places</p>
+            <p class="note" style="margin-top:.35rem">IKEA KIVIK · 5 ans · gris clair</p>
+          </div>
+          <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> 92 %</span>
         </div>
-        <span class="sceau"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check"></use></svg> 92 %</span>
+
+        <hr class="trait trait--stamp" style="margin-block:1.1rem">
+        <div class="stamp-price" style="font-size:1.7rem">280 – 480 €</div>
+
+        <hr class="trait trait--faint" style="margin-block:1.2rem">
+        <div class="grid-16" style="--grid-gap:1rem">
+          <div class="col-6">
+            <p class="note">État</p>
+            <p class="sub">Très bon</p>
+          </div>
+          <div class="col-6">
+            <p class="note">Marque</p>
+            <p class="sub">Milieu de gamme</p>
+          </div>
+          <div class="col-6">
+            <p class="note">Le juste prix au marché</p>
+            <p class="data">320 – 400 €</p>
+          </div>
+          <div class="col-6">
+            <p class="note">Délai de vente moyen</p>
+            <p class="data">2 à 5 jours</p>
+          </div>
+        </div>
+
+        <hr class="trait trait--faint" style="margin-block:1.2rem">
+        <p class="hand" style="margin-top:0">→ à 390 €, on est dans le marché</p>
       </div>
-      <div class="stamp-price" style="margin-top:1.2rem;font-size:1.7rem">280 – 480 €</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid var(--paper-rule)">
-        <div><span class="label">État</span><div style="font-size:.9rem;font-weight:600">Très bon</div></div>
-        <div><span class="label">Marque</span><div style="font-size:.9rem;font-weight:600">Milieu de gamme</div></div>
-        <div><span class="label">Le juste prix au marché</span><div style="font-size:.9rem;font-weight:600">320 – 400 €</div></div>
-        <div><span class="label">Délai de vente moyen</span><div style="font-size:.9rem;font-weight:600">2 à 5 jours</div></div>
-      </div>
-      <p class="hand" style="margin-top:1.4rem">→ à 390 €, on est dans le marché</p>
     </div>
   </div>
 </section>
 
 <!-- ================= CHARTE SÉCURITÉ ================= -->
-<section class="section">
+<section class="act section" id="charte" data-section="La charte">
   <div class="container">
-    <div class="grid" style="grid-template-columns:1fr 1.3fr;gap:clamp(2rem,5vw,4rem);align-items:start">
-      <div>
+    <div class="act__grid">
+      <div class="act__sticky">
+        <p class="note">Acte II</p>
+        <hr class="trait" style="margin-block:.9rem 1.5rem">
         <h2 class="display" style="max-width:14ch">Sept<br/>barrières.</h2>
-        <p class="mt-6" style="max-width:40ch">
-          Les gens se font arnaquer. Alors on a construit des murs, un par un,
-          et on les affiche tous. Vous n'avez pas à nous croire sur parole.
-        </p>
-        <a href="confiance.html" class="btn btn--ghost mt-8">Voir la charte complète</a>
-        <a href="anti-arnaque.html" class="btn btn--quiet mt-2">Guide anti-arnaque</a>
+        <p class="lede" style="margin-top:1.4rem">Les gens se font arnaquer. Alors on a construit des murs, un par un, et on les affiche tous.</p>
+        <p class="micro mt-6">Vous n'avez pas à nous croire sur parole : voici ce qui bloque, et ce que ça vous coûte.</p>
+        <div class="flex mt-8" style="flex-wrap:wrap;gap:.6rem">
+          <a href="confiance.html" class="btn btn--primary btn--flip">
+            <span>Voir la charte complète</span><span>Les 7 barrières</span>
+          </a>
+          <a href="anti-arnaque.html" class="btn btn--glow btn--sm">Guide anti-arnaque</a>
+        </div>
       </div>
 
-      <div class="charte">
-        <div class="charte__row" data-rise>
-          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-id"></use></svg>
-          <h4>Identité vérifiée</h4>
-          <div>
-            <p>Pièce d'identité et selfie vidéo avant la première annonce.</p>
-            <div class="charte__proof">Obligatoire · 4 min</div>
+      <div class="act__flow">
+        <article class="act__step" data-step="1">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.5rem">
+            <div class="col-2">
+              <p class="note">L.01</p>
+            </div>
+            <div class="col-5">
+              <svg class="ic charte__ic" aria-hidden="true"><use href="#i-id"></use></svg>
+              <h4 style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-top:.5rem">Identité vérifiée</h4>
+            </div>
+            <div class="col-9">
+              <p class="micro">Pièce d'identité et selfie vidéo avant la première annonce.</p>
+              <p class="note" style="margin-top:.6rem;color:var(--seal-600)">Obligatoire · 4 min</p>
+            </div>
           </div>
-        </div>
-        <div class="charte__row" data-rise>
-          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-ai"></use></svg>
-          <h4>IA anti-fraude</h4>
-          <div>
-            <p>Deepfakes, photos volées, usurpation : 14 patterns détectés en continu.</p>
-            <div class="charte__proof">487 blocages ce mois</div>
+        </article>
+
+        <article class="act__step" data-step="2">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.5rem">
+            <div class="col-2">
+              <p class="note">L.02</p>
+            </div>
+            <div class="col-5">
+              <svg class="ic charte__ic" aria-hidden="true"><use href="#i-ai"></use></svg>
+              <h4 style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-top:.5rem">IA anti-fraude</h4>
+            </div>
+            <div class="col-9">
+              <p class="micro">Deepfakes, photos volées, usurpation : 14 patterns détectés en continu.</p>
+              <p class="note" style="margin-top:.6rem;color:var(--seal-600)">487 blocages ce mois</p>
+            </div>
           </div>
-        </div>
-        <div class="charte__row" data-rise>
-          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-lock"></use></svg>
-          <h4>Séquestre bancaire</h4>
-          <div>
-            <p>Votre argent dort sur un compte tiers. Il ne se libère qu'après réception.</p>
-            <div class="charte__proof">Mangopay · agréé ACPR</div>
+        </article>
+
+        <article class="act__step" data-step="3">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.5rem">
+            <div class="col-2">
+              <p class="note">L.03</p>
+            </div>
+            <div class="col-5">
+              <svg class="ic charte__ic" aria-hidden="true"><use href="#i-lock"></use></svg>
+              <h4 style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-top:.5rem">Séquestre bancaire</h4>
+            </div>
+            <div class="col-9">
+              <p class="micro">Votre argent dort sur un compte tiers. Il ne se libère qu'après réception.</p>
+              <p class="note" style="margin-top:.6rem;color:var(--seal-600)">Mangopay · agréé ACPR</p>
+            </div>
           </div>
-        </div>
-        <div class="charte__row" data-rise>
-          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
-          <h4>Assurance AXA</h4>
-          <div>
-            <p>Non livré, non conforme, vice caché : vous êtes remboursé.</p>
-            <div class="charte__proof">Jusqu'à 10 000 €</div>
+        </article>
+
+        <article class="act__step" data-step="4">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.5rem">
+            <div class="col-2">
+              <p class="note">L.04</p>
+            </div>
+            <div class="col-5">
+              <svg class="ic charte__ic" aria-hidden="true"><use href="#i-shield"></use></svg>
+              <h4 style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-top:.5rem">Assurance AXA</h4>
+            </div>
+            <div class="col-9">
+              <p class="micro">Non livré, non conforme, vice caché : vous êtes remboursé.</p>
+              <p class="note" style="margin-top:.6rem;color:var(--seal-600)">Jusqu'à 10 000 €</p>
+            </div>
           </div>
-        </div>
-        <div class="charte__row" data-rise>
-          <svg class="ic charte__ic" aria-hidden="true"><use href="#i-bot"></use></svg>
-          <h4>Médiation humaine</h4>
-          <div>
-            <p>Un vrai humain tranche le litige en 24 h, pas un formulaire.</p>
-            <div class="charte__proof">8 médiateurs · réponse &lt; 2 min</div>
+        </article>
+
+        <article class="act__step" data-step="5">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.5rem">
+            <div class="col-2">
+              <p class="note">L.05</p>
+            </div>
+            <div class="col-5">
+              <svg class="ic charte__ic" aria-hidden="true"><use href="#i-bot"></use></svg>
+              <h4 style="font-family:var(--font-display);font-size:1.1rem;font-weight:600;margin-top:.5rem">Médiation humaine</h4>
+            </div>
+            <div class="col-9">
+              <p class="micro">Un vrai humain tranche le litige en 24 h, pas un formulaire.</p>
+              <p class="note" style="margin-top:.6rem;color:var(--seal-600)">8 médiateurs · réponse &lt; 2 min</p>
+            </div>
           </div>
-        </div>
+        </article>
+
+        <hr class="trait">
       </div>
     </div>
   </div>
 </section>
 
 <!-- ================= CATÉGORIES (marquee) ================= -->
-<section style="padding-block:2.5rem;border-block:1px solid var(--paper-rule);background:var(--paper-sheet)">
+<section style="padding-block:2.5rem;background:var(--paper-sheet)" data-section="Les catégories">
+  <div class="container">
+    <hr class="trait">
+  </div>
   <div class="marquee marquee--reverse">
     <div class="marquee__track">
       <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-box"></use></svg> Mobilier</span>
@@ -360,60 +445,105 @@
       <span class="marquee__item"><svg class="ic" aria-hidden="true"><use href="#i-grid"></use></svg> Jouets</span>
     </div>
   </div>
+  <div class="container">
+    <hr class="trait">
+  </div>
 </section>
 
 <!-- ================= TÉMOIGNAGES : LE CARNET ================= -->
-<section class="section">
+<section class="section" data-section="Les témoignages">
   <div class="container">
-    <h2 class="display" style="max-width:20ch;margin-bottom:2.5rem">Ce qu'ils ont<br/>dégagé.</h2>
+    <hr class="trait">
+    <div class="grid-16" style="--grid-gap:clamp(1.5rem,3vw,2.75rem);margin-top:clamp(2rem,5vw,3.5rem)">
+      <div class="col-5" data-motion="left">
+        <p class="note">C.03 — Le carnet</p>
+        <hr class="trait trait--faint" style="margin-block:.9rem 1.5rem">
+        <h2 class="display" style="max-width:14ch">Ce qu'ils ont<br/>dégagé.</h2>
+        <p class="lede" style="margin-top:1.4rem">Trois carnets, trois soirées rendues.</p>
+        <p class="micro mt-6">Le relevé compte autant pour eux que le prix : ce qui reste en invendu se compte aussi.</p>
+        <div class="flex mt-8" style="gap:1.4rem;flex-wrap:wrap">
+          <span class="data">82 objets</span>
+          <span class="data">6 920 €</span>
+          <span class="data">3 villes</span>
+        </div>
+      </div>
 
-    <div class="carnet">
-      <article class="carnet__fiche" data-rise>
-        <div class="carnet__stars" aria-label="Note : 5 sur 5"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg></div>
-        <p class="carnet__quote">« Un déménagement en 3 jours, quarante ans de meubles. L'inventaire a tout sorti. Les acheteurs sont venus en une matinée. »</p>
-        <div class="carnet__who">
-          <div class="avatar">SM</div>
-          <div><b>Sophie M.</b><small>Lyon · 23 objets · 1 840 €</small></div>
-        </div>
-      </article>
-      <article class="carnet__fiche" data-rise>
-        <div class="carnet__stars" aria-label="Note : 5 sur 5"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg></div>
-        <p class="carnet__quote">« Bien mieux que le vide-grenier du dimanche. Trois fois le prix, et je n'ai pas passé ma journée à négocier dehors. »</p>
-        <div class="carnet__who">
-          <div class="avatar">JD</div>
-          <div><b>Julien D.</b><small>Bordeaux · 12 objets · 960 €</small></div>
-        </div>
-      </article>
-      <article class="carnet__fiche" data-rise>
-        <div class="carnet__stars" aria-label="Note : 5 sur 5"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg></div>
-        <p class="carnet__quote">« Le WhatsApp m'a tenue par la main. Quand on vide la maison de ses parents, c'est apaisant d'avoir quelqu'un derrière. »</p>
-        <div class="carnet__who">
-          <div class="avatar">CP</div>
-          <div><b>Christine P.</b><small>Nantes · 47 objets · 4 120 €</small></div>
-        </div>
-      </article>
+      <div class="col-11">
+        <article data-motion="fade">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.6rem">
+            <div class="col-4">
+              <div class="carnet__stars" aria-label="Note : 5 sur 5"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg></div>
+              <p class="note" style="margin-top:.9rem">T.01 — Lyon</p>
+            </div>
+            <div class="col-12">
+              <p class="carnet__quote quote">« Un déménagement en 3 jours, quarante ans de meubles. L'inventaire a tout sorti. Les acheteurs sont venus en une matinée. »</p>
+              <div class="carnet__who">
+                <div class="avatar">SM</div>
+                <div><b>Sophie M.</b><small>23 objets · 1 840 €</small></div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article data-motion="fade">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.6rem">
+            <div class="col-4">
+              <div class="carnet__stars" aria-label="Note : 5 sur 5"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg></div>
+              <p class="note" style="margin-top:.9rem">T.02 — Bordeaux</p>
+            </div>
+            <div class="col-12">
+              <p class="carnet__quote quote">« Bien mieux que le vide-grenier du dimanche. Trois fois le prix, et je n'ai pas passé ma journée à négocier dehors. »</p>
+              <div class="carnet__who">
+                <div class="avatar">JD</div>
+                <div><b>Julien D.</b><small>12 objets · 960 €</small></div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article data-motion="fade">
+          <hr class="trait">
+          <div class="grid-16" style="padding-block:1.6rem">
+            <div class="col-4">
+              <div class="carnet__stars" aria-label="Note : 5 sur 5"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg><svg class="ic ic--sm" aria-hidden="true"><use href="#i-star"></use></svg></div>
+              <p class="note" style="margin-top:.9rem">T.03 — Nantes</p>
+            </div>
+            <div class="col-12">
+              <p class="carnet__quote quote">« Le WhatsApp m'a tenue par la main. Quand on vide la maison de ses parents, c'est apaisant d'avoir quelqu'un derrière. »</p>
+              <div class="carnet__who">
+                <div class="avatar">CP</div>
+                <div><b>Christine P.</b><small>47 objets · 4 120 €</small></div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <hr class="trait">
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ================= CTA ================= -->
-<section class="section section--ink">
+<section class="section section--ink on-ink" data-section="Commencez">
   <div class="container container--narrow text-center">
+    <p class="note note--ink">C.04 — La suite</p>
+    <hr class="trait" style="margin-block:.9rem 1.6rem">
     <h2 class="display" style="max-width:16ch;margin-inline:auto">Commencez par<br/>une photo.</h2>
-    <p class="lead mt-8" style="max-width:46ch;margin-inline:auto;color:var(--ink-300)">
+    <p class="lede lede--ink mt-8" style="max-width:46ch;margin-inline:auto">
       Trente secondes de prise de vue, trente secondes de calcul. C'est le prix que ça demande.
     </p>
+    <hr class="trait" style="margin-block:1.8rem">
     <div class="flex mt-12" style="justify-content:center;flex-wrap:wrap;gap:.75rem">
-      <a href="vendre.html" class="btn btn--primary btn--lg">
-        <svg class="ic" aria-hidden="true"><use href="#i-camera"></use></svg>
-        Estimer mon premier objet
+      <a href="vendre.html" class="btn btn--primary btn--lg btn--flip">
+        <span>Estimer mon premier objet</span><span>Commencer le relevé</span>
       </a>
       <a href="https://wa.me/33600000000?text=Bonjour%20MaisonVide%20!" class="btn btn--kraft btn--lg">
         <svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg>
         Écrire sur WhatsApp
       </a>
+      <a href="annonces.html" class="btn btn--glow btn--lg">Voir les annonces</a>
     </div>
-    <p style="margin-top:2rem;font-size:.8rem;color:var(--ink-400)">
+    <p class="note note--ink" style="margin-top:2rem">
       Estimation gratuite · Sans inscription pour essayer · 8 % uniquement à la vente
     </p>
   </div>
@@ -452,7 +582,8 @@
           <li><a href="auth.html">Connexion</a></li>
           <li><a href="profil.html">Mon compte</a></li>
           <li><a href="favoris.html">Mes favoris</a></li>
-          <li><a href="admin/">Espace pro</a></li>
+          <li><a href="pro.html">Espace vendeur</a></li>
+          <li><a href="admin/">Administration</a></li>
         </ul>
       </div>
     </div>
@@ -480,5 +611,6 @@
 <script src="assets/vendor/lenis.min.js"></script>
 <script src="assets/js/core.js"></script>
 <script src="assets/js/site.js"></script>
+  <script src="assets/js/scroll.js" defer></script>
 </body>
 </html>

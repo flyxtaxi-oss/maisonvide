@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Rendez-vous — Espace pro | MaisonVide</title>
+<meta name="description" content="Les demandes de rendez-vous de vos annonces : visites, remises et livraisons, à confirmer ou à refuser depuis un seul tableau.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/motion.css">
+</head>
+<body class="grain" data-nav="rendez-vous">
+
+<div class="admin-shell">
+
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="admin-brand">
+      <span class="admin-brand__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      <span class="admin-brand__txt"><b>MaisonVide</b><span>Espace pro</span></span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Opérations">
+      <p class="admin-nav__grp">Opérations</p>
+      <a href="index.html" data-nav="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-chart"></use></svg><span>Tableau de bord</span></a>
+      <a href="annonces.html" data-nav="annonces"><svg class="ic" aria-hidden="true"><use href="#i-package"></use></svg><span>Annonces</span><span class="admin-nav__count">24</span></a>
+      <a href="messagerie.html" data-nav="messagerie"><svg class="ic" aria-hidden="true"><use href="#i-chat"></use></svg><span>Messagerie</span><span class="admin-nav__count">7</span></a>
+      <a href="rendez-vous.html" data-nav="rendez-vous"><svg class="ic" aria-hidden="true"><use href="#i-calendar"></use></svg><span>Rendez-vous</span><span class="admin-nav__count" id="rdv-nav-count">0</span></a>
+      <a href="utilisateurs.html" data-nav="utilisateurs"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg><span>Utilisateurs</span></a>
+      <a href="commandes.html" data-nav="commandes"><svg class="ic" aria-hidden="true"><use href="#i-banknote"></use></svg><span>Commandes</span></a>
+      <a href="analytics.html" data-nav="analytics"><svg class="ic" aria-hidden="true"><use href="#i-trend"></use></svg><span>Analytics</span></a>
+    </nav>
+
+    <nav class="admin-nav" aria-label="Configuration">
+      <p class="admin-nav__grp">Configuration</p>
+      <a href="chatbot.html" data-nav="chatbot"><svg class="ic" aria-hidden="true"><use href="#i-bot"></use></svg><span>Chatbot</span></a>
+      <a href="ia.html" data-nav="ia"><svg class="ic" aria-hidden="true"><use href="#i-ai"></use></svg><span>Modèle IA</span></a>
+      <a href="whatsapp.html" data-nav="whatsapp"><svg class="ic" aria-hidden="true"><use href="#i-whatsapp"></use></svg><span>WhatsApp</span></a>
+      <a href="parametres.html" data-nav="parametres"><svg class="ic" aria-hidden="true"><use href="#i-settings"></use></svg><span>Paramètres</span></a>
+    </nav>
+
+    <div class="admin-sidebar__crm">
+      <a href="3d.html">
+        <svg class="ic ic--lg" aria-hidden="true"><use href="#i-cube"></use></svg>
+        <span><b>Le Dépôt 3D</b><span>Vue spatiale du stock</span></span>
+        <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </a>
+    </div>
+
+    <div class="admin-sidebar__foot">
+      <a href="../index.html" class="admin-back"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"></use></svg> Retour au site public</a>
+      <div class="admin-signed-in">
+        <span class="avatar">PV</span>
+        <span class="admin-signed-in__txt"><b>Pierre V.</b><span>Administrateur · Paris</span></span>
+        <button class="admin-signed-in__out" data-action="logout" aria-label="Se déconnecter"><svg class="ic" aria-hidden="true"><use href="#i-logout"></use></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+      <div class="admin-header__main">
+        <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
+        <div>
+          <h1 class="admin-header__title">Rendez-vous</h1>
+          <p class="admin-header__sub" id="rdv-sub">Les demandes de visite, de remise et de livraison de vos annonces</p>
+        </div>
+      </div>
+      <div class="admin-header__actions">
+        <span class="badge badge--kraft" id="rdv-api-state">Service en attente</span>
+        <button class="btn btn--ghost btn--sm" type="button" id="rdv-refresh"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-refresh"></use></svg> Actualiser</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <!-- Compteurs par statut -->
+      <section class="metric-band metric-band--5" aria-label="Rendez-vous par statut">
+        <div class="metric">
+          <span class="metric__ref">R.01</span>
+          <span class="metric__k" id="rdv-count-requested">0</span>
+          <span class="metric__l">Demandes à traiter</span>
+          <span class="metric__d metric__d--flat" id="rdv-count-requested-d">en attente</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">R.02</span>
+          <span class="metric__k" id="rdv-count-confirmed">0</span>
+          <span class="metric__l">Rendez-vous confirmés</span>
+          <span class="metric__d metric__d--up" id="rdv-count-confirmed-d">à venir</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">R.03</span>
+          <span class="metric__k" id="rdv-count-done">0</span>
+          <span class="metric__l">Rendez-vous honorés</span>
+          <span class="metric__d metric__d--flat" id="rdv-count-done-d">terminés</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">R.04</span>
+          <span class="metric__k" id="rdv-count-declined">0</span>
+          <span class="metric__l">Demandes refusées</span>
+          <span class="metric__d metric__d--down" id="rdv-count-declined-d">refusées</span>
+        </div>
+        <div class="metric">
+          <span class="metric__ref">R.05</span>
+          <span class="metric__k" id="rdv-count-cancelled">0</span>
+          <span class="metric__l">Rendez-vous annulés</span>
+          <span class="metric__d metric__d--flat" id="rdv-count-cancelled-d">annulés</span>
+        </div>
+      </section>
+
+      <!-- Session vendeur -->
+      <section class="panel" id="rdv-session">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-id"></use></svg> Session vendeur</h2>
+            <p>Connectez-vous pour retrouver les rendez-vous demandés sur vos annonces.</p>
+          </div>
+        </div>
+        <div class="panel__body--tight">
+          <div class="rendez-vous__session" id="rdv-login">
+            <input type="email" class="input" id="rdv-login-mail" placeholder="E-mail vendeur" aria-label="E-mail du vendeur" autocomplete="username">
+            <input type="password" class="input" id="rdv-login-pass" placeholder="Mot de passe" aria-label="Mot de passe" autocomplete="current-password">
+            <button class="btn btn--primary btn--sm" type="button" id="rdv-login-btn">Se connecter</button>
+          </div>
+          <div class="rendez-vous__session hidden" id="rdv-logged">
+            <div class="rendez-vous__who">
+              <span class="badge badge--seal"><svg class="ic ic--sm" aria-hidden="true"><use href="#i-check-circle"></use></svg> Connecté</span>
+              <b id="rdv-user-name">—</b>
+              <span id="rdv-user-mail">—</span>
+              <button class="btn btn--ghost btn--sm" type="button" id="rdv-logout-btn">Se déconnecter</button>
+            </div>
+          </div>
+          <p class="rendez-vous__note" id="rdv-session-note">Démo : sophie.m@example.fr · mot de passe maisonvide</p>
+        </div>
+      </section>
+
+      <!-- Le tableau -->
+      <section class="panel">
+        <div class="panel__head">
+          <div>
+            <h2><svg class="ic" aria-hidden="true"><use href="#i-calendar"></use></svg> Les rendez-vous</h2>
+            <p>Une demande arrive, vous la confirmez ou vous la refusez : l’acheteur est prévenu aussitôt.</p>
+          </div>
+          <span class="rendez-vous__count" id="rdv-rows-count">0 rendez-vous</span>
+        </div>
+        <div class="panel__body--tight">
+          <div class="table-tools">
+            <input type="search" class="input" id="rdv-search" placeholder="Rechercher un objet, un acheteur, une ville…" aria-label="Rechercher un rendez-vous">
+            <select class="select" id="rdv-filter" aria-label="Filtrer par statut">
+              <option value="">Tous les statuts</option>
+              <option value="requested">Demandé</option>
+              <option value="confirmed">Confirmé</option>
+              <option value="done">Terminé</option>
+              <option value="declined">Refusé</option>
+              <option value="cancelled">Annulé</option>
+            </select>
+          </div>
+        </div>
+        <div class="panel__body--flush table-wrap">
+          <table class="data-table data-table--dense">
+            <thead>
+              <tr><th>Date</th><th>Annonce</th><th>Acheteur</th><th>Mode</th><th>Statut</th><th>Lieu</th><th>Note</th><th class="cell-actions">Actions</th></tr>
+            </thead>
+            <tbody id="rdv-tbody"></tbody>
+          </table>
+        </div>
+        <div class="panel__foot" id="rdv-state">
+          <div class="rendez-vous__state">
+            <svg class="ic" aria-hidden="true"><use href="#i-calendar"></use></svg>
+            <p id="rdv-state-text">Connectez-vous pour charger les rendez-vous.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="note-band">
+        <svg class="ic" aria-hidden="true"><use href="#i-info"></use></svg>
+        <p style="margin:0;font-size:.82rem">Un créneau confirmé bloque automatiquement la même plage horaire pour les autres acheteurs. Un rendez-vous terminé ferme la demande : l’objet peut partir en séquestre.</p>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/admin.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* Base de l'API : vide = même origine (production). Surchargeable par
+     window.MV_BOOKING_API pour un test local. */
+  // Les fonctions serverless vivent sur Vercel : en local, on interroge
+  // l'API déployée pour que la démonstration fonctionne hors production.
+  // Aucune clé n'est exposée — l'API est publique et ne renvoie que des
+  // données déjà lisibles par le navigateur.
+  const LOCAL = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
+  const API_BASE = window.MV_BOOKING_API || (LOCAL ? 'https://maisonvide.vercel.app' : '');
+  const TOKEN_KEY = 'mv_admin_token';
+  const USER_KEY = 'mv_admin_user';
+  const TZ = 'Europe/Paris';
+
+  const STATUS = {
+    requested: { label: 'Demandé', cls: 'status--warn' },
+    confirmed: { label: 'Confirmé', cls: 'status--seal' },
+    done: { label: 'Terminé', cls: 'status--kraft' },
+    declined: { label: 'Refusé', cls: 'status--stamp' },
+    cancelled: { label: 'Annulé', cls: 'status--ink' }
+  };
+  const MODES = { visite: 'Visite', remise: 'Remise', livraison: 'Livraison' };
+
+  const $ = (sel, root) => (root || document).querySelector(sel);
+  const $$ = (sel, root) => Array.prototype.slice.call((root || document).querySelectorAll(sel));
+  const esc = v => String(v == null ? '' : v)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  let rows = [];
+  let notice = '';
+
+  /* ------------------------------------------------------------------ */
+  /* Outils                                                             */
+  /* ------------------------------------------------------------------ */
+
+  const dayFmt = new Intl.DateTimeFormat('fr-FR', { timeZone: TZ, weekday: 'short', day: 'numeric', month: 'short' });
+  const timeFmt = new Intl.DateTimeFormat('fr-FR', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+
+  function whenLabel(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '—';
+    const t = {};
+    timeFmt.formatToParts(d).forEach(p => { t[p.type] = p.value; });
+    const h = t.hour === '24' ? '00' : t.hour;
+    return dayFmt.format(d) + ' · ' + h + ' h ' + t.minute;
+  }
+
+  function readToken() { try { return localStorage.getItem(TOKEN_KEY) || ''; } catch (e) { return ''; } }
+  function writeToken(v) { try { if (v) localStorage.setItem(TOKEN_KEY, v); else localStorage.removeItem(TOKEN_KEY); } catch (e) {} }
+  function readUser() { try { return JSON.parse(localStorage.getItem(USER_KEY) || 'null'); } catch (e) { return null; } }
+  function writeUser(v) { try { if (v) localStorage.setItem(USER_KEY, JSON.stringify(v)); else localStorage.removeItem(USER_KEY); } catch (e) {} }
+
+  function toast(message, type) {
+    if (typeof window.mvToast === 'function') window.mvToast(message, type || 'info');
+  }
+
+  async function api(path, options) {
+    const opts = options || {};
+    opts.headers = Object.assign({ Accept: 'application/json' }, opts.headers || {});
+    if (opts.body) opts.headers['Content-Type'] = 'application/json';
+    const token = readToken();
+    if (token) opts.headers.Authorization = 'Bearer ' + token;
+
+    let timer = null;
+    if (typeof AbortController !== 'undefined') {
+      const ctrl = new AbortController();
+      opts.signal = ctrl.signal;
+      timer = setTimeout(() => ctrl.abort(), 12000);
+    }
+    try {
+      const res = await fetch(API_BASE + path, opts);
+      const text = await res.text();
+      let data = null;
+      try { data = text ? JSON.parse(text) : null; } catch (e) { data = null; }
+      return { ok: res.ok, status: res.status, data: data };
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Rendu                                                              */
+  /* ------------------------------------------------------------------ */
+
+  function setState(message, icon) {
+    const host = $('#rdv-state');
+    const text = $('#rdv-state-text');
+    const use = host ? host.querySelector('use') : null;
+    if (text) text.textContent = message;
+    if (use) use.setAttribute('href', '#i-' + (icon || 'calendar'));
+    if (host) host.classList.toggle('hidden', !message);
+  }
+
+  function setApiState(label, tone) {
+    const badge = $('#rdv-api-state');
+    if (!badge) return;
+    badge.textContent = label;
+    badge.className = 'badge' + (tone ? ' badge--' + tone : '');
+  }
+
+  function renderCounters() {
+    const count = { requested: 0, confirmed: 0, done: 0, declined: 0, cancelled: 0 };
+    rows.forEach(r => { if (count[r.status] !== undefined) count[r.status]++; });
+
+    Object.keys(count).forEach(key => {
+      const el = $('#rdv-count-' + key);
+      if (el) el.textContent = count[key];
+    });
+
+    const nav = $('#rdv-nav-count');
+    if (nav) nav.textContent = count.requested;
+
+    const label = $('#rdv-rows-count');
+    if (label) label.textContent = rows.length + (rows.length > 1 ? ' rendez-vous' : ' rendez-vous');
+  }
+
+  function actionsFor(row) {
+    if (row.status === 'requested') {
+      return '<button class="btn btn--primary btn--sm" type="button" data-rdv-act="confirmed" data-rdv-id="' + esc(row.id) + '">Confirmer</button>' +
+             '<button class="btn btn--ghost btn--sm" type="button" data-rdv-act="declined" data-rdv-id="' + esc(row.id) + '">Refuser</button>';
+    }
+    if (row.status === 'confirmed') {
+      return '<button class="btn btn--seal btn--sm" type="button" data-rdv-act="done" data-rdv-id="' + esc(row.id) + '">Marquer terminé</button>' +
+             '<button class="btn btn--ghost btn--sm" type="button" data-rdv-act="declined" data-rdv-id="' + esc(row.id) + '">Refuser</button>';
+    }
+    return '<span class="rendez-vous__count">—</span>';
+  }
+
+  function renderRows() {
+    const tbody = $('#rdv-tbody');
+    if (!tbody) return;
+
+    const filter = ($('#rdv-filter') || {}).value || '';
+    const query = (($('#rdv-search') || {}).value || '').trim().toLowerCase();
+
+    const visible = rows.filter(function (row) {
+      if (filter && row.status !== filter) return false;
+      if (!query) return true;
+      const hay = [
+        row.listing && row.listing.title,
+        row.buyer && row.buyer.name,
+        row.seller && row.seller.name,
+        row.place,
+        row.note,
+        MODES[row.mode]
+      ].join(' ').toLowerCase();
+      return hay.indexOf(query) !== -1;
+    });
+
+    tbody.innerHTML = visible.map(function (row) {
+      const st = STATUS[row.status] || { label: row.status, cls: 'status--ink' };
+      const title = (row.listing && row.listing.title) || 'Annonce retirée';
+      const buyer = (row.buyer && row.buyer.name) || 'Acheteur';
+      return '<tr>' +
+        '<td><strong>' + esc(whenLabel(row.startsAt)) + '</strong><span class="sub">' + esc(row.durationMinutes || 30) + ' min</span></td>' +
+        '<td>' + esc(title) + '<span class="sub">' + esc((row.listing && row.listing.slug) || '') + '</span></td>' +
+        '<td>' + esc(buyer) + '</td>' +
+        '<td>' + esc(MODES[row.mode] || row.mode) + '</td>' +
+        '<td><span class="status ' + st.cls + '"><span class="status__dot"></span>' + esc(st.label) + '</span></td>' +
+        '<td>' + esc(row.place || '—') + '</td>' +
+        '<td>' + esc(row.note || '—') + '</td>' +
+        '<td class="cell-actions">' + actionsFor(row) + '</td>' +
+      '</tr>';
+    }).join('');
+
+    const label = $('#rdv-rows-count');
+    if (label) label.textContent = visible.length + ' sur ' + rows.length;
+
+    if (!visible.length) {
+      if (!rows.length) {
+        setState(notice || 'Aucun rendez-vous pour le moment. Les demandes des acheteurs apparaissent ici.', 'calendar');
+      } else {
+        setState('Aucun rendez-vous ne correspond à ce filtre.', 'search');
+      }
+    } else {
+      setState('', 'calendar');
+    }
+  }
+
+  function renderSession(user) {
+    const login = $('#rdv-login');
+    const logged = $('#rdv-logged');
+    const note = $('#rdv-session-note');
+    if (login) login.classList.toggle('hidden', !!user);
+    if (logged) logged.classList.toggle('hidden', !user);
+    if (note) note.classList.toggle('hidden', !!user);
+    if (user) {
+      const name = $('#rdv-user-name');
+      const mail = $('#rdv-user-mail');
+      if (name) name.textContent = user.name || 'Vendeur';
+      if (mail) mail.textContent = user.email || '';
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Chargement                                                         */
+  /* ------------------------------------------------------------------ */
+
+  async function load() {
+    const user = readUser();
+    renderSession(user);
+
+    if (!readToken()) {
+      notice = 'Connectez-vous pour charger les rendez-vous.';
+      setApiState('Connexion requise', 'warn');
+      setState(notice, 'id');
+      rows = [];
+      renderCounters();
+      renderRows();
+      return;
+    }
+
+    notice = '';
+    setApiState('Service en attente', 'kraft');
+    setState('Chargement des rendez-vous…', 'refresh');
+
+    const res = await api('/api/appointments');
+    if (!res.ok || !res.data || !res.data.ok) {
+      const expired = res.status === 401;
+      if (expired) {
+        writeToken('');
+        writeUser(null);
+        renderSession(null);
+        notice = 'Votre session a expiré. Reconnectez-vous pour retrouver les rendez-vous.';
+        setApiState('Session expirée', 'warn');
+      } else {
+        notice = 'Le service des rendez-vous ne répond pas. Réessayez dans un instant.';
+        setApiState('Service indisponible', 'stamp');
+      }
+      setState(notice, expired ? 'id' : 'alert');
+      rows = [];
+      renderCounters();
+      renderRows();
+      return;
+    }
+
+    rows = res.data.appointments || [];
+    notice = '';
+    setApiState('Service opérationnel', 'seal');
+    renderCounters();
+    renderRows();
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Actions                                                            */
+  /* ------------------------------------------------------------------ */
+
+  async function login() {
+    const mail = $('#rdv-login-mail');
+    const pass = $('#rdv-login-pass');
+    const email = mail ? mail.value.trim() : '';
+    const password = pass ? pass.value : '';
+
+    if (!email || !password) {
+      toast('Indiquez votre e-mail et votre mot de passe.', 'warning');
+      return;
+    }
+
+    const res = await api('/api/auth', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'login', email: email, password: password })
+    });
+
+    if (!res.ok || !res.data || !res.data.ok || !res.data.token) {
+      const message = (res.data && res.data.error) || 'Connexion impossible.';
+      toast(message, 'danger');
+      setState(message, 'alert');
+      return;
+    }
+
+    writeToken(res.data.token);
+    writeUser(res.data.user || { name: email, email: email });
+    if (pass) pass.value = '';
+    toast('Session ouverte', 'success');
+    load();
+  }
+
+  async function patch(id, status) {
+    const reason = status === 'declined' ? 'Refusé par le vendeur' : null;
+    const res = await api('/api/appointments', {
+      method: 'PATCH',
+      body: JSON.stringify({ id: id, status: status, reason: reason })
+    });
+
+    if (!res.ok || !res.data || !res.data.ok) {
+      const message = (res.data && res.data.error) || 'Le statut n’a pas pu être changé.';
+      toast(message, 'danger');
+      return;
+    }
+
+    const row = rows.filter(r => r.id === id)[0];
+    if (row) row.status = status;
+    toast('Rendez-vous : ' + (STATUS[status] ? STATUS[status].label : status), 'success');
+    renderCounters();
+    renderRows();
+  }
+
+  function logout() {
+    writeToken('');
+    writeUser(null);
+    rows = [];
+    notice = 'Connectez-vous pour charger les rendez-vous.';
+    renderSession(null);
+    setApiState('Connexion requise', 'warn');
+    setState(notice, 'id');
+    renderCounters();
+    renderRows();
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Branchement                                                        */
+  /* ------------------------------------------------------------------ */
+
+  function boot() {
+    const loginBtn = $('#rdv-login-btn');
+    if (loginBtn) loginBtn.addEventListener('click', login);
+
+    const loginMail = $('#rdv-login-mail');
+    const loginPass = $('#rdv-login-pass');
+    [loginMail, loginPass].forEach(el => {
+      if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+    });
+
+    const logoutBtn = $('#rdv-logout-btn');
+    if (logoutBtn) logoutBtn.addEventListener('click', logout);
+
+    const refreshBtn = $('#rdv-refresh');
+    if (refreshBtn) refreshBtn.addEventListener('click', load);
+
+    const filter = $('#rdv-filter');
+    if (filter) filter.addEventListener('change', renderRows);
+
+    const search = $('#rdv-search');
+    if (search) search.addEventListener('input', renderRows);
+
+    const tbody = $('#rdv-tbody');
+    if (tbody) {
+      tbody.addEventListener('click', function (event) {
+        const btn = event.target.closest('[data-rdv-act]');
+        if (!btn) return;
+        btn.disabled = true;
+        patch(btn.dataset.rdvId, btn.dataset.rdvAct).then(function () { btn.disabled = false; });
+      });
+    }
+
+    load();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>

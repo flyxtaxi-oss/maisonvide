@@ -51,8 +51,10 @@
   background: var(--paper-sheet);
   border: 1px solid var(--paper-edge);
   border-radius: var(--radius-md);
-  /* marge basse pour la fiche « Déposez une photo » qui pend sous la carte */
-  padding: .8rem .8rem 3rem;
+  /* Marge basse : la fiche « Déposez une photo » pend sous la carte et
+     déborde de son cadre. Elle doit passer au-dessus du pied de carte,
+     jamais le recouvrir. */
+  padding: .8rem .8rem 4.4rem;
   box-shadow: var(--shadow-xl);
   transform: rotate(-1.1deg);
 }
@@ -192,3 +194,21 @@
   align-items: center;
 }
 @media (max-width: 860px) { .bandeau__grid { grid-template-columns: 1fr; } }
+
+/* ------------------------------------------------------------------ */
+/* Les actes : en-tête d'étape et sous-titre                           */
+/* ------------------------------------------------------------------ */
+.act__step__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--paper-rule);
+}
+.act__step__head h3 { margin: 0; }
+.act__step > p { margin-top: var(--space-3); }
+
+/* La colonne épinglée d'un acte garde son filet pointillé en tête. */
+.act__sticky > .note + .display { margin-top: var(--space-3); }

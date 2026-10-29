@@ -14,8 +14,46 @@
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
 
-<link rel="stylesheet" href="assets/css/main.css">
-<link rel="stylesheet" href="assets/css/motion.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "J'ai déjà payé, que faire maintenant ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "N'envoyez plus d'argent et ne validez plus aucun paiement. Gardez toutes les preuves : captures d'écran des messages, de l'annonce, du lien reçu et relevé bancaire. Signalez sur la plateforme et écrivez à securite@maisonvide.fr. Si l'argent est parti, contactez votre banque pour faire opposition le plus vite possible." }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment signaler une arnaque ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Le bouton Signaler est présent sur chaque annonce et chaque profil. Vous pouvez aussi écrire à securite@maisonvide.fr : l'équipe sécurité agit sous 1 heure. Pour une arnaque hors plateforme, signalez également sur PHAROS." }
+    },
+    {
+      "@type": "Question",
+      "name": "Une arnaque a-t-elle déjà été commise via MaisonVide ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Les 487 blocages de ce mois montrent que les filtres tiennent. Aucune vente ne se fait sans vérification d'identité, sans séquestre et sans authentification bancaire. Lorsqu'un cas passe malgré tout, la médiation et l'assurance AXA prennent le relais : l'acheteur est remboursé sous 5 jours ouvrés." }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment vérifier qu'un vendeur est fiable ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Regardez son niveau de vérification, son score de confiance et son historique de ventes, public et complet. Un compte créé la veille, sans avis et qui refuse de passer par la messagerie de la plateforme ne correspond pas à un profil fiable." }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je récupérer mon argent si je suis victime d'une arnaque hors plateforme ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nous ne pouvons pas intervenir sur un paiement que nous n'avons pas reçu : ni l'argent, ni les identités bancaires ne passent par nos systèmes. Nous pouvons en revanche bloquer les comptes impliqués, transmettre le dossier à PHAROS et vous aider à constituer un dossier auprès de la DGCCRF ou de Cybermalveillance.gouv.fr." }
+    }
+  ]
+}
+</script>
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/blocks.css">
+  <link rel="stylesheet" href="assets/css/trust.css">
+  <link rel="stylesheet" href="assets/css/oryzo.css">
+  <link rel="stylesheet" href="assets/css/scroll.css">
 <style>
 /* ---- Tête de page ---- */
 .page-head { padding-block: clamp(2.6rem, 6vw, 5rem) clamp(2rem, 4vw, 3.4rem); border-bottom: 1px solid var(--paper-rule); }
@@ -82,7 +120,6 @@
 
 /* ---- Les signaux d'alerte : la FAQ ---- */
 .details-list { border-top: 1.5px solid var(--ink-900); }
-.details-list__item { border-bottom: 1px solid var(--paper-rule); }
 .details-list__q { list-style: none; cursor: pointer; }
 .details-list__q::-webkit-details-marker { display: none; }
 .details-list__a { max-width: 76ch; }
@@ -101,41 +138,6 @@
 
 .section--reglure { border-top: 1px solid var(--paper-rule); }
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "J'ai déjà payé, que faire maintenant ?",
-      "acceptedAnswer": { "@type": "Answer", "text": "N'envoyez plus d'argent et ne validez plus aucun paiement. Gardez toutes les preuves : captures d'écran des messages, de l'annonce, du lien reçu et relevé bancaire. Signalez sur la plateforme et écrivez à securite@maisonvide.fr. Si l'argent est parti, contactez votre banque pour faire opposition le plus vite possible." }
-    },
-    {
-      "@type": "Question",
-      "name": "Comment signaler une arnaque ?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Le bouton Signaler est présent sur chaque annonce et chaque profil. Vous pouvez aussi écrire à securite@maisonvide.fr : l'équipe sécurité agit sous 1 heure. Pour une arnaque hors plateforme, signalez également sur PHAROS." }
-    },
-    {
-      "@type": "Question",
-      "name": "Une arnaque a-t-elle déjà été commise via MaisonVide ?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Les 487 blocages de ce mois montrent que les filtres tiennent. Aucune vente ne se fait sans vérification d'identité, sans séquestre et sans authentification bancaire. Lorsqu'un cas passe malgré tout, la médiation et l'assurance AXA prennent le relais : l'acheteur est remboursé sous 5 jours ouvrés." }
-    },
-    {
-      "@type": "Question",
-      "name": "Comment vérifier qu'un vendeur est fiable ?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Regardez son niveau de vérification, son score de confiance et son historique de ventes, public et complet. Un compte créé la veille, sans avis et qui refuse de passer par la messagerie de la plateforme ne correspond pas à un profil fiable." }
-    },
-    {
-      "@type": "Question",
-      "name": "Puis-je récupérer mon argent si je suis victime d'une arnaque hors plateforme ?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Nous ne pouvons pas intervenir sur un paiement que nous n'avons pas reçu : ni l'argent, ni les identités bancaires ne passent par nos systèmes. Nous pouvons en revanche bloquer les comptes impliqués, transmettre le dossier à PHAROS et vous aider à constituer un dossier auprès de la DGCCRF ou de Cybermalveillance.gouv.fr." }
-    }
-  ]
-}
-</script>
-  <link rel="stylesheet" href="assets/css/oryzo.css">
-  <link rel="stylesheet" href="assets/css/scroll.css">
 </head>
 <body class="grain">
 
@@ -149,6 +151,7 @@
       <a href="index.html">Accueil</a>
       <a href="vendre.html">Estimer</a>
       <a href="annonces.html">Annonces</a>
+      <a href="pro.html">Espace pro</a>
       <a href="confiance.html" class="is-active">Confiance</a>
       <a href="services.html">Services</a>
       <a href="contact.html">Contact</a>
@@ -769,7 +772,8 @@
           <li><a href="auth.html">Connexion</a></li>
           <li><a href="profil.html">Mon compte</a></li>
           <li><a href="favoris.html">Mes favoris</a></li>
-          <li><a href="admin/">Espace pro</a></li>
+          <li><a href="pro.html">Espace vendeur</a></li>
+          <li><a href="admin/">Administration</a></li>
         </ul>
       </div>
     </div>

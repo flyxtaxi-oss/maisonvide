@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8e5db">
+<title>Espace pro — Tableau de bord vendeur | MaisonVide</title>
+<meta name="description" content="Espace vendeur MaisonVide : annonces, leads, rendez-vous, chiffre d'affaires, séquestre et créneaux de disponibilité, lus depuis la base MaisonVide.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://maisonvide.vercel.app/pro.html">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,400i,500,600,700&f[]=switzer@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap">
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+  <link rel="stylesheet" href="assets/css/blocks.css">
+  <link rel="stylesheet" href="assets/css/trust.css">
+  <link rel="stylesheet" href="assets/css/oryzo.css">
+  <link rel="stylesheet" href="assets/css/scroll.css">
+  <link rel="stylesheet" href="assets/css/pro.css">
+</head>
+<body class="grain">
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__mark"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span>
+      MaisonVide
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index.html">Accueil</a>
+      <a href="annonces.html">Annonces</a>
+      <a href="pro.html">Espace pro</a>
+      <a href="confiance.html">Confiance</a>
+      <a href="services.html">Services</a>
+    </nav>
+    <div class="flex">
+      <span class="pro-header__who" id="entete-vendeur" hidden></span>
+      <button class="btn btn--ghost btn--sm" id="btn-deconnexion" type="button" hidden>
+        <svg class="ic ic--sm" aria-hidden="true"><use href="#i-logout"></use></svg>
+        Sortir
+      </button>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" type="button">
+        <svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ==================================================================== -->
+<!-- ÉCRAN 1 : LA CONNEXION                                                -->
+<!-- ==================================================================== -->
+<main class="pro-auth" id="vue-connexion">
+  <div class="pro-auth__grille">
+
+    <div class="pro-auth__plaque">
+      <p class="note">Espace vendeur · MaisonVide</p>
+      <h1 class="lede">Votre étal,<br>votre relevé.</h1>
+      <p class="micro pro-auth__intro">
+        Connectez-vous avec l’adresse qui porte vos annonces : vous retrouverez
+        votre chiffre d’affaires, vos leads, vos rendez-vous et le séquestre en cours.
+      </p>
+
+      <div class="trait"></div>
+
+      <p class="pro-message" id="auth-message" role="alert" hidden></p>
+
+      <form class="pro-form" id="form-connexion" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="login-email">Adresse e-mail</label>
+          <input class="input" type="email" id="login-email" name="email" autocomplete="email"
+                 placeholder="vous@exemple.fr" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="login-password">Mot de passe</label>
+          <input class="input" type="password" id="login-password" name="password"
+                 autocomplete="current-password" placeholder="••••••••" required>
+        </div>
+        <button class="btn btn--primary btn--block" type="submit" id="btn-connexion">
+          Ouvrir mon espace
+        </button>
+      </form>
+
+      <div class="trait"></div>
+
+      <button class="pro-bascule" id="bascule-inscription" type="button">
+        <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+        Créer un compte vendeur
+      </button>
+
+      <form class="pro-form" id="form-inscription" hidden novalidate>
+        <div class="form-group">
+          <label class="form-label" for="reg-name">Nom affiché</label>
+          <input class="input" type="text" id="reg-name" name="name" autocomplete="name"
+                 placeholder="Cuisine M." required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Adresse e-mail</label>
+          <input class="input" type="email" id="reg-email" name="email" autocomplete="email"
+                 placeholder="vous@exemple.fr" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-phone">Téléphone (facultatif)</label>
+          <input class="input" type="tel" id="reg-phone" name="phone" autocomplete="tel"
+                 placeholder="06 12 34 56 78">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reg-password">Mot de passe</label>
+          <input class="input" type="password" id="reg-password" name="password"
+                 autocomplete="new-password" placeholder="8 caractères minimum" required>
+        </div>
+        <button class="btn btn--seal btn--block" type="submit" id="btn-inscription">
+          Créer mon compte
+        </button>
+        <button class="pro-bascule" id="bascule-connexion" type="button">
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-arrow-left"></use></svg>
+          J’ai déjà un compte
+        </button>
+      </form>
+    </div>
+
+    <aside class="pro-auth__carnet">
+      <p class="note">Carnet de démonstration</p>
+      <p class="micro">Deux comptes de la base de démonstration, mot de passe <b>maisonvide</b> :</p>
+      <button class="pro-demo" type="button" data-demo-email="cuisine.m@example.fr" data-demo-pass="maisonvide">
+        <b>Cuisine M.</b>
+        <span>cuisine.m@example.fr · Marseille · Pro</span>
+      </button>
+      <button class="pro-demo" type="button" data-demo-email="galerie.s@example.fr" data-demo-pass="maisonvide">
+        <b>Galerie S.</b>
+        <span>galerie.s@example.fr · Nice · Premium</span>
+      </button>
+      <div class="trait trait--faint"></div>
+      <p class="micro">
+        Un clic remplit le formulaire. Les chiffres affichés ensuite sont lus
+        dans la base MaisonVide — aucune valeur n’est figée dans la page.
+      </p>
+    </aside>
+
+  </div>
+</main>
+
+<!-- ==================================================================== -->
+<!-- ÉCRAN 2 : LE TABLEAU DE BORD                                         -->
+<!-- ==================================================================== -->
+<main class="pro-dash" id="vue-dashboard" hidden>
+
+  <!-- ---------- État de chargement / erreur ---------- -->
+  <section class="pro-etat" id="pro-etat" data-section="Ouverture">
+    <div class="pro-etat__box" id="pro-etat-chargement">
+      <span class="spinner" aria-hidden="true"></span>
+      <p class="micro">Lecture du relevé vendeur…</p>
+    </div>
+    <div class="pro-etat__box pro-etat__box--erreur" id="pro-etat-erreur" hidden>
+      <svg class="ic ic--lg" aria-hidden="true"><use href="#i-alert"></use></svg>
+      <p class="sub" id="pro-etat-message">Le relevé n’a pas pu être chargé.</p>
+      <button class="btn btn--glow btn--sm" type="button" id="btn-reessayer">Réessayer</button>
+    </div>
+  </section>
+
+  <div id="pro-contenu" hidden>
+
+    <!-- ---------- En-tête vendeur ---------- -->
+    <section class="pro-identite" id="identite" data-section="Identité">
+      <div class="pro-identite__nom">
+        <p class="note">Vendeur</p>
+        <h1 class="pro-identite__titre" id="pro-nom">—</h1>
+        <p class="pro-identite__lieu" id="pro-lieu">—</p>
+      </div>
+      <dl class="pro-identite__fiche">
+        <div><dt>Palier</dt><dd id="pro-tier">—</dd></div>
+        <div><dt>Score de confiance</dt><dd id="pro-confiance">—</dd></div>
+        <div><dt>Note</dt><dd id="pro-note">—</dd></div>
+        <div><dt>Temps de réponse</dt><dd id="pro-reponse">—</dd></div>
+        <div><dt>Membre depuis</dt><dd id="pro-adhesion">—</dd></div>
+      </dl>
+    </section>
+
+    <!-- ---------- Bandeau KPI ---------- -->
+    <section class="pro-kpi" id="kpi" data-section="Indicateurs">
+      <div class="grid-16 pro-kpi__grille">
+
+        <div class="col-5 pro-kpi__principal">
+          <p class="note pro-kpi__intitule">
+            <svg class="ic ic--sm" aria-hidden="true"><use href="#i-euro"></use></svg>
+            Chiffre d’affaires encaissé
+          </p>
+          <p class="pro-kpi__chiffre" id="kpi-ca">—</p>
+          <p class="pro-kpi__delta" id="kpi-ca-delta"></p>
+          <div class="trait"></div>
+          <p class="note">Commission prélevée</p>
+          <p class="pro-kpi__second" id="kpi-commission">—</p>
+        </div>
+
+        <div class="col-5 pro-kpi__colonne">
+          <div class="pro-kpi__ligne">
+            <span class="pro-kpi__cle">CA en pipeline</span>
+            <span class="data" id="kpi-pipeline">—</span>
+          </div>
+          <div class="trait trait--faint"></div>
+          <div class="pro-kpi__ligne">
+            <span class="pro-kpi__cle">Encours de séquestre</span>
+            <span class="data data--stamp" id="kpi-sequestre">—</span>
+          </div>
+          <p class="micro" id="kpi-sequestre-detail">—</p>
+          <div class="trait trait--faint"></div>
+          <div class="pro-kpi__ligne">
+            <span class="pro-kpi__cle">Annonces</span>
+            <span class="data" id="kpi-annonces">—</span>
+          </div>
+          <p class="micro" id="kpi-annonces-detail">—</p>
+          <div class="trait trait--faint"></div>
+          <div class="pro-kpi__ligne">
+            <span class="pro-kpi__cle">Créneaux actifs</span>
+            <span class="data" id="kpi-creneaux">—</span>
+          </div>
+        </div>
+
+        <div class="col-6 pro-kpi__cote">
+          <div class="pro-kpi__triplet">
+            <div>
+              <p class="note">Vues</p>
+              <p class="data data--lg" id="kpi-vues">—</p>
+              <p class="pro-kpi__delta" id="kpi-vues-delta"></p>
+            </div>
+            <div>
+              <p class="note">Contacts</p>
+              <p class="data data--lg" id="kpi-contacts">—</p>
+              <p class="pro-kpi__delta" id="kpi-contacts-delta"></p>
+            </div>
+            <div>
+              <p class="note">Rendez-vous à traiter</p>
+              <p class="data data--lg data--stamp" id="kpi-rdv">—</p>
+              <p class="micro" id="kpi-rdv-detail">—</p>
+            </div>
+          </div>
+          <div class="trait trait--faint"></div>
+          <p class="micro" id="kpi-resume">—</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ---------- Graphiques ---------- -->
+    <section class="pro-section" id="graphiques" data-section="Évolution">
+      <div class="grid-16">
+        <div class="col-9">
+          <div class="pro-panneau">
+            <header class="pro-panneau__tete">
+              <h2 class="sub">Vues &amp; contacts</h2>
+              <p class="note">deux échelles · maxima indiqués</p>
+            </header>
+            <div class="trait"></div>
+            <div class="pro-graphique" id="graph-trafic"></div>
+            <div class="pro-legende" id="legende-trafic"></div>
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="pro-panneau">
+            <header class="pro-panneau__tete">
+              <h2 class="sub">Chiffre d’affaires par mois</h2>
+              <p class="note" id="graph-ca-note">—</p>
+            </header>
+            <div class="trait"></div>
+            <div class="pro-graphique" id="graph-ca"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Mes annonces ---------- -->
+    <section class="pro-section" id="annonces" data-section="Mes annonces">
+      <header class="pro-section__tete">
+        <h2 class="sub">Mes annonces</h2>
+        <p class="note" id="annonces-total">—</p>
+      </header>
+      <div class="trait"></div>
+      <div class="pro-table__cadre">
+        <table class="pro-table">
+          <caption class="sr-only">Annonces publiées par le vendeur</caption>
+          <thead>
+            <tr>
+              <th scope="col">Photo</th>
+              <th scope="col">Titre</th>
+              <th scope="col">Prix</th>
+              <th scope="col">Statut</th>
+              <th scope="col">Vues</th>
+              <th scope="col">Contacts</th>
+            </tr>
+          </thead>
+          <tbody id="annonces-lignes"></tbody>
+        </table>
+      </div>
+      <p class="pro-vide" id="annonces-vide" hidden>Aucune annonce publiée pour l’instant.</p>
+    </section>
+
+    <!-- ---------- Leads ---------- -->
+    <section class="pro-section" id="leads" data-section="Leads">
+      <header class="pro-section__tete">
+        <h2 class="sub">Leads</h2>
+        <p class="note" id="leads-total">—</p>
+      </header>
+      <div class="trait"></div>
+      <ul class="pro-leads" id="leads-liste"></ul>
+      <p class="pro-vide" id="leads-vide" hidden>Aucun lead pour l’instant : les conversations apparaîtront ici.</p>
+    </section>
+
+    <!-- ---------- Rendez-vous ---------- -->
+    <section class="pro-section" id="rendez-vous" data-section="Rendez-vous">
+      <header class="pro-section__tete">
+        <h2 class="sub">Rendez-vous</h2>
+        <p class="note" id="rendez-vous-total">—</p>
+      </header>
+      <div class="trait"></div>
+      <ul class="pro-rdv" id="rendez-vous-liste"></ul>
+      <p class="pro-vide" id="rendez-vous-vide" hidden>Aucun rendez-vous à venir.</p>
+    </section>
+
+    <!-- ---------- Séquestre & transactions ---------- -->
+    <section class="pro-section" id="sequestre" data-section="Séquestre">
+      <header class="pro-section__tete">
+        <h2 class="sub">Séquestre &amp; transactions</h2>
+        <p class="note" id="transactions-total">—</p>
+      </header>
+      <div class="trait"></div>
+      <div class="pro-table__cadre">
+        <table class="pro-table">
+          <caption class="sr-only">Historique des transactions et du séquestre</caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Annonce</th>
+              <th scope="col">Montant</th>
+              <th scope="col">Commission</th>
+              <th scope="col">Statut</th>
+            </tr>
+          </thead>
+          <tbody id="transactions-lignes"></tbody>
+        </table>
+      </div>
+      <p class="pro-vide" id="transactions-vide" hidden>Aucune transaction enregistrée pour l’instant.</p>
+    </section>
+
+    <!-- ---------- Mes créneaux ---------- -->
+    <section class="pro-section" id="creneaux" data-section="Mes créneaux">
+      <header class="pro-section__tete">
+        <h2 class="sub">Mes créneaux</h2>
+        <p class="note">disponibilités ouvertes aux acheteurs</p>
+      </header>
+      <div class="trait"></div>
+
+      <form class="pro-creneaux__form" id="form-creneau" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="slot-weekday">Jour</label>
+          <select class="select" id="slot-weekday">
+            <option value="1">Lundi</option>
+            <option value="2">Mardi</option>
+            <option value="3">Mercredi</option>
+            <option value="4">Jeudi</option>
+            <option value="5">Vendredi</option>
+            <option value="6">Samedi</option>
+            <option value="0">Dimanche</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="slot-start">De</label>
+          <input class="input" type="time" id="slot-start" value="09:00" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="slot-end">À</label>
+          <input class="input" type="time" id="slot-end" value="19:00" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="slot-step">Créneau</label>
+          <select class="select" id="slot-step">
+            <option value="15">15 min</option>
+            <option value="30" selected>30 min</option>
+            <option value="60">60 min</option>
+            <option value="90">90 min</option>
+          </select>
+        </div>
+        <button class="btn btn--primary btn--sm" type="submit" id="btn-creneau">
+          <svg class="ic ic--sm" aria-hidden="true"><use href="#i-plus"></use></svg>
+          Ajouter
+        </button>
+      </form>
+      <p class="pro-message" id="creneaux-message" role="status" hidden></p>
+      <ul class="pro-creneaux" id="creneaux-liste"></ul>
+      <p class="pro-vide" id="creneaux-vide" hidden>Aucun créneau de disponibilité défini.</p>
+    </section>
+
+  </div>
+</main>
+
+<div class="toast-container" id="toasts"></div>
+
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/js/core.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/scroll.js" defer></script>
+<script src="assets/js/pro.js"></script>
+</body>
+</html>

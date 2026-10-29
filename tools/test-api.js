@@ -161,6 +161,23 @@ async function main() {
   await appts(mockReq({ method: 'GET' }), res);
   check('mes rendez-vous exige une session', res.statusCode === 401);
 
+  /* ---------------- Nettoyage ---------------- */
+  // Le test crée un rendez-vous et un compte visiteur : on les efface
+  // pour ne pas laisser de trace dans la base de démonstration.
+  const { neon: neon2 } = require('@neondatabase/serverless');
+  const db2 = neon2(url);
+  const created2 = await db2.query(
+    `SELECT a.id FROM appointments a JOIN users u ON u.id = a.buyer_id
+     WHERE lower(u.email) = 'harnais.test@example.fr'`);
+  const ids2 = created2.map(r => r.id);
+  if (ids2.length) {
+    await db2.query(`DELETE FROM conversations c USING appointments a
+                     WHERE c.listing_id = a.listing_id AND c.buyer_id = a.buyer_id AND a.id = ANY($1)`, [ids2]);
+    await db2.query(`DELETE FROM appointments WHERE id = ANY($1)`, [ids2]);
+  }
+  await db2.query(`DELETE FROM users WHERE lower(email) = 'harnais.test@example.fr'`);
+  check('nettoyage des données de test', true, `${ids2.length} rendez-vous et 1 compte effacés`);
+
   console.log('\n— BILAN —');
   const ko = results.filter(r => !r.ok);
   console.log(`${results.length - ko.length}/${results.length} tests OK`);
