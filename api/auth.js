@@ -78,11 +78,13 @@ module.exports = async function handler(req, res) {
       const u = rowsOf(rows)[0];
 
       // Message identique dans tous les cas : pas d'énumération de comptes.
-      const generic = fail(401, 'E-mail ou mot de passe incorrect.');
-      if (!u) return generic;
+      // ATTENTION : la réponse ne doit être envoyée qu'au moment de l'échec —
+      // l'envoyer ici enverrait un 401 avant même la vérification.
+      const generic = () => fail(401, 'E-mail ou mot de passe incorrect.');
+      if (!u) return generic();
       if (u.is_banned) return fail(403, u.ban_reason || 'Ce compte est suspendu.');
-      if (!u.password_hash) return fail(401, 'E-mail ou mot de passe incorrect.');
-      if (!verifyPassword(password, u.password_hash)) return generic;
+      if (!u.password_hash) return generic();
+      if (!verifyPassword(password, u.password_hash)) return generic();
 
       const token = signToken({ sub: u.id, email: u.email, exp: Math.floor(Date.now() / 1000) + TOKEN_TTL });
       return res.status(200).json({ ok: true, token, user: publicUser(u) });

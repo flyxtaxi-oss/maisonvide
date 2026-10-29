@@ -24,10 +24,22 @@ function mockRes() {
     statusCode: 0,
     body: null,
     headers: {},
+    headersSent: false,
     setHeader(k, v) { this.headers[k] = v; },
     status(c) { this.statusCode = c; return this; },
-    json(b) { this.body = b; return this; },
-    end() { return this; },
+    json(b) {
+      // Comme Express : une seconde écriture après l'envoi est une erreur.
+      // C'est ce qui a masqué un bug de double-envoi en production.
+      if (this.headersSent) {
+        const err = new Error('ERR_HTTP_HEADERS_SENT: headers déjà envoyés');
+        err.code = 'ERR_HTTP_HEADERS_SENT';
+        throw err;
+      }
+      this.headersSent = true;
+      this.body = b;
+      return this;
+    },
+    end() { this.headersSent = true; return this; },
     on() { return this; },
   };
   return res;
