@@ -1,0 +1,206 @@
+/* ==========================================================================
+   MaisonVide — La grammaire oryzo
+   Adaptation du système oryzo.ai au monde « L'inventaire de brocante ».
+   Contrat : docs/LANGUE-ORYZO.md
+
+   Sept apports : filets pointillés, données entre crochets, cinq rôles
+   typographiques, bouton qui s'inverse, grille 16 colonnes. Le fond reste
+   papier : oryzo n'est pas un thème, c'est une grammaire.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* 1. LE FILET POINTILLÉ — le séparateur par défaut                    */
+/* ------------------------------------------------------------------ */
+.trait {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background-image: repeating-linear-gradient(90deg,
+    var(--trait-color, var(--ink-900)) 0 3px, transparent 3px 7px);
+  opacity: .45;
+}
+.trait--faint   { --trait-color: var(--ink-300); opacity: .9; }
+.trait--stamp   { --trait-color: var(--stamp-500); opacity: .75; }
+.trait--seal    { --trait-color: var(--seal-500); opacity: .75; }
+.trait--kraft   { --trait-color: var(--kraft-500); opacity: .75; }
+.trait--thick   { height: 2px; }
+.trait--vertical {
+  width: 1px;
+  height: 100%;
+  min-height: 2rem;
+  background-image: repeating-linear-gradient(180deg,
+    var(--trait-color, var(--ink-900)) 0 3px, transparent 3px 7px);
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. LA DONNÉE ENTRE CROCHETS                                          */
+/* ------------------------------------------------------------------ */
+.data {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: .02em;
+  color: var(--ink-600);
+  white-space: nowrap;
+}
+.data::before { content: "[ "; color: var(--ink-400); }
+.data::after  { content: " ]"; color: var(--ink-400); }
+.data--stamp { color: var(--stamp-600); }
+.data--stamp::before, .data--stamp::after { color: var(--stamp-300); }
+.data--seal { color: var(--seal-600); }
+.data--seal::before, .data--seal::after { color: var(--seal-100); }
+.data--lg { font-size: var(--fs-base); }
+.data--strong { font-weight: var(--fw-semibold); }
+
+/* ------------------------------------------------------------------ */
+/* 3. LES CINQ RÔLES TYPOGRAPHIQUES                                     */
+/* ------------------------------------------------------------------ */
+.lede {
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  line-height: 1.35;
+  max-width: 26ch;
+  color: var(--ink-900);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--track-tight);
+}
+.sub {
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.4;
+  color: var(--ink-700);
+  letter-spacing: var(--track-tight);
+}
+.micro {
+  font-size: .9375rem;
+  line-height: 1.65;
+  color: var(--ink-600);
+}
+.note {
+  font-family: var(--font-mono);
+  font-size: .8125rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--ink-500);
+  line-height: 1.5;
+}
+.quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.9vw, 1.55rem);
+  line-height: 1.4;
+  color: var(--ink-900);
+  letter-spacing: var(--track-tight);
+}
+.lede--ink, .quote--ink { color: var(--paper-sheet); }
+.sub--ink { color: var(--ink-300); }
+.micro--ink { color: var(--ink-300); }
+.note--ink { color: var(--kraft-300); }
+
+/* ------------------------------------------------------------------ */
+/* 4. LE BOUTON QUI S'INVERSE                                           */
+/* ------------------------------------------------------------------ */
+.btn {
+  text-transform: uppercase;
+  letter-spacing: .055em;
+  font-weight: var(--fw-semibold);
+}
+.btn--primary:hover {
+  background: var(--ink-900);
+  color: var(--paper-sheet);
+  box-shadow: none;
+}
+.btn--seal:hover {
+  background: var(--paper-sheet);
+  color: var(--seal-700);
+  border-color: var(--seal-500);
+}
+.btn--kraft:hover {
+  background: var(--ink-900);
+  color: var(--kraft-100);
+}
+.btn--ghost:hover {
+  background: var(--ink-900);
+  color: var(--paper-sheet);
+  border-color: var(--ink-900);
+}
+.btn--quiet:hover { color: var(--stamp-600); }
+
+/* Variante « flip » : le libellé bascule verticalement au survol.
+   Structure attendue : deux <span>, le second en absolu. */
+.btn--flip {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn--flip > span {
+  display: block;
+  transition: transform var(--t-arrive);
+}
+.btn--flip > span:last-child {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(110%);
+}
+.btn--flip:hover > span:first-child { transform: translateY(-110%); }
+.btn--flip:hover > span:last-child  { transform: translateY(0); }
+
+/* Variante « glow » : liseré d'accent au survol. */
+.btn--glow {
+  background: transparent;
+  border-color: var(--ink-300);
+  color: var(--ink-900);
+}
+.btn--glow:hover {
+  border-color: var(--stamp-500);
+  color: var(--stamp-600);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, .1);
+}
+
+/* ------------------------------------------------------------------ */
+/* 5. LA GRILLE 16 COLONNES                                             */
+/* ------------------------------------------------------------------ */
+.grid-16 {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: var(--grid-gap, clamp(1rem, 2vw, 1.75rem));
+}
+.col-2  { grid-column: span 2; }
+.col-3  { grid-column: span 3; }
+.col-4  { grid-column: span 4; }
+.col-5  { grid-column: span 5; }
+.col-6  { grid-column: span 6; }
+.col-7  { grid-column: span 7; }
+.col-8  { grid-column: span 8; }
+.col-9  { grid-column: span 9; }
+.col-10 { grid-column: span 10; }
+.col-11 { grid-column: span 11; }
+.col-12 { grid-column: span 12; }
+.col-13 { grid-column: span 13; }
+.col-14 { grid-column: span 14; }
+.col-15 { grid-column: span 15; }
+.col-full { grid-column: 1 / -1; }
+
+@media (max-width: 1080px) {
+  .col-2, .col-3, .col-4, .col-5, .col-6 { grid-column: span 8; }
+  .col-7, .col-8, .col-9, .col-10, .col-11, .col-12,
+  .col-13, .col-14, .col-15 { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  .grid-16 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .col-2, .col-3, .col-4, .col-5, .col-6,
+  .col-7, .col-8, .col-9, .col-10, .col-11, .col-12,
+  .col-13, .col-14, .col-15 { grid-column: 1 / -1; }
+}
+
+/* ------------------------------------------------------------------ */
+/* 6. LE CONTRASTE : le papier reste le fond                           */
+/* ------------------------------------------------------------------ */
+.on-ink {
+  --trait-color: var(--kraft-300);
+}
+.on-ink .data { color: var(--kraft-100); }
+.on-ink .data::before, .on-ink .data::after { color: rgba(255,255,255,.28); }
+.on-ink .micro { color: var(--ink-300); }
+.on-ink .sub { color: var(--ink-300); }
+.on-ink .btn--glow { border-color: rgba(255,255,255,.28); color: var(--paper-sheet); }
+.on-ink .btn--glow:hover { border-color: var(--kraft-300); color: var(--kraft-100); }

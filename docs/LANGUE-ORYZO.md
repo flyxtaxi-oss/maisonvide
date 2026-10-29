@@ -100,15 +100,61 @@ et un libellé qui annonce la section courante. Masquée sous 1100 px.
 
 ### 3.6 `.act` — les sections épinglées
 
-Une section `position: relative` d'une hauteur `N * 100vh`, contenant une
-`position: sticky` qui reste centrée pendant que le contenu défile. Trois usages :
+Une section `position: relative` contenant une grille à deux colonnes : une
+colonne **épinglée** (`position: sticky`) qui reste pendant que l'autre
+défile. Le moteur est déjà implémenté dans `assets/css/scroll.css` +
+`assets/js/scroll.js` — il suffit d poser la structure.
 
-1. **L'inventaire** (3 étapes) — la colonne de gauche reste fixe avec le numéro de
-   l'étape qui change ; la colonne de droite défile.
-2. **La charte** (7 barrières) — une barrière se grave au fur et à mesure.
-3. **Le séquestre** (5 étapes) — le rail se remplit.
+```html
+<section class="act" id="inventaire">
+  <div class="act__grid">
+    <div class="act__sticky">
+      <p class="note">Acte I</p>
+      <h2 class="display">L'inventaire,<br>en trois lignes.</h2>
+    </div>
+    <div class="act__flow">
+      <article class="act__step" data-step="1">…</article>
+      <article class="act__step" data-step="2">…</article>
+      <article class="act__step" data-step="3">…</article>
+    </div>
+  </div>
+</section>
+```
 
-Fallback sans JS : la section se lit normalement (hauteur auto, pas de sticky).
+Contrat du moteur (assets/css/scroll.css) :
+
+| Classe | Rôle |
+|---|---|
+| `.act` | la section ; hauteur libre, le contenu décide |
+| `.act__grid` | grille 5/11 ; devient 1 colonne sous 900 px |
+| `.act__sticky` | colonne épinglée (`position: sticky`) |
+| `.act__flow` | colonne qui défile |
+| `.act__step` | une étape ; `.is-current` / `.is-past` posés par le JS |
+
+Le JS marque l'étape courante via un `IntersectionObserver`. Sans JS, toutes
+les étapes restent lisibles. Sous 900 px, `position: sticky` est désactivé :
+la page se lit normalement.
+
+**Chaque `<section>` d'une page doit porter `data-section="Nom lisible"`** :
+c'est ce libellé que le rail de progression affiche au bord droit.
+
+### 3.7 Le rail de progression
+
+`assets/js/scroll.js` crée lui-même le `.scroll-rail` (barre verticale de
+2 px, point qui descend, libellé de la section courante, pourcentage) et la
+`.scroll-progress` (barre de 2 px en tête de page). Aucun balisage à écrire.
+
+Le rail s'affiche à partir de 1180 px de large et décale le contenu
+(`body.has-rail`) pour ne jamais le chevaucher. C'est la **seule** séquence de
+ce type sur le site : le pendant de « Le relevé ».
+
+### 3.8 Les révélations
+
+`[data-motion]` déclenche une révélation à l'entrée dans le viewport
+(translation de 14 px + fondu, `cubic-bezier(.16,1,.3,1)`). Variantes :
+`data-motion="fade"`, `"left"`, `"scale"`. Sans JS ou avec
+`prefers-reduced-motion`, le contenu est visible d'emblée.
+
 
 ---
 

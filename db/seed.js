@@ -9,6 +9,12 @@
 const fs = require('fs');
 const path = require('path');
 const { neon } = require('@neondatabase/serverless');
+const { hashPassword } = require('../api/_auth');
+
+/* Mot de passe de démonstration, commun aux 12 vendeurs du seed.
+   Documenté dans README.md — c'est un jeu de données de démo, jamais un
+   compte réel. Le hachage est un scrypt (aucun mot de passe en clair). */
+const DEMO_PASSWORD = 'maisonvide';
 
 function readUrl() {
   if (process.env.DATABASE_URL) return process.env.DATABASE_URL.trim();
@@ -88,12 +94,15 @@ async function main() {
   for (const s of SELLERS) {
     const r = rowsOf(await sql.query(
       `INSERT INTO users (email, phone, display_name, city, tier, kyc_status, kyc_verified_at,
-                          trust_score, rating, sales_count, purchases_count, created_at)
+                          trust_score, rating, sales_count, purchases_count, created_at,
+                          password_hash, pro_plan, pro_activated_at, response_time_min)
        VALUES ($1,$2,$3,$4,$5::user_tier,'approved', now() - interval '400 days',
-               $6,$7,$8,$9, now() - interval '400 days')
+               $6,$7,$8,$9, now() - interval '400 days', $10, $11, now() - interval '120 days', $12)
        RETURNING id`,
       [s.email, '+3360000' + String(sellerIds.length + 1).padStart(4, '0'), s.name, s.city,
-       s.tier, s.trust, s.rating, s.sales, s.purchases]));
+       s.tier, s.trust, s.rating, s.sales, s.purchases,
+       hashPassword(DEMO_PASSWORD), s.tier === 'pro' || s.tier === 'premium' ? 'pro' : null,
+       12 + (s.trust % 30)]));
     sellerIds.push(r[0].id);
   }
 

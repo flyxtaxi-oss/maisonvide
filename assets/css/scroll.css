@@ -1,0 +1,182 @@
+/* ==========================================================================
+   MaisonVide — Le moteur de scroll
+   Rail de progression à droite, barre de progression en tête, sections
+   épinglées (les « actes »). Le pendant moderne de la séquence « Le relevé ».
+
+   Règle absolue : le contenu est visible par défaut. Le rail et les actes
+   sont un bonus, jamais une condition d'accès à l'information.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* La barre de progression (2 px, en tête de page)                     */
+/* ------------------------------------------------------------------ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 100%;
+  z-index: calc(var(--z-sticky) + 5);
+  pointer-events: none;
+  background: transparent;
+}
+.scroll-progress__bar {
+  height: 100%;
+  width: 100%;
+  background: var(--stamp-500);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+
+/* ------------------------------------------------------------------ */
+/* Le rail de progression (bord droit)                                  */
+/* ------------------------------------------------------------------ */
+.scroll-rail {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100vh;
+  width: 3.25rem;
+  z-index: var(--z-sticky);
+  pointer-events: none;
+  display: none;
+}
+@media (min-width: 1180px) {
+  .scroll-rail { display: block; }
+  /* On libère la gouttière pour que le rail ne chevauche jamais le contenu. */
+  body.has-rail { padding-right: 3.25rem; }
+}
+
+.scroll-rail__track {
+  position: absolute;
+  top: 14vh; bottom: 14vh;
+  right: 1.35rem;
+  width: 1px;
+  background: var(--paper-rule);
+}
+.scroll-rail__fill {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 0;
+  background: var(--ink-900);
+}
+.scroll-rail__dot {
+  position: absolute;
+  right: 1.02rem;
+  top: 0;
+  width: .6rem; height: .6rem;
+  margin-top: -.3rem;
+  border-radius: 50%;
+  background: var(--stamp-500);
+  box-shadow: 0 0 0 3px var(--paper-ground);
+}
+.scroll-rail__label {
+  position: absolute;
+  right: 2.1rem;
+  top: 0;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  transform-origin: 50% 50%;
+  rotate: 180deg;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+  white-space: nowrap;
+  max-height: 40vh;
+  overflow: hidden;
+  transition: color var(--t-base), opacity var(--t-base);
+}
+.scroll-rail__pct {
+  position: absolute;
+  right: .55rem;
+  bottom: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: .625rem;
+  letter-spacing: .08em;
+  color: var(--ink-400);
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+}
+
+/* ------------------------------------------------------------------ */
+/* Les actes : sections épinglées au scroll                            */
+/* ------------------------------------------------------------------ */
+.act {
+  position: relative;
+}
+.act__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 11fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: start;
+}
+.act__sticky {
+  position: sticky;
+  top: clamp(5rem, 15vh, 10rem);
+  align-self: start;
+}
+.act__flow { min-width: 0; }
+
+/* Les étapes d'un acte se marquent au passage de la lecture. */
+.act__step {
+  opacity: .32;
+  transition: opacity var(--t-arrive), transform var(--t-arrive);
+  transform: translateY(6px);
+}
+.act__step.is-current,
+.act__step.is-past {
+  opacity: 1;
+  transform: translateY(0);
+}
+.act__step.is-current .act__num { color: var(--stamp-500); }
+
+@media (max-width: 900px) {
+  .act__grid { grid-template-columns: 1fr; }
+  .act__sticky { position: static; top: auto; }
+  .act__step { opacity: 1; transform: none; }
+}
+
+/* Variante « acte plein » : la colonne épinglée occupe tout le champ. */
+.act--full .act__grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* ------------------------------------------------------------------ */
+/* Le mouvement : ce qui apparaît en descendant                        */
+/* ------------------------------------------------------------------ */
+[data-motion] {
+  --motion-from: 14px;
+}
+[data-motion="fade"] { --motion-from: 0; }
+[data-motion="left"] { --motion-from: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-motion] {
+    opacity: 0;
+    transform: translateY(var(--motion-from));
+    transition:
+      opacity var(--t-arrive),
+      transform var(--t-arrive);
+  }
+  [data-motion].is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  [data-motion="left"] {
+    transform: translateX(-18px);
+  }
+  [data-motion="left"].is-in {
+    transform: translateX(0);
+  }
+  [data-motion="scale"] {
+    transform: scale(.985);
+  }
+  [data-motion="scale"].is-in {
+    transform: scale(1);
+  }
+}
+
+/* Filet de sécurité : sans JS, rien ne reste invisible. */
+html:not(.js) [data-motion] { opacity: 1; transform: none; }
