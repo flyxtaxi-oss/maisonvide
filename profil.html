@@ -173,7 +173,7 @@
 <script src="assets/js/site.js"></script>
 <script src="assets/js/listings.js"></script>
 <script>
-(function () {
+(async function () {
   const u = window.mvAuth.current();
   const out = document.getElementById('logged-out');
   const inn = document.getElementById('logged-in');
@@ -208,12 +208,25 @@
     { title:'Miroir rond bronze', buyer:'Ach. #1821', price:60, date:'21/09', status:'Vendue' },
   ];
 
-  const listings = (u.listings && u.listings.length) ? u.listings : DEMO_LISTINGS;
-  const reviews = (u.reviews && u.reviews.length) ? u.reviews : DEMO_REVIEWS;
-  const sales = (u.salesList && u.salesList.length) ? u.salesList : DEMO_SALES;
+  let listings = (u.listings && u.listings.length) ? u.listings : DEMO_LISTINGS;
+  let reviews = (u.reviews && u.reviews.length) ? u.reviews : DEMO_REVIEWS;
+  let sales = (u.salesList && u.salesList.length) ? u.salesList : DEMO_SALES;
+  try {
+    const data = await window.mvAuth.myListings();
+    listings = (data.listings || []).map(l => ({
+      slug: l.slug,
+      title: l.title,
+      price: Math.round(l.price),
+      status: l.status,
+      views: l.views || 0,
+      image: (l.photo || '/assets/img/listing-canape.jpg').replace(/^\//, ''),
+    }));
+    reviews = [];
+    sales = [];
+  } catch (e) {}
 
   document.getElementById('k-listings').textContent = listings.length;
-  document.getElementById('k-sales').textContent = sales.length;
+  document.getElementById('k-sales').textContent = sales.length || u.sales || 0;
   document.getElementById('k-views').textContent = listings.reduce((a,l)=>a+(l.views||0),0).toLocaleString('fr-FR');
   document.getElementById('k-rev').textContent = reviews.length;
   document.getElementById('k-revenue').textContent = (sales.reduce((a,s)=>a+s.price,0)).toLocaleString('fr-FR') + ' €';

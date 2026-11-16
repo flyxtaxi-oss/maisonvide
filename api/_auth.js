@@ -112,6 +112,7 @@ function publicUser(u) {
     rating: Number(u.rating || 0),
     kyc: u.kyc_status,
     salesCount: u.sales_count,
+    createdAt: u.created_at || null,
   };
 }
 

@@ -132,7 +132,7 @@
         </div>
         <div class="auth__field">
           <label class="form-label" for="a-password">Mot de passe</label>
-          <input type="password" id="a-password" class="input" placeholder="8 caractères minimum" required minlength="6" autocomplete="current-password">
+          <input type="password" id="a-password" class="input" placeholder="8 caractères minimum" required minlength="8" autocomplete="current-password">
         </div>
 
         <button type="submit" class="btn btn--primary btn--block btn--lg" id="auth-submit">Se connecter</button>
@@ -147,7 +147,7 @@
       <div class="auth__demo">
         <strong style="color:var(--ink-700)">Démo :</strong>
         vous pouvez aussi <button type="button" id="demo-login">entrer avec un compte de démonstration</button>
-        (vendeur avec 12 annonces et 47 avis).
+        (compte vendeur déjà en base).
       </div>
     </div>
   </div>
@@ -222,42 +222,43 @@
     setTimeout(() => location.href = next, 600);
   }
 
-  document.getElementById('auth-form').addEventListener('submit', e => {
+  document.getElementById('auth-form').addEventListener('submit', async e => {
     e.preventDefault();
     errBox.classList.remove('is-on');
     const email = document.getElementById('a-email').value.trim();
     const password = document.getElementById('a-password').value;
+    submit.disabled = true;
 
     try {
       if (mode === 'register') {
         const name = document.getElementById('r-name').value.trim();
         const phone = document.getElementById('r-phone').value.trim();
         if (!name) throw new Error('Indiquez votre nom.');
-        if (password.length < 6) throw new Error('Mot de passe : 6 caractères minimum.');
-        window.mvAuth.register({ name, email, password, phone });
+        if (password.length < 8) throw new Error('Mot de passe : 8 caractères minimum.');
+        await window.mvAuth.register({ name, email, password, phone });
         window.mvToast('Compte créé. Bienvenue.', 'success');
       } else {
-        window.mvAuth.login(email, password);
+        await window.mvAuth.login(email, password);
         window.mvToast('Connecté.', 'success');
       }
       setTimeout(() => location.href = next, 700);
     } catch (err) {
+      submit.disabled = false;
       errBox.textContent = err.message;
       errBox.classList.add('is-on');
     }
   });
 
-  // Compte de démonstration pré-rempli
-  document.getElementById('demo-login').addEventListener('click', () => {
-    const demo = { id: 'u_demo', name: 'Camille R.', email: 'camille@demo.fr', phone: '0612345678', password: 'demo1234', createdAt: '2024-03-12T00:00:00Z', tier: 'verified', listings: [], wishlist: [], sales: 12, rating: 4.9, reviews: [] };
-    const users = window.mvStore.get('mv_users', []);
-    if (!users.find(u => u.email === demo.email)) {
-      users.push(demo);
-      window.mvStore.set('mv_users', users);
+  document.getElementById('demo-login').addEventListener('click', async () => {
+    errBox.classList.remove('is-on');
+    try {
+      await window.mvAuth.login('cuisine.m@example.fr', 'maisonvide');
+      window.mvToast('Compte vendeur ouvert.', 'success');
+      setTimeout(() => location.href = next, 500);
+    } catch (err) {
+      errBox.textContent = err.message;
+      errBox.classList.add('is-on');
     }
-    window.mvStore.set('mv_user', { ...demo, password: undefined });
-    window.mvToast('Compte de démonstration chargé', 'success');
-    setTimeout(() => location.href = next, 600);
   });
 })();
 </script>

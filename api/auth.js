@@ -28,7 +28,7 @@ module.exports = async function handler(req, res) {
       const payload = verifyToken(bearer(req));
       if (!payload) return fail(401, 'Session expirée ou absente.');
       const rows = await sql.query(
-        `SELECT id, email, phone, display_name, city, tier, trust_score, rating, kyc_status, sales_count
+        `SELECT id, email, phone, display_name, city, tier, trust_score, rating, kyc_status, sales_count, created_at
          FROM users WHERE id = $1`, [payload.sub]);
       const u = rowsOf(rows)[0];
       if (!u) return fail(404, 'Compte introuvable.');
@@ -55,10 +55,10 @@ module.exports = async function handler(req, res) {
       if (existing.length) return fail(409, 'Un compte existe déjà avec cet e-mail.');
 
       const inserted = await sql.query(
-        `INSERT INTO users (email, phone, display_name, tier, kyc_status, trust_score, rating, city)
-         VALUES ($1, $2, $3, 'basic', 'pending', 50, 0, $4)
-         RETURNING id, email, phone, display_name, city, tier, trust_score, rating, kyc_status, sales_count`,
-        [email, phone || null, name, String(body.city || '').trim() || null]);
+        `INSERT INTO users (email, phone, password_hash, display_name, tier, kyc_status, trust_score, rating, city)
+         VALUES ($1, $2, $3, $4, 'basic', 'pending', 50, 0, $5)
+         RETURNING id, email, phone, display_name, city, tier, trust_score, rating, kyc_status, sales_count, created_at`,
+        [email, phone || null, hashPassword(password), name, String(body.city || '').trim() || null]);
 
       const u = rowsOf(inserted)[0];
       const token = signToken({ sub: u.id, email: u.email, exp: Math.floor(Date.now() / 1000) + TOKEN_TTL });
@@ -73,7 +73,7 @@ module.exports = async function handler(req, res) {
 
       const rows = await sql.query(
         `SELECT id, email, phone, display_name, city, tier, trust_score, rating, kyc_status, sales_count,
-                password_hash, is_banned, ban_reason
+                created_at, password_hash, is_banned, ban_reason
          FROM users WHERE lower(email) = $1`, [email]);
       const u = rowsOf(rows)[0];
 

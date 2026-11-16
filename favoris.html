@@ -73,8 +73,7 @@
 <script src="assets/js/site.js"></script>
 <script src="assets/js/listings.js"></script>
 <script>
-(function () {
-  const { DATA } = window.MaisonVideData;
+(async function () {
   const u = window.mvAuth.current();
 
   if (!u) {
@@ -83,30 +82,31 @@
   }
   document.getElementById('wl-content').classList.remove('hidden');
 
-  const PHOTOS = {
-    'canape-ikea-kivik':'listing-canape.jpg','table-chene-massif':'listing-table.jpg','lampe-articulo':'listing-lampe.jpg',
-    'macbook-pro-m1':'listing-macbook.jpg','commode-laque-p60':'listing-commode.jpg','velo-ville-peugeot':'listing-velo.jpg',
-    'livre-honestpreface':'listing-asterix.jpg','robot-cuiseur-thermomix':'listing-thermomix.jpg',
-    'manteau-cuir-le-vrai':'listing-manteau.jpg','console-ps5':'listing-ps5.jpg','vase-murano':'listing-murano.jpg',
-    'seche-cheveux-dyson':'listing-dyson.jpg'
-  };
+  let items = [];
+  try {
+    const data = await window.mvAuth.myWishlist();
+    items = data.listings || [];
+    window.mvAuth.update({ wishlist: data.slugs || [] });
+  } catch (err) {
+    window.mvToast(err.message || 'Favoris illisibles.', 'warning');
+  }
 
   function render() {
-    const wl = window.mvAuth.current().wishlist || [];
-    const items = DATA.listings.filter(l => wl.includes(l.slug));
-    document.getElementById('wl-count').textContent = items.length + (items.length > 1 ? ' objets' : ' objet');
-    document.getElementById('wl-empty').classList.toggle('hidden', items.length > 0);
-    document.getElementById('wl-grid').innerHTML = items.map(l => `
+    const wl = (window.mvAuth.current() || {}).wishlist || [];
+    const shown = items.filter(l => wl.includes(l.slug));
+    document.getElementById('wl-count').textContent = shown.length + (shown.length > 1 ? ' objets' : ' objet');
+    document.getElementById('wl-empty').classList.toggle('hidden', shown.length > 0);
+    document.getElementById('wl-grid').innerHTML = shown.map(l => `
       <article class="listing-card" data-slug="${l.slug}">
         <div class="listing-card__img">
-          <span class="listing-card__price"><span class="stamp-price" style="font-size:.85rem;padding:.25rem .6rem">${l.price} €</span></span>
-          <img src="assets/img/${PHOTOS[l.slug] || ''}" alt="${l.title}" loading="lazy">
+          <span class="listing-card__price"><span class="stamp-price" style="font-size:.85rem;padding:.25rem .6rem">${Math.round(l.price)} €</span></span>
+          <img src="${(l.photo || '/assets/img/listing-canape.jpg').replace(/^\//, '')}" alt="${l.title}" loading="lazy">
         </div>
         <div class="listing-card__body">
           <div class="listing-card__title">${l.title}</div>
           <div class="listing-card__meta">
-            <span>${DATA.categories[l.category].icon} ${DATA.categories[l.category].label}</span>
-            <span><svg class="ic ic--sm" aria-hidden="true"><use href="#i-pin"></use></svg> ${l.location}</span>
+            <span>${l.category || ''}</span>
+            <span><svg class="ic ic--sm" aria-hidden="true"><use href="#i-pin"></use></svg> ${l.city || ''}</span>
           </div>
           <button class="btn btn--ghost btn--sm mt-6" data-wishlist="${l.slug}">Retirer des favoris</button>
         </div>
@@ -114,10 +114,14 @@
     `).join('');
   }
 
-  document.getElementById('wl-clear').addEventListener('click', () => {
-    window.mvAuth.update({ wishlist: [] });
+  document.getElementById('wl-clear').addEventListener('click', async () => {
+    try { await window.mvAuth.clearWishlist(); } catch (e) { window.mvAuth.update({ wishlist: [] }); }
     render();
     window.mvToast('Favoris vidés', 'success');
+  });
+
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-wishlist]')) setTimeout(render, 0);
   });
 
   render();

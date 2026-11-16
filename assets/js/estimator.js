@@ -429,10 +429,77 @@
         goStep(2);
         return;
       }
+      state.last = result;
       paint(result);
       goStep(3);
       toast('Relevé fait. Le prix est estampé.', 'success');
     }
+
+    function draftFrom(result) {
+      const user = window.mvAuth && window.mvAuth.current ? window.mvAuth.current() : null;
+      const label = result.categoryLabel || result.category;
+      return {
+        title: label + ' — ' + (result.condLabel || 'occasion'),
+        description: 'Estimation MaisonVide : entre ' + result.low + ' € et ' + result.high + ' €. Prix proposé ' + result.avg + ' €.',
+        category: (result.detected && result.detected.category) || state.category,
+        condition: (result.detected && result.detected.condition) || state.condition,
+        brandTier: (result.detected && result.detected.brand) || state.brand || 'milieu',
+        ageYears: state.age || 0,
+        price: result.avg,
+        estimateLow: result.low,
+        estimateHigh: result.high,
+        confidence: result.confidence,
+        city: (user && user.city) || 'Paris',
+      };
+    }
+
+    async function publish(result) {
+      if (!window.mvAuth || !window.mvAuth.isLogged()) {
+        try { sessionStorage.setItem('mv_draft_listing', JSON.stringify(draftFrom(result))); } catch (e) {}
+        toast('Connectez-vous pour déposer l’annonce.', 'warning');
+        setTimeout(function () {
+          location.href = 'auth.html?next=' + encodeURIComponent('vendre.html');
+        }, 700);
+        return;
+      }
+      const btn = $('[data-est-publish]', root);
+      if (btn) btn.disabled = true;
+      try {
+        const data = await window.mvAuth.publishListing(draftFrom(result));
+        try { sessionStorage.removeItem('mv_draft_listing'); } catch (e) {}
+        toast('Annonce déposée. Elle attend une relecture.', 'success');
+        setTimeout(function () { location.href = 'mes-annonces.html'; }, 700);
+        return data;
+      } catch (err) {
+        if (btn) btn.disabled = false;
+        toast(err.message || 'Dépôt impossible.', 'danger');
+      }
+    }
+
+    const publishBtn = $('[data-est-publish]', root);
+    if (publishBtn) {
+      publishBtn.addEventListener('click', function () {
+        if (!state.last) {
+          toast('Faites d’abord le relevé.', 'warning');
+          return;
+        }
+        publish(state.last);
+      });
+    }
+
+    try {
+      const pending = sessionStorage.getItem('mv_draft_listing');
+      if (pending && window.mvAuth && window.mvAuth.isLogged()) {
+        const draft = JSON.parse(pending);
+        window.mvAuth.publishListing(draft).then(function () {
+          sessionStorage.removeItem('mv_draft_listing');
+          toast('Annonce déposée. Elle attend une relecture.', 'success');
+          setTimeout(function () { location.href = 'mes-annonces.html'; }, 700);
+        }).catch(function (err) {
+          toast(err.message || 'Le brouillon n’a pas pu être déposé.', 'warning');
+        });
+      }
+    } catch (e) {}
 
     if (btnRun) btnRun.addEventListener('click', runEstimate);
 

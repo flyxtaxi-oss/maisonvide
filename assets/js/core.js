@@ -84,60 +84,95 @@
   window.mvStore = store;
 
   /* ------------------------------------------------------------------ */
-  /* AUTH — session persistante, prête pour un vrai backend */
+  /* AUTH — compte Neon, même jeton que l'espace vendeur                 */
   /* ------------------------------------------------------------------ */
+  const API_BASE = /^(127\.0\.0\.1|localhost)$/.test(location.hostname)
+    ? 'https://maisonvide.vercel.app'
+    : '';
+  const TOKEN_KEY = 'mv_pro_token';
+
+  function token() {
+    try { return localStorage.getItem(TOKEN_KEY) || ''; } catch { return ''; }
+  }
+
+  function sessionFrom(user, wishlist) {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone || '',
+      city: user.city || '',
+      tier: user.tier || 'basic',
+      rating: Number(user.rating || 0),
+      sales: user.salesCount || 0,
+      wishlist: wishlist || [],
+      createdAt: user.createdAt || new Date().toISOString(),
+    };
+  }
+
+  async function api(path, opts) {
+    const headers = Object.assign({ 'Content-Type': 'application/json' }, (opts && opts.headers) || {});
+    const t = token();
+    if (t) headers.Authorization = 'Bearer ' + t;
+    const res = await fetch(API_BASE + path, {
+      method: (opts && opts.method) || 'GET',
+      headers,
+      body: opts && opts.body ? JSON.stringify(opts.body) : undefined,
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const err = new Error(data.error || 'Le service ne répond pas.');
+      err.status = res.status;
+      throw err;
+    }
+    return data;
+  }
+
   const Auth = {
     KEY: 'mv_user',
-    USERS: 'mv_users',
 
     current() { return store.get(Auth.KEY, null); },
-    isLogged() { return !!Auth.current(); },
+    isLogged() { return !!Auth.current() && !!token(); },
+    token,
 
-    register({ name, email, password, phone }) {
-      const users = store.get(Auth.USERS, []);
-      if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
-        throw new Error('Un compte existe déjà avec cet email.');
-      }
-      const user = {
-        id: 'u_' + Date.now().toString(36),
-        name, email, phone: phone || '',
-        password, // démo uniquement — en prod : hash serveur
-        createdAt: new Date().toISOString(),
-        tier: 'verified',
-        listings: [],
-        wishlist: [],
-        sales: 0,
-        rating: 0,
-        reviews: [],
-      };
-      users.push(user);
-      store.set(Auth.USERS, users);
-      const session = { ...user };
-      delete session.password;
+    async register({ name, email, password, phone }) {
+      const data = await api('/api/auth', {
+        method: 'POST',
+        body: { action: 'register', name, email, password, phone },
+      });
+      try { localStorage.setItem(TOKEN_KEY, data.token); } catch {}
+      const session = sessionFrom(data.user, []);
       store.set(Auth.KEY, session);
       return session;
     },
 
-    login(email, password) {
-      const users = store.get(Auth.USERS, []);
-      const u = users.find(x => x.email.toLowerCase() === email.toLowerCase());
-      if (!u) throw new Error('Aucun compte avec cet email.');
-      if (u.password !== password) throw new Error('Mot de passe incorrect.');
-      const session = { ...u };
-      delete session.password;
+    async login(email, password) {
+      const data = await api('/api/auth', {
+        method: 'POST',
+        body: { action: 'login', email, password },
+      });
+      try { localStorage.setItem(TOKEN_KEY, data.token); } catch {}
+      let wishlist = [];
+      try {
+        const wl = await api('/api/wishlist');
+        wishlist = wl.slugs || [];
+      } catch {}
+      const session = sessionFrom(data.user, wishlist);
       store.set(Auth.KEY, session);
       return session;
     },
 
-    logout() { store.del(Auth.KEY); location.reload(); },
+    logout() {
+      store.del(Auth.KEY);
+      try { localStorage.removeItem(TOKEN_KEY); } catch {}
+      location.reload();
+    },
 
     update(patch) {
       const u = Auth.current();
       if (!u) return null;
-      const next = { ...u, ...patch };
+      const next = Object.assign({}, u, patch);
       store.set(Auth.KEY, next);
-      const users = store.get(Auth.USERS, []).map(x => x.id === next.id ? { ...x, ...patch } : x);
-      store.set(Auth.USERS, users);
       return next;
     },
 
@@ -146,9 +181,33 @@
       if (!u) return { ok: false, reason: 'login' };
       const list = u.wishlist || [];
       const has = list.includes(slug);
-      const next = has ? list.filter(s => s !== slug) : [...list, slug];
+      const next = has ? list.filter(s => s !== slug) : list.concat([slug]);
       Auth.update({ wishlist: next });
+      const call = has
+        ? api('/api/wishlist', { method: 'DELETE', body: { slug } })
+        : api('/api/wishlist', { method: 'POST', body: { slug } });
+      call.then(data => {
+        if (data && data.slugs) Auth.update({ wishlist: data.slugs });
+      }).catch(() => {});
       return { ok: true, added: !has, count: next.length };
+    },
+
+    async clearWishlist() {
+      const data = await api('/api/wishlist', { method: 'POST', body: { clear: true } });
+      Auth.update({ wishlist: [] });
+      return data;
+    },
+
+    async publishListing(draft) {
+      return api('/api/listings', { method: 'POST', body: draft });
+    },
+
+    async myListings() {
+      return api('/api/listings?mine=1');
+    },
+
+    async myWishlist() {
+      return api('/api/wishlist');
     },
 
     inWishlist(slug) {
@@ -157,6 +216,7 @@
     },
   };
   window.mvAuth = Auth;
+  window.mvApi = api;
 
   /* ------------------------------------------------------------------ */
   /* Toast */
