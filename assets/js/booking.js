@@ -18,7 +18,7 @@
   // Aucune clé n'est exposée — l'API est publique et ne renvoie que des
   // données déjà lisibles par le navigateur.
   const LOCAL = /^(127\.0\.0\.1|localhost)$/.test(location.hostname);
-  const API_BASE = window.MV_BOOKING_API || (LOCAL ? 'https://maisonvide.vercel.app' : '');
+  const API_BASE = window.MV_BOOKING_API || (LOCAL ? 'https://maisonvide-pi.vercel.app' : '');
 
   const TZ = 'Europe/Paris';
   const TIMEOUT = 12000;

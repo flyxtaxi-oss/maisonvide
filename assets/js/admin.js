@@ -153,7 +153,7 @@
   /* En production les tableaux ci-dessous sont remplacés par /api/admin
      (Neon). Ils restent le repli si l'API ne répond pas. */
   const API_BASE = /^(127\.0\.0\.1|localhost)$/.test(location.hostname)
-    ? 'https://maisonvide.vercel.app'
+    ? 'https://maisonvide-pi.vercel.app'
     : '';
 
   let live = null;

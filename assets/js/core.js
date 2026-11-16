@@ -87,7 +87,7 @@
   /* AUTH — compte Neon, même jeton que l'espace vendeur                 */
   /* ------------------------------------------------------------------ */
   const API_BASE = /^(127\.0\.0\.1|localhost)$/.test(location.hostname)
-    ? 'https://maisonvide.vercel.app'
+    ? 'https://maisonvide-pi.vercel.app'
     : '';
   const TOKEN_KEY = 'mv_pro_token';
 
