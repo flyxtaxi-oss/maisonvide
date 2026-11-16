@@ -150,7 +150,15 @@
   /* Données de démonstration                                             */
   /* ------------------------------------------------------------------ */
 
-  const listings = [
+  /* En production les tableaux ci-dessous sont remplacés par /api/admin
+     (Neon). Ils restent le repli si l'API ne répond pas. */
+  const API_BASE = /^(127\.0\.0\.1|localhost)$/.test(location.hostname)
+    ? 'https://maisonvide.vercel.app'
+    : '';
+
+  let live = null;
+
+  let listings = [
     { ref: 'MV-2481', title: 'Canapé teck des années 60', cat: 'Mobilier', catKey: 'mobilier', price: 280, seller: 'Sophie M.', city: 'Paris', status: 'pending', conf: 92, views: 134, contacts: 6, date: 'Il y a 2 h' },
     { ref: 'MV-2480', title: 'MacBook Pro M1 2020', cat: 'Électronique', catKey: 'electronique', price: 720, seller: 'Antoine R.', city: 'Lyon', status: 'review', conf: 64, views: 58, contacts: 2, date: 'Il y a 30 min' },
     { ref: 'MV-2479', title: 'Table chêne massif', cat: 'Mobilier', catKey: 'mobilier', price: 340, seller: 'Julien D.', city: 'Bordeaux', status: 'sold', conf: 88, views: 412, contacts: 19, date: 'Hier' },
@@ -163,14 +171,14 @@
     { ref: 'MV-2472', title: 'Collection Astérix complète', cat: 'Livres', catKey: 'livres', price: 110, seller: 'Antoine R.', city: 'Lyon', status: 'active', conf: 84, views: 145, contacts: 5, date: 'Il y a 4 j' }
   ];
 
-  const moderation = [
+  let moderation = [
     { ref: 'MV-2480', title: 'MacBook Pro M1 2020', seller: 'Antoine R.', price: 720, conf: 64, reason: 'Photos insuffisantes', flag: 'Confiance IA sous 65 %' },
     { ref: 'MV-2473', title: 'Fauteuil rotin', seller: 'Famille L.', price: 210, conf: 58, reason: 'Catégorie à confirmer', flag: 'Confiance IA sous 65 %' },
     { ref: 'MV-2476', title: 'PlayStation 5 + 2 manettes', seller: 'Gamer P.', price: 380, conf: 41, reason: 'Signalé par 2 acheteurs', flag: 'Signalement' },
     { ref: 'MV-2475', title: 'Vase Murano signé', seller: 'Galerie S.', price: 320, conf: 76, reason: 'Prix au-dessus du référentiel', flag: 'Écart de prix' }
   ];
 
-  const iaRows = [
+  let iaRows = [
     { photo: 'canape-teck.jpg', cat: 'Mobilier', state: 'Bon', brand: 'Sans marque', range: '260 — 320 €', final: 280, conf: 92, latency: '1,2 s', model: 'mv-estimate-v2.4.1' },
     { photo: 'macbook-m1.jpg', cat: 'Électronique', state: 'Très bon', brand: 'Apple', range: '640 — 780 €', final: 720, conf: 64, latency: '1,6 s', model: 'mv-estimate-v2.4.1' },
     { photo: 'thermomix-tm6.jpg', cat: 'Électroménager', state: 'Très bon', brand: 'Thermomix', range: '620 — 720 €', final: 680, conf: 95, latency: '1,1 s', model: 'mv-estimate-v2.4.1' },
@@ -181,7 +189,7 @@
     { photo: 'dyson-supersonic.jpg', cat: 'Électroménager', state: 'Très bon', brand: 'Dyson', range: '150 — 200 €', final: 175, conf: 90, latency: '1,2 s', model: 'mv-estimate-v2.4.1' }
   ];
 
-  const activities = [
+  let activities = [
     { icon: 'banknote', tone: 'seal', text: 'Vente conclue — MacBook Pro M1', sub: 'Antoine R. vend à l’acheteur #1846 · 720 €', when: 'Il y a 5 min' },
     { icon: 'chat', tone: 'kraft', text: 'Nouveau message WhatsApp', sub: 'Christine P. — Demande d’estimation', when: 'Il y a 12 min' },
     { icon: 'user', tone: 'plain', text: 'Nouveau vendeur inscrit', sub: 'Famille L. — email vérifié', when: 'Il y a 28 min' },
@@ -191,7 +199,7 @@
     { icon: 'shield-check', tone: 'plain', text: 'Sceau posé sur un vendeur pro', sub: 'Galerie S. — SIRET et IBAN vérifiés', when: 'Hier' }
   ];
 
-  const conversations = [
+  let conversations = [
     { name: 'Sophie M.', initials: 'SM', preview: 'Bonjour, mon estimation est…', time: '14:23', unread: 2, state: 'bot', phone: '+33 6 12 34 56 78', channel: 'WhatsApp' },
     { name: 'Antoine R.', initials: 'AR', preview: 'Le MacBook est toujours…', time: '13:48', unread: 0, state: 'human', phone: '+33 6 23 45 67 89', channel: 'WhatsApp' },
     { name: 'Christine P.', initials: 'CP', preview: 'Merci pour votre réponse', time: '12:15', unread: 0, state: 'human', phone: '+33 6 34 56 78 90', channel: 'WhatsApp' },
@@ -202,7 +210,7 @@
     { name: 'Marc B.', initials: 'MB', preview: 'Je veux un devis complet', time: '2 j', unread: 0, state: 'bot', phone: '+33 6 56 78 90 12', channel: 'WhatsApp' }
   ];
 
-  const charts = {
+  let charts = {
     revenue: {
       labels: ['22 sept.', '25', '28', '1 oct.', '4', '7', '10', '13', '16', '19', '21 oct.'],
       values: [12400, 13850, 13120, 14640, 14280, 15920, 15460, 17180, 16840, 18240, 17960, 19380, 18740, 20480, 19960, 21420, 20880, 22640, 21980, 23720, 23180, 24860, 24340, 26120, 25480, 27460, 26820, 28940, 28360, 31240]
@@ -771,7 +779,7 @@
     const cx = size / 2;
     const cy = size / 2;
     const circ = 2 * Math.PI * r;
-    const total = cfg.items.reduce((a, i) => a + i.value, 0);
+    const total = cfg.items.reduce((a, i) => a + i.value, 0) || 1;
 
     const svg = svgEl('svg', {
       class: 'chart', viewBox: `0 0 ${size} ${size}`, width: size, height: size,
@@ -853,7 +861,9 @@
       labels: charts.revenue.labels,
       color: 'var(--stamp-500)',
       fill: 'var(--kraft-100)',
-      format: v => (Math.round(v / 1000) + ' k').replace('.', ',') + ' €',
+      format: v => live
+        ? Math.round(v).toLocaleString('fr-FR') + ' €'
+        : (Math.round(v / 1000) + ' k').replace('.', ',') + ' €',
       label: 'Revenus des 30 derniers jours'
     });
 
@@ -865,23 +875,23 @@
         color: c.color
       })),
       color: 'var(--kraft-500)',
-      format: v => (Math.round(v / 1000)) + ' k',
+      format: v => live ? Math.round(v).toLocaleString('fr-FR') : (Math.round(v / 1000)) + ' k',
       label: 'Revenus par catégorie'
     });
 
     const donut = $('#chart-donut');
     if (donut) drawDonut(donut, {
       items: charts.categories,
-      centerValue: '12,5 k€',
-      centerLabel: 'CA 30 jours',
+      centerValue: live && live.metrics ? (Math.round(live.metrics.revenue / 100) / 10).toLocaleString('fr-FR') + ' k€' : '12,5 k€',
+      centerLabel: 'encaissé',
       label: 'Répartition des revenus par catégorie'
     });
 
     const escrow = $('#chart-escrow');
     if (escrow) drawDonut(escrow, {
       items: charts.escrow,
-      centerValue: '97',
-      centerLabel: 'commandes 30 j',
+      centerValue: live && live.metrics ? String(live.metrics.txCount) : '97',
+      centerLabel: 'mouvements',
       label: 'État des séquestres'
     });
 
@@ -913,10 +923,141 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* Relevé Neon : remplace la maquette quand /api/admin répond           */
+  /* ------------------------------------------------------------------ */
+
+  const euroExact = n => Number(n).toLocaleString('fr-FR') + ' €';
+
+  const TX_CLASS = {
+    paid: 'status--seal',
+    received: 'status--seal',
+    escrow: 'status--kraft',
+    shipped: 'status--warn',
+    pending: 'status--warn',
+    disputed: 'status--stamp',
+    cancelled: 'status--ink',
+    refunded: 'status--ink',
+  };
+
+  const TIER_LABEL = {
+    basic: 'Basique',
+    verified: 'Vérifié',
+    pro: 'Pro',
+    premium: 'Premium',
+  };
+
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el && value != null) el.textContent = value;
+  }
+
+  function paintMetrics() {
+    if (!live || !live.metrics) return;
+    const m = live.metrics;
+    setText('m-pending', String(m.watch));
+    setText('m-pending-l', m.pending
+      ? 'Annonces en attente de validation'
+      : 'Fiches sous le seuil de confiance');
+    setText('m-pending-d', m.pending + ' en attente · relevé Neon');
+    setText('m-escrow', euroExact(m.escrowAmount));
+    setText('m-escrow-l', 'En séquestre · ' + m.escrowCount + ' commande' + (m.escrowCount > 1 ? 's' : ''));
+    setText('m-revenue', euroExact(m.revenue));
+    setText('m-revenue-l', 'Encaissé · ventes versées ou reçues');
+    setText('m-revenue-d', m.txCount + ' mouvements au carnet');
+    setText('m-fraud', String(m.reports));
+    setText('m-fraud-l', 'Signalement' + (m.reports > 1 ? 's' : '') + ' encore ouvert' + (m.reports > 1 ? 's' : ''));
+    setText('m-fraud-d', m.leads + ' message' + (m.leads > 1 ? 's' : '') + ' du formulaire');
+    setText('m-basket', euroExact(m.basket));
+    setText('m-response', m.responseMin != null ? m.responseMin + ' min' : '—');
+    setText('m-response-l', 'Délai moyen de réponse vendeur');
+
+    const when = new Intl.DateTimeFormat('fr-FR', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris',
+    }).format(new Date());
+    setText('dash-sub', 'Relevé Neon · ' + when + ' · ' + m.users + ' comptes · ' + m.listings + ' annonces');
+
+    const counts = $$('.admin-nav__count');
+    if (counts[0]) counts[0].textContent = String(m.listings);
+    if (counts[1]) counts[1].textContent = String(m.openChats);
+
+    const ordersBody = $('#dash-orders');
+    if (ordersBody && live.orders) {
+      ordersBody.innerHTML = live.orders.slice(0, 5).map(o => `
+        <tr>
+          <td><strong>${o.ref}</strong></td>
+          <td>${o.title}</td>
+          <td class="num">${euro(o.amount)}</td>
+          <td><span class="status ${TX_CLASS[o.status] || ''}"><span class="status__dot"></span>${o.statusLabel}</span></td>
+          <td class="num">${o.day}</td>
+        </tr>`).join('');
+    }
+
+    const ordersPage = $('#orders-tbody');
+    if (ordersPage && live.orders) {
+      setText('orders-count-badge', live.orders.length + ' mouvements au carnet');
+      ordersPage.innerHTML = live.orders.map(o => `
+        <tr>
+          <td><strong>${o.ref}</strong></td>
+          <td>${o.title}</td>
+          <td>${o.seller}</td>
+          <td>${o.buyer}</td>
+          <td class="num">${euro(o.amount)}</td>
+          <td class="num">${euroExact(o.commission)}</td>
+          <td><span class="status ${TX_CLASS[o.status] || ''}"><span class="status__dot"></span>${o.statusLabel}</span></td>
+          <td>Main propre</td>
+          <td class="num">${o.day}</td>
+          <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir">${icon('eye')}</button></td>
+        </tr>`).join('');
+    }
+
+    const usersPage = $('#users-tbody');
+    if (usersPage && live.users) {
+      setText('users-count-badge', live.users.length + ' fiches');
+      usersPage.innerHTML = live.users.map(u => `
+        <tr>
+          <td><strong>${u.name}</strong><span class="sub">${u.email} · ${u.city} · ${Number(u.rating).toLocaleString('fr-FR')} / 5</span></td>
+          <td><span class="badge badge--kraft">${TIER_LABEL[u.tier] || u.tier}</span></td>
+          <td><span class="etiquette">${u.kyc === 'approved' ? 'Vérifié' : 'En cours'}</span></td>
+          <td>${confCell(u.trust)}</td>
+          <td class="num">${u.ads}</td>
+          <td class="num">${u.sales}</td>
+          <td class="num">0</td>
+          <td><span class="status ${u.banned ? 'status--stamp' : 'status--seal'}"><span class="status__dot"></span>${u.banned ? 'Suspendu' : 'Actif'}</span></td>
+          <td>${u.inscrit}</td>
+          <td class="cell-actions"><button class="btn btn--quiet btn--sm" type="button" aria-label="Ouvrir la fiche">${icon('eye')}</button></td>
+        </tr>`).join('');
+    }
+  }
+
+  async function loadLive() {
+    try {
+      const res = await fetch(API_BASE + '/api/admin');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data || !data.ok || !Array.isArray(data.listings) || !data.listings.length) return;
+      live = data;
+      listings = data.listings;
+      if (Array.isArray(data.moderation)) moderation = data.moderation;
+      if (Array.isArray(data.activities) && data.activities.length) activities = data.activities;
+      if (Array.isArray(data.iaRows) && data.iaRows.length) iaRows = data.iaRows;
+      if (Array.isArray(data.conversations) && data.conversations.length) conversations = data.conversations;
+      if (data.charts) {
+        charts.revenue = data.charts.revenue && data.charts.revenue.values && data.charts.revenue.values.length
+          ? data.charts.revenue : charts.revenue;
+        if (data.charts.categories && data.charts.categories.length) charts.categories = data.charts.categories;
+        if (data.charts.cities && data.charts.cities.length) charts.cities = data.charts.cities;
+        if (data.charts.escrow) charts.escrow = data.charts.escrow;
+        if (data.charts.funnel) charts.funnel = data.charts.funnel;
+      }
+    } catch (e) { /* la maquette reste affichée */ }
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Boot                                                                 */
   /* ------------------------------------------------------------------ */
 
-  function boot() {
+  async function boot() {
     injectSprite();
     markActiveNav();
     setupDrawer();
@@ -925,12 +1066,14 @@
     setupSegments();
     setupSettingsNav();
     setupSaveButtons();
+    await loadLive();
     setupListings();
     renderModeration();
     renderActivity();
     renderIaRows();
     setupChat();
     setupCharts();
+    paintMetrics();
   }
 
   /* On écoute sur window, comme core.js : le gestionnaire de window s'exécute

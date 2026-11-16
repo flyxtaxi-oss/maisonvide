@@ -71,6 +71,8 @@ async function main() {
   const pro = require('../api/pro.js');
   const appts = require('../api/appointments.js');
   const listings = require('../api/listings.js');
+  const admin = require('../api/admin.js');
+  const leads = require('../api/leads.js');
 
   console.log('\n— AUTH —');
   let res = mockRes();
@@ -161,6 +163,23 @@ async function main() {
   await appts(mockReq({ method: 'GET' }), res);
   check('mes rendez-vous exige une session', res.statusCode === 401);
 
+  console.log('\n— ADMIN / LEADS —');
+  res = mockRes();
+  await admin(mockReq({ method: 'GET' }), res);
+  check('relevé admin Neon', res.statusCode === 200 && res.body && res.body.source === 'neon' && res.body.listings.length >= 1,
+    res.body && res.body.metrics ? `${res.body.listings.length} annonces · séquestre ${res.body.metrics.escrowAmount} €` : `HTTP ${res.statusCode}`);
+
+  res = mockRes();
+  await leads(mockReq({ method: 'POST', body: { name: 'Harnais', email: 'pas-un-email', message: 'bonjour', consent: true } }), res);
+  check('lead refusé si e-mail invalide', res.statusCode === 400);
+
+  res = mockRes();
+  await leads(mockReq({
+    method: 'POST',
+    body: { name: 'Harnais Test', email: 'harnais.lead@example.fr', subject: 'estimation', message: 'Message de contrôle du harnais.', consent: true },
+  }), res);
+  check('lead enregistré', res.statusCode === 201 && res.body && res.body.ok, `HTTP ${res.statusCode}`);
+
   /* ---------------- Nettoyage ---------------- */
   // Le test crée un rendez-vous et un compte visiteur : on les efface
   // pour ne pas laisser de trace dans la base de démonstration.
@@ -176,7 +195,11 @@ async function main() {
     await db2.query(`DELETE FROM appointments WHERE id = ANY($1)`, [ids2]);
   }
   await db2.query(`DELETE FROM users WHERE lower(email) = 'harnais.test@example.fr'`);
-  check('nettoyage des données de test', true, `${ids2.length} rendez-vous et 1 compte effacés`);
+  await db2.query(
+    `DELETE FROM admin_audit_log
+     WHERE action = 'contact_lead' AND payload->>'email' = 'harnais.lead@example.fr'`
+  );
+  check('nettoyage des données de test', true, `${ids2.length} rendez-vous, 1 compte, 1 message`);
 
   console.log('\n— BILAN —');
   const ko = results.filter(r => !r.ok);
