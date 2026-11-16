@@ -14,8 +14,7 @@ fonctions serverless Vercel.
 | **En ligne** | https://maisonvide.vercel.app |
 | **Dépôt** | https://github.com/flyxtaxi-oss/maisonvide |
 | **API live** | `/api/listings` · `/api/stats` · `/api/appointments` · `/api/pro` · `/api/auth` (source : `neon`) |
-| **Compte vendeur démo** | `cuisine.m@example.fr` / `maisonvide` → https://maisonvide.vercel.app/pro.html |
-| **Mot de passe démo** | `maisonvide` pour les 12 vendeurs du seed (hashés en scrypt, jamais en clair) |
+| **Compte vendeur démo** | Identifiants communiqués en privé sur demande (ne jamais les publier ici) → https://maisonvide.vercel.app/pro.html |
 
 > Le domaine de référence est `maisonvide.vercel.app`. Brancher `maisonvide.fr` ne
 > demande qu'un remplacement de chaîne dans les pages, `robots.txt` et
@@ -182,3 +181,4 @@ erreurs les plus coûteuses du projet y sont maintenant attrapées automatiqueme
 ---
 
 © 2026 MaisonVide · RGPD · hébergement UE
+
