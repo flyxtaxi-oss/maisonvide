@@ -889,8 +889,29 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 1.2rem); }
         toast('Il faut votre accord pour que nous gardions le message.', 'warning');
         return;
       }
-      contactForm.reset();
-      toast('Message parti. Réponse sous 4 heures ouvrées.', 'success');
+      var submit = contactForm.querySelector('button[type="submit"]');
+      if (submit) submit.disabled = true;
+      var payload = {
+        name: name.value.trim(),
+        email: email.value.trim(),
+        phone: (document.getElementById('c-phone') || {}).value || '',
+        subject: (document.getElementById('c-subject') || {}).value || 'autre',
+        message: message.value.trim(),
+        consent: true
+      };
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function (res) {
+        if (!res.ok) throw new Error('refus');
+        contactForm.reset();
+        toast('Message enregistré. Réponse sous 4 heures ouvrées.', 'success');
+      }).catch(function () {
+        toast('Le message n’a pas pu être enregistré. Réessayez dans un instant.', 'warning');
+      }).then(function () {
+        if (submit) submit.disabled = false;
+      });
     });
   }
 

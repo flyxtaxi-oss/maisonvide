@@ -71,7 +71,7 @@
         <button class="admin-header__menu" aria-label="Ouvrir la navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
         <div>
           <h1 class="admin-header__title">Tableau de bord</h1>
-          <p class="admin-header__sub">Relevé du mercredi 21 octobre 2026 · 09:42 · 11 conseillers en poste</p>
+          <p class="admin-header__sub" id="dash-sub">Relevé du mercredi 21 octobre 2026 · 09:42 · 11 conseillers en poste</p>
         </div>
       </div>
       <div class="admin-header__actions">
@@ -87,38 +87,38 @@
       <section class="metric-band" aria-label="Chiffres du jour">
         <div class="metric">
           <span class="metric__ref">M.01</span>
-          <span class="metric__k">24</span>
-          <span class="metric__l">Annonces en attente de validation</span>
-          <span class="metric__d metric__d--up">+3 depuis hier</span>
+          <span class="metric__k" id="m-pending">24</span>
+          <span class="metric__l" id="m-pending-l">Annonces en attente de validation</span>
+          <span class="metric__d metric__d--up" id="m-pending-d">+3 depuis hier</span>
         </div>
         <div class="metric">
           <span class="metric__ref">M.02</span>
-          <span class="metric__k">2 340 €</span>
-          <span class="metric__l">En séquestre · 11 commandes</span>
-          <span class="metric__d metric__d--up">+420 €</span>
+          <span class="metric__k" id="m-escrow">2 340 €</span>
+          <span class="metric__l" id="m-escrow-l">En séquestre · 11 commandes</span>
+          <span class="metric__d metric__d--up">encours bloqué</span>
         </div>
         <div class="metric">
           <span class="metric__ref">M.03</span>
-          <span class="metric__k">12 480 €</span>
-          <span class="metric__l">Chiffre d’affaires 30 jours</span>
-          <span class="metric__d metric__d--up">+18 %</span>
+          <span class="metric__k" id="m-revenue">12 480 €</span>
+          <span class="metric__l" id="m-revenue-l">Chiffre d’affaires 30 jours</span>
+          <span class="metric__d metric__d--up" id="m-revenue-d">+18 %</span>
         </div>
         <div class="metric">
           <span class="metric__ref">M.04</span>
-          <span class="metric__k metric__k--stamp">2,3 %</span>
-          <span class="metric__l">Taux de détection de la fraude</span>
-          <span class="metric__d metric__d--down">-0,4 pt</span>
+          <span class="metric__k metric__k--stamp" id="m-fraud">2,3 %</span>
+          <span class="metric__l" id="m-fraud-l">Taux de détection de la fraude</span>
+          <span class="metric__d metric__d--down" id="m-fraud-d">-0,4 pt</span>
         </div>
         <div class="metric">
           <span class="metric__ref">M.05</span>
-          <span class="metric__k">214 €</span>
+          <span class="metric__k" id="m-basket">214 €</span>
           <span class="metric__l">Panier moyen</span>
           <span class="metric__d metric__d--up">+12 €</span>
         </div>
         <div class="metric">
           <span class="metric__ref">M.06</span>
-          <span class="metric__k">2 min</span>
-          <span class="metric__l">Délai de première réponse</span>
+          <span class="metric__k" id="m-response">2 min</span>
+          <span class="metric__l" id="m-response-l">Délai de première réponse</span>
           <span class="metric__d metric__d--up">-30 s</span>
         </div>
       </section>
@@ -192,7 +192,7 @@
                 <thead>
                   <tr><th>N°</th><th>Objet</th><th class="num">Montant</th><th>État du séquestre</th><th class="num">Date</th></tr>
                 </thead>
-                <tbody>
+                <tbody id="dash-orders">
                   <tr><td><strong>MV-4872</strong></td><td>Canapé teck des années 60</td><td class="num">280 €</td><td><span class="status status--seal"><span class="status__dot"></span>Versé</span></td><td class="num">14/10</td></tr>
                   <tr><td><strong>MV-4871</strong></td><td>MacBook Pro M1 2020</td><td class="num">720 €</td><td><span class="status status--kraft"><span class="status__dot"></span>En séquestre</span></td><td class="num">14/10</td></tr>
                   <tr><td><strong>MV-4870</strong></td><td>Thermomix TM6</td><td class="num">680 €</td><td><span class="status status--seal"><span class="status__dot"></span>Versé</span></td><td class="num">14/10</td></tr>

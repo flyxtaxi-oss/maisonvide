@@ -8,13 +8,13 @@
   'use strict';
 
   /* API : relative en production. Pour un test local, remplacer par
-     'https://maisonvide.vercel.app' (l'API n'existe pas sur le serveur local). */
+     'https://maisonvide-pi.vercel.app' (l'API n'existe pas sur le serveur local). */
   // Les fonctions serverless vivent sur Vercel : en local, on interroge
   // l'API déployée pour que la démo fonctionne hors production.
   // Aucune clé n'est exposée — l'API est publique et ne renvoie que des
   // données déjà lisibles par le navigateur.
   const API_BASE = /^(127\.0\.0\.1|localhost)$/.test(location.hostname)
-    ? 'https://maisonvide.vercel.app'
+    ? 'https://maisonvide-pi.vercel.app'
     : '';
   const TOKEN_KEY = 'mv_pro_token';
 

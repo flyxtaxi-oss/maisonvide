@@ -93,34 +93,38 @@
 <script src="assets/js/site.js"></script>
 <script src="assets/js/listings.js"></script>
 <script>
-(function () {
+(async function () {
   const u = window.mvAuth.current();
   if (!u) { document.getElementById('ml-locked').classList.remove('hidden'); return; }
   document.getElementById('ml-content').classList.remove('hidden');
 
-  const PHOTOS = {
-    'canape-ikea-kivik':'listing-canape.jpg','lampe-articulo':'listing-lampe.jpg','commode-laque-p60':'listing-commode.jpg',
-    'velo-ville-peugeot':'listing-velo.jpg','livre-honestpreface':'listing-asterix.jpg','console-ps5':'listing-ps5.jpg'
-  };
-
-  const ROWS = [
-    { slug:'canape-ikea-kivik', title:'Canapé 3 places IKEA KIVIK', price:280, status:'active',  views:412, contacts:23, updated:'Il y a 2 h' },
-    { slug:'lampe-articulo',    title:'Lampe sur pied Articulée vintage', price:85, status:'active', views:156, contacts:9, updated:'Hier' },
-    { slug:'commode-laque-p60', title:'Commode années 60', price:145, status:'sold',   views:289, contacts:17, updated:'12/10' },
-    { slug:'velo-ville-peugeot',title:'Vélo de ville Peugeot', price:95, status:'pending',views:41,  contacts:2, updated:'Il y a 3 j' },
-    { slug:'livre-honestpreface',title:'Collection complète Astérix', price:110, status:'sold', views:198, contacts:12, updated:'28/09' },
-    { slug:'console-ps5',       title:'PlayStation 5 + 2 manettes', price:380, status:'active', views:524, contacts:31, updated:'Il y a 8 h' },
-  ];
-  const LABEL = { active:['En ligne','badge--seal'], pending:['En attente','badge--warn'], sold:['Vendue','badge--kraft'] };
+  let ROWS = [];
+  try {
+    const data = await window.mvAuth.myListings();
+    ROWS = (data.listings || []).map(l => ({
+      slug: l.slug,
+      title: l.title,
+      price: Math.round(l.price),
+      status: l.status,
+      views: l.views || 0,
+      contacts: l.contacts || 0,
+      updated: l.city || '',
+      photo: (l.photo || '/assets/img/listing-canape.jpg').replace(/^\//, ''),
+    }));
+  } catch (err) {
+    window.mvToast(err.message || 'Annonces illisibles.', 'warning');
+  }
+  const LABEL = { active:['En ligne','badge--seal'], pending:['En attente','badge--warn'], sold:['Vendue','badge--kraft'], flagged:['Signalée','badge--warn'], draft:['Brouillon','badge--kraft'], removed:['Retirée','badge--kraft'] };
 
   let filter = 'all';
   function render() {
     const rows = filter === 'all' ? ROWS : ROWS.filter(r => r.status === filter);
     document.getElementById('ml-list').innerHTML = rows.map(r => {
-      const [lbl, cls] = LABEL[r.status];
+      const [lbl, cls] = LABEL[r.status] || ['En cours', 'badge--kraft'];
+      const src = r.photo || 'assets/img/listing-canape.jpg';
       return `
       <div class="row-ann">
-        <img src="assets/img/${PHOTOS[r.slug] || ''}" alt="" loading="lazy">
+        <img src="${src}" alt="" loading="lazy">
         <div>
           <div class="row-ann__title">${r.title}</div>
           <div class="row-ann__meta">${r.updated}</div>
